@@ -9,8 +9,9 @@ import Takes from './take/Takes';
 import AddUser from './AddUser/AddUser';
 import { Route, useNavigate } from 'react-router-dom';
 import Payment from './Payment';
+import Start from './Start';
 // import Picture from "./Picture"
-
+import Returns from './return/Returns';
 function App() {
   const nav = useNavigate();
 
@@ -18,27 +19,14 @@ function App() {
 
     <Routes>
       <Route path="/Payment" element={<Payment />}></Route>
-      
     </Routes>
-
-    <div className="App">
-      <h1>ברוכים הבאים</h1>
-      <Stack direction="row" spacing={2}>
-        {/* <Button color="secondary">Secondary</Button> */}
-        <Button variant="contained" color="success" onClick={() => nav('/Payment')} >
-          לקחת
-        </Button>
-
-        <Button variant="contained" color="success" onClick="">
-          להחזיר
-        </Button>
-      </Stack>
-
-      <Takes></Takes>
-      {/* <Picture /> */}
-      <AddUser></AddUser>
-    </div>
-
+    <Routes>
+      <Route path="/Start" element={<Start />}></Route>
+    </Routes>
+    <Routes>
+      <Route path="/Returns" element={<Returns />}></Route>
+    </Routes>
+<Start></Start>
     <Fragment>
       <Header />
       <Routes />
