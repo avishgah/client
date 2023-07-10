@@ -12,6 +12,16 @@ import TextField from '@mui/material/TextField';
 import { useForm } from 'react-hook-form';
 import { Stack } from '@mui/material';
 
+
+
+
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+
+
+
+import './Payment2.css';
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // import { LocalizationProvider } from '@mui/x-date-pickers-pro/LocalizationProvider';
 
@@ -29,7 +39,7 @@ import SendIcon from '@mui/icons-material/Send';
 import { useNavigate } from 'react-router-dom';
 
 
-import Stepper from '@mui/material/Stepper';
+// import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import StepContent from '@mui/material/StepContent';
@@ -43,13 +53,26 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-
+import Stepper from './Stepper'
 
 
 // import './AddUser.scss';
 
 
 // ,, כתובת, , , עיר, , , תאריך לידה, תצלום תעודת זהות, סוג לקוח(לקוח, מנהל), לא פעיל, אישור קריאת תקנון
+
+
+
+const bull = (
+  <Box
+    component="span"
+    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
+  >
+    •
+  </Box>
+);
+
+
 
 const Payment2 = () => {
 
@@ -100,231 +123,89 @@ const Payment2 = () => {
     var promise = await axios.post("https://localhost:7075/api/User", details);
     alert(promise.data);
   }
-  // axios.post(`http://localhost:8080/User/addUser`, user).then(res => {
 
-  //  console.log(res.data+";;;;;;");
+  return <>
+  {/* <Stepper/> */}
+  <h1></h1>
+    <form id="formLoginR" onSubmit={() => submit()}>
+      <Card sx={{ minWidth: 80 }}>
+        <CardContent>
 
-  // if (res.data == null) {
-  //         alert("error")
-  //         return null;
-
-  //     }
-
-
-  //     else {
-  //         //לשגר לסטייט הכללי
-  //         // console.log( res.data.user)
-
-  //         dispatch({
-  //             type: type.CURRENT_USER,
-  //             payload: res.data
-  //         })
-
-  //         // nav("/ToDo")
-  //         nav("/ToDo")
-
-  //     } 
-  // })
+          <Typography variant="h5" component="div">
+            כרטיס אשראי
+          </Typography>
+          <br></br>
 
 
+          <TextField fullWidth label="שם בעל הכרטיס" id="fullWidth"    {...register("Name", {})} /><br></br><br></br>
 
 
-
-
-return <>
-  <h1>אנא מלא פרטים</h1>
-
-
-  {/* step */}
-
-{/* 
-  <Box sx={{ maxWidth: 400 }}>
-    <Stepper activeStep={activeStep} orientation="vertical">
-      {steps.map((step, index) => (
-        <Step key={step.label}>
-          <StepLabel
-            optional={
-              index === 2 ? (
-                <Typography variant="caption">Last step</Typography>
-              ) : null
-            }
-          >
-            {step.label}
-          </StepLabel>
-          <StepContent>
-            <Typography>{step.description}</Typography>
-            <Box sx={{ mb: 2 }}>
-              <div>
-                <Button
-                  variant="contained"
-                  onClick={handleNext}
-                  sx={{ mt: 1, mr: 1 }}
-                >
-                  {index === steps.length - 1 ? 'Finish' : 'Continue'}
-                </Button>
-                <Button
-                  disabled={index === 0}
-                  onClick={handleBack}
-                  sx={{ mt: 1, mr: 1 }}
-                >
-                  Back
-                </Button>
-              </div>
-            </Box>
-          </StepContent>
-        </Step>
-      ))}
-    </Stepper>
-    {activeStep === steps.length && (
-      <Paper square elevation={0} sx={{ p: 3 }}>
-        <Typography>All steps completed - you&apos;re finished</Typography>
-        <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-          Reset
-        </Button>
-      </Paper>
-    )}
-  </Box> */}
-  {/* name */}
-  <form id="formLoginR" onSubmit={()=>submit()}>
-    <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        '& > :not(style)': { m: 1 },
-      }}
-    >
-      <Stack>
-        <TextField
-          helperText="Please enter your name"
-          id="demo-helper-text-aligned"
-          label="Name"
-        />
-        <TextField
-          helperText="Please enter your phon"
-          id="demo-helper-text-aligned"
-          label="tz"
-        />
-        <TextField
-          helperText="Please enter your phon"
-          id="demo-helper-text-aligned"
-          label="Phon"
-        />
-        <TextField
-          helperText="Please enter your phon"
-          id="demo-helper-text-aligned"
-          label="Adress"
-        />
-        <TextField
-          helperText="Please enter your phon"
-          id="demo-helper-text-aligned"
-          label="town"
-          {...register("town", {})}
-        />
-
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer components={['DatePicker']}>
-                <DatePicker value={value} onChange={(newValue) => setValue(newValue)} />
-            </DemoContainer>
-        </LocalizationProvider>
-
-        <TextField
-          helperText="Please enter your phon"
-          id="demo-helper-text-aligned"
-          label="pic"
-          {...register("pic", {})}
-        />
-
-        <br></br>
-        <TextField id="outlined-basic" label="mail" variant="outlined"  {...register("email", { required: true, pattern: /^[0-9A-Za-z]{1,}@gmail.com$/ })} />
-        {errors.email?.type == "pattern" && <div className="error">
-          מייל לא בתבנית הנכונה
-        </div>}
-        {errors.email?.type == "required" &&
-          <div className="error">
-            שדה חובה
+          <TextField fullWidth id="fullWidth" label="ת.ז" variant="outlined"  {...register("ID", { required: true, pattern: /^[0-9]{1,9}/ })} />
+          {errors.ID?.type == "pattern" && <div className="error">
+            תעודת זהות לא תקינה
           </div>}
-        <br></br>
-
-
-
-        <TextField id="outlined-basic" label="id" variant="outlined"  {...register("ID", { required: true, pattern: /^[0-9]{1,9}/ })} />
-        {errors.ID?.type == "pattern" && <div className="error">
-          תעודת זהות לא תקינה
-        </div>}
-        {errors.ID?.type == "required" &&
-          <div className="error">
-            שדה חובה
-          </div>}
-        <br></br>
-
-        {/* calender */}
-
-        {/* <TextField id="outlined-basic" label="calender" variant="outlined"  {...register("calender", { required: true, pattern: /^[0-9]{1,9}/ })} />
-                    {errors.calender?.type == "pattern" && <div className="error">
-
-                    </div>}
-                    {errors.calender?.type == "required" &&
-                        <div className="error">
-                            שדה חובה
-                        </div>} */}
-
-        <br></br>
-
-        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoContainer components={['DatePicker']}>
-                            <DatePicker value={value} onChange={(newValue) => setValue(newValue)} />
-                        </DemoContainer>
-                    </LocalizationProvider>
-  */}
-
-        <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-          <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-          <OutlinedInput
-
-            {...register("password", { required: true })}
-
-            id="outlined-adornment-password"
-            type={showPassword ? 'text' : 'password'}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-            label="Password"
-          />
-          {errors.password?.type == "pattern" &&
+          {errors.ID?.type == "required" &&
             <div className="error">
-              סיסמא לא תקינה
+              שדה חובה
             </div>}
-          {errors.password?.type == "required" &&
+          <br></br><br></br>
+
+
+          <TextField fullWidth id="fullWidth" label="מספר כרטיס אשראי" variant="outlined"
+          
+          InputProps={{
+            startAdornment:<><img id="img" src="visa.png"/> <br></br>
+            <img  id="img" src="israkart.png"/>
+            <img  id="img" src="אמריקאן.png"/>
+            <img  id="img" src="מאסאר.png"/>
+
+            
+            
+            
+            </> 
+          }}
+
+          {...register("Card", { required: true, pattern: /^[0-9]{1,16}/ })} />
+          {errors.ID?.type == "pattern" && <div className="error">
+            תעודת זהות לא תקינה
+          </div>}
+          {errors.ID?.type == "required" &&
+            <div className="error">
+              שדה חובה
+            </div>}
+            <br></br><br></br>
+
+
+          <TextField id="outlined-basic" label="תאריך תפוגה \n MM/YY" variant="outlined"  {...register("Card", { required: true, pattern: /^[0-9]{1,16}/ })} />
+          {errors.ID?.type == "pattern" && <div className="error">
+            תעודת זהות לא תקינה
+          </div>}
+          {errors.ID?.type == "required" &&
             <div className="error">
               שדה חובה
             </div>}
 
-        </FormControl>
-        <br></br>
-      </Stack>
-    </Box>
-    <input aria-invalid="false" autocomplete="off" id=":r1:" placeholder="DD/MM/YYYY" type="text" inputmode="tel" class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-nxo287-MuiInputBase-input-MuiOutlinedInput-input" value="05/04/2023" />
 
-    <Stack direction="row" spacing={2}>
+            <TextField id="outlined-basic" label="CVV" variant="outlined"  {...register("Card", { required: true, pattern: /^[0-9]{1,16}/ })} />
+          {errors.ID?.type == "pattern" && <div className="error">
+            תעודת זהות לא תקינה
+          </div>}
+          {errors.ID?.type == "required" &&
+            <div className="error">
+              שדה חובה
+            </div>}
+        
+        </CardContent>
+        <CardActions>
+          <Button  variant="contained" endIcon={<SendIcon />} id="addR" type="submit">שלח</Button>
+        </CardActions>
+      </Card>
 
-      <Button variant="contained" endIcon={<SendIcon />} id="addR" type="submit">
-        התחבר
-      </Button>
-
-    </Stack>
-  </form>
-  {/* {document.getElementById("formLogin").style.display = "none"} */}
-</>
+    </form >
+    {/* {document.getElementById("formLogin").style.display = "none"} */}
+  </>
 }
 
 
 export default Payment2;
+

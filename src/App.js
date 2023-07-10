@@ -12,11 +12,13 @@ import Payment from './Payment';
 import Start from './Start';
 // import Picture from "./Picture"
 import Returns from './return/Returns';
+import Stepper from './Stepper';
 function App() {
   const nav = useNavigate();
 
   return (<>
 
+  <Stepper/>
     <Routes>
       <Route path="/Payment" element={<Payment />}></Route>
     </Routes>

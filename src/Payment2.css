@@ -1,0 +1,21 @@
+#cardAshray{
+    background-color: grey;
+}
+
+
+
+.css-ebpxa3-MuiPaper-root-MuiCard-root {
+    width: 50%;
+    text-align: right;
+    margin-left: 20vw;
+}
+#img{
+width: 30px;
+}
+
+.css-ag7rrr-MuiTypography-root{
+    background-color: rgb(232, 226, 226);
+   /* border-radius: 5%; */
+    padding: 8px;
+    border: solid rgb(159, 147, 147) 1px;
+}

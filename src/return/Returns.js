@@ -1,18 +1,22 @@
 import { Box, Button, Stack, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 
-const submit = (details) => {
-    console.log(details);
-    alert(" נא לשים את האפנים בעמדה פנויה, תודה ולהתראות" )
-}
 
 
 const Returns = () => {
 
+    const submit = (details) => {
+        console.log(details);
+        alert(" נא לשים את האפנים בעמדה פנויה, תודה ולהתראות")
+        nav('./Start')
+    }
+
     const { register, handleSubmit, getValues, formState: { isValid, errors, dirtyFields, touchedFields, isDirty } } = useForm({
         mode: "all"
     });
+    const nav = useNavigate();
 
 
     return (<>
