@@ -125,6 +125,7 @@ const Payment2 = () => {
   }
 
   return <>
+ 
   {/* <Stepper/> */}
   <h1></h1>
     <form id="formLoginR" onSubmit={() => submit()}>
@@ -197,7 +198,7 @@ const Payment2 = () => {
         
         </CardContent>
         <CardActions>
-          <Button  variant="contained" endIcon={<SendIcon />} id="addR" type="submit">שלח</Button>
+          <Button  variant="contained" endIcon={<SendIcon />} id="addR" type="submit">שמור</Button>
         </CardActions>
       </Card>
 

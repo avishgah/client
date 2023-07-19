@@ -13,27 +13,29 @@ import Start from './Start';
 // import Picture from "./Picture"
 import Returns from './return/Returns';
 import Stepper from './Stepper';
+
+import {useSelector} from 'react-redux'
 function App() {
   const nav = useNavigate();
+  const flag=useSelector(state=>state.r.Flag);
 
-  return (<>
+  return (<>  
 
-  <Stepper/>
-    <Routes>
+     {flag==true?<Stepper/>:null}
+     <Routes>
+      <Route path="" element={<Start/>}/>
       <Route path="/Payment" element={<Payment />}></Route>
-    </Routes>
-    <Routes>
       <Route path="/Start" element={<Start />}></Route>
-    </Routes>
-    <Routes>
       <Route path="/Returns" element={<Returns />}></Route>
     </Routes>
-<Start></Start>
+    
     <Fragment>
       <Header />
-      <Routes />
+      
       <Footer />
     </Fragment>
+   
+
   </>);
 }
 

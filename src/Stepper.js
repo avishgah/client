@@ -31,9 +31,9 @@ export default function HorizontalLinearStepper() {
         // console.log(skipped)
         let newSkipped = skipped;
         if (activeStep == 0) 
-         nav('./Payment2');
+         nav('/Payment2');
         if (activeStep == 1)
-        nav('./PicId');
+        nav('/PicId');
        
         if (isStepSkipped(activeStep)) {
             newSkipped = new Set(newSkipped.values());
@@ -48,9 +48,9 @@ export default function HorizontalLinearStepper() {
     const handleBack = () => {
         console.log(activeStep)
         if(activeStep==1)
-         nav('./Payment');
+         nav('/Payment');
          if(activeStep==2)
-         nav('./Payment2');
+         nav('/Payment2');
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
@@ -71,10 +71,11 @@ export default function HorizontalLinearStepper() {
 
     const handleReset = () => {
         setActiveStep(0);
-        nav('./Start')
+        nav('/Start')
     };
 
     return (
+        <>
         <Box sx={{ width: '100%' }}>
             <Stepper activeStep={activeStep}>
                 {steps.map((label, index) => {
@@ -135,5 +136,5 @@ export default function HorizontalLinearStepper() {
                 </React.Fragment>
             )}
         </Box>
-    );
+        </>);
 }

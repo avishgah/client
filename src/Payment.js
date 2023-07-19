@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-
+import { useEffect } from "react";
 import IconButton from '@mui/material/IconButton';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
@@ -11,7 +11,8 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import TextField from '@mui/material/TextField';
 import { useForm } from 'react-hook-form';
 import { Stack } from '@mui/material';
-
+import * as type from "./store/actions/actionType";
+import { useDispatch, useSelector } from "react-redux";
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // import { LocalizationProvider } from '@mui/x-date-pickers-pro/LocalizationProvider';
 
@@ -51,6 +52,9 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 
 
+
+import './Payment2.css';
+
 // import './AddUser.scss';
 
 
@@ -58,31 +62,16 @@ import CardContent from '@mui/material/CardContent';
 
 
 
-const steps = [
-  {
-    label: 'Select campaign settings',
-    description: `For each ad campaign that you create, you can control how much
-                you're willing to spend on clicks and conversions, which networks
-                and geographical locations you want your ads to show on, and more.`,
-  },
-  {
-    label: 'Create an ad group',
-    description:
-      'An ad group contains one or more ads which target a shared set of keywords.',
-  },
-  {
-    label: 'Create an ad',
-    description: `Try out different ad text to see what brings in the most customers,
-                and learn how to enhance your ads using features like ad extensions.
-                If you run into any problems with your ads, find out how to tell if
-                they're running and how to resolve approval issues.`,
-  },
-];
-
 
 
 
 const Payment = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch({type:type.CHANGE_FLAG})
+
+    
+}, [])
 
   const [value, setValue] = React.useState(null);
 
@@ -131,41 +120,15 @@ const Payment = () => {
     var promise = await axios.post("https://localhost:7075/api/User", details);
     alert(promise.data);
   }
-  // axios.post(`http://localhost:8080/User/addUser`, user).then(res => {
-
-  //  console.log(res.data+";;;;;;");
-
-  // if (res.data == null) {
-  //         alert("error")
-  //         return null;
-
-  //     }
-
-
-  //     else {
-  //         //לשגר לסטייט הכללי
-  //         // console.log( res.data.user)
-
-  //         dispatch({
-  //             type: type.CURRENT_USER,
-  //             payload: res.data
-  //         })
-
-  //         // nav("/ToDo")
-  //         nav("/ToDo")
-
-  //     } 
-  // })
-
-
+ 
 
 
 
 
   return <>
-    {/* <Stepper/> */}
-    <h1></h1>
-
+    {/* <Stepper/> */}  
+    
+    
     <form id="formLoginR" onSubmit={() => submit()}>
       <Card sx={{ minWidth: 80 }}>
         <CardContent>
@@ -216,14 +179,7 @@ const Payment = () => {
             </div>}
           <br></br><br></br>
 
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer components={['DatePicker']}>
-              <DatePicker value={value} onChange={(newValue) => setValue(newValue)} />
-            </DemoContainer>
-          </LocalizationProvider>
-
-
-          <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+          <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined"  fullWidth id="fullWidth" >
             <InputLabel htmlFor="outlined-adornment-password">סיסמא</InputLabel>
             <OutlinedInput
 
@@ -256,9 +212,16 @@ const Payment = () => {
 
           </FormControl>
 
+          <LocalizationProvider  fullWidth id="fullWidth"  dateAdapter={AdapterDayjs}>
+            <DemoContainer components={['DatePicker']}>
+              <DatePicker value={value} onChange={(newValue) => setValue(newValue)} />
+            </DemoContainer>
+          </LocalizationProvider>
+
+
         </CardContent>
         <CardActions>
-          <Button variant="contained" endIcon={<SendIcon />} id="addR" type="submit">שלח</Button>
+          <Button variant="contained" endIcon={<SendIcon />} id="addR" type="submit">שמור</Button>
         </CardActions>
       </Card>
 

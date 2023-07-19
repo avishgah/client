@@ -4,11 +4,12 @@ const initialState = {
     // currentUser: null,
     user: null,
     tasks: [],
+    Flag:false,
    // users:[]
 
 }
 
-const TaskReducer = (state = initialState, action) => {
+const Reducer = (state = initialState, action) => {
 
     switch (action.type) {
         case type.CURRENT_USER:
@@ -58,6 +59,13 @@ const TaskReducer = (state = initialState, action) => {
                 ...state,
                 tasks:[...action.payload]
             }
+            
+        case type.CHANGE_FLAG:
+            return{
+                ...state,
+               Flag:true
+            }
+            
 
 
 
@@ -69,4 +77,4 @@ const TaskReducer = (state = initialState, action) => {
 }
 
 
-export default TaskReducer;
+export default Reducer;

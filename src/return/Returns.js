@@ -1,11 +1,19 @@
 import { Box, Button, Stack, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import * as type from "../store/actions/actionType";
 
-
-
+import './Return.css'
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 const Returns = () => {
+    const dispatch = useDispatch();
+    useEffect(() => {
+      dispatch({type:type.CHANGE_FLAG})
+  
+      
+  }, [])
 
     const submit = (details) => {
         console.log(details);

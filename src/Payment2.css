@@ -19,3 +19,28 @@ width: 30px;
     padding: 8px;
     border: solid rgb(159, 147, 147) 1px;
 }
+
+
+/* payment */
+/* date */
+.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root{
+    width: 47vw !important;
+}
+
+
+/* password */
+.css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root{
+
+    /* width: 47vw !important; */
+}
+
+.css-sghohy-MuiButtonBase-root-MuiButton-root{
+    margin-left: 17vw !important;
+}
+
+#div-pic{
+
+    background-color: white;
+    width: 20vw;
+    margin-left: 40vw;
+}

@@ -1,5 +1,6 @@
 import { Button, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import PicId from "./PicId";
 
 const Start = () => {
     const nav = useNavigate();
@@ -17,7 +18,7 @@ const Start = () => {
                     להחזיר
                 </Button>
             </Stack>
-
+            <PicId />
         </div>
     </>
     )

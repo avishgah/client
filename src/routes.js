@@ -25,6 +25,9 @@ const Rout = () => {
             <Routes>
                 <Route path="/Start" element={<Start />}></Route>
             </Routes>
+            <Routes>
+                <Route path="" element={<Start />}></Route>
+            </Routes>
 
         </>
     )
