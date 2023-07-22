@@ -1,24 +1,30 @@
 /* end-button */
-.css-sghohy-MuiButtonBase-root-MuiButton-root{
+.css-sghohy-MuiButtonBase-root-MuiButton-root {
     padding: 10px 49px !important;
     font-size: x-large !important;
-text-align: center;
-}
-
-
-/* input */
-.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input{
-    /* background-color: white !important; */
-    /* color: blue !important; */
-    /* padding: 1px !important;
-    width: 100% !important;
-    font-size: xxx-large !important;
-    /* border-radius: % !important; */
-    /* text-align: center;
-    margin-top: 5% !important; */ 
-}
-body{
     text-align: center;
 }
 
 
+/* input */
+
+
+
+#addRE {
+    margin-left: 45vw !important;
+}
+
+body {
+    text-align: center;
+}
+
+.tz-filed {
+    background-color: white !important;
+    color: blue !important;
+    padding: 1px !important;
+    width: 50% !important;
+    font-size: small!important;
+    /* border-radius: % !important; */
+    text-align: center !important;
+    margin-top: 5% !important;
+}

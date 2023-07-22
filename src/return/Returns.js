@@ -9,11 +9,14 @@ import { useDispatch } from "react-redux";
 
 const Returns = () => {
     const dispatch = useDispatch();
+
+    const nav = useNavigate();
+
     useEffect(() => {
-      dispatch({type:type.CHANGE_FLAG})
-  
-      
-  }, [])
+        dispatch({ type: type.CHANGE_FLAG })
+
+
+    }, [])
 
     const submit = (details) => {
         console.log(details);
@@ -24,14 +27,13 @@ const Returns = () => {
     const { register, handleSubmit, getValues, formState: { isValid, errors, dirtyFields, touchedFields, isDirty } } = useForm({
         mode: "all"
     });
-    const nav = useNavigate();
 
 
     return (<>
         <h1>הקש תעודת זהות</h1>
         <form id="formLoginR" onSubmit={handleSubmit(submit)}>
             <Box component="form" noValidate autoComplete="off">
-                <TextField id="outlined-basic" label="id" variant="outlined" {...register("tz", { required: true, pattern: /^[0-9]{1,9}/ })} />
+                <TextField id="outlined-basic" className="tz-filed" label="id" variant="outlined" {...register("tz", { required: true, pattern: /^[0-9]{1,9}/ })} />
                 {errors.ID?.type == "pattern" && <div className="error">
                     {/* אפשרי גם קטן מ-9 */}
                     תעודת זהות לא תקינה
@@ -42,11 +44,11 @@ const Returns = () => {
                     </div>}
                 <br></br>
 
-            </Box>
+            </Box><br></br><br></br>
 
             <Stack direction="row" spacing={2}>
 
-                <Button variant="contained" id="addR" type="submit">
+                <Button variant="contained" id="addRE" type="submit">
                     סיום
                 </Button>
 
