@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import Returns from './return/Returns';
-
+import Register from './Register';
 import Payment2 from './Payment2';
 const steps = ['פרטים אישיים', 'תשלום', 'תצלום'];
 
@@ -47,10 +47,14 @@ export default function HorizontalLinearStepper() {
 
     const handleBack = () => {
         console.log(activeStep)
-        if(activeStep==1)
-         nav('/Payment');
-         if(activeStep==2)
+        if(activeStep==1){
+
+         nav('/Register');
+        }
+         if(activeStep==2){
+
          nav('/Payment2');
+         }
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 

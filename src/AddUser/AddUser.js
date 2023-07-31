@@ -40,6 +40,9 @@ import Typography from '@mui/material/Typography';
 
 import './AddUser.scss';
 import axios from 'axios';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 
 // ,, כתובת, , , עיר, , , תאריך לידה, תצלום תעודת זהות, סוג לקוח(לקוח, מנהל), לא פעיל, אישור קריאת תקנון
@@ -291,13 +294,12 @@ const AddUser = () => {
                         </div>} */}
 
                     <br></br>
-
-                    {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer components={['DatePicker']}>
                             <DatePicker value={value} onChange={(newValue) => setValue(newValue)} />
                         </DemoContainer>
                     </LocalizationProvider>
-  */}
+  
 
                     <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
                         <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>

@@ -4,8 +4,8 @@ const initialState = {
     // currentUser: null,
     user: null,
     tasks: [],
-    Flag:false,
-   // users:[]
+    Flag: false,
+    // users:[]
 
 }
 
@@ -27,7 +27,7 @@ const Reducer = (state = initialState, action) => {
         case type.ADD_TASKS:
             return {
                 ...state,
-                tasks:[...state.tasks, action.payload]
+                tasks: [...state.tasks, action.payload]
             }
         case type.DELETE_TASK:
             let arr = [...state.tasks].filter(x => x.id != action.payload);
@@ -37,7 +37,7 @@ const Reducer = (state = initialState, action) => {
                 tasks: arr
             }
         case type.UPDATE_TASK:
-            return{
+            return {
                 ...state
             }
         // case type.ADD_USER:
@@ -48,24 +48,29 @@ const Reducer = (state = initialState, action) => {
         //       //  users:[...state.users,action.payload]
         //     }
         case type.LOG_OUT:
-            return{
+            return {
                 ...state,
-                user:null,
-                tasks:[]
+                user: null,
+                tasks: []
             }
 
         case type.HISTORY_TASKS:
-            return{
+            return {
                 ...state,
-                tasks:[...action.payload]
+                tasks: [...action.payload]
             }
-            
-        case type.CHANGE_FLAG:
-            return{
+
+        case type.CHANGE_FLAG_TRUE:
+            return {
                 ...state,
-               Flag:true
+                Flag: true
             }
-            
+
+        case type.CHANGE_FLAG_FALSE:
+            return {
+                ...state,
+                Flag: false
+            }
 
 
 

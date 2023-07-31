@@ -54,6 +54,10 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 import Stepper from './Stepper'
+import { useDispatch, useSelector } from 'react-redux';
+
+
+import * as type from "./store/actions/actionType";
 
 
 // import './AddUser.scss';
@@ -107,16 +111,24 @@ const Payment2 = () => {
   const handleReset = () => {
     setActiveStep(0);
   };
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch({ type: type.CHANGE_FLAG_TRUE })
 
+
+  }, [])
 
   // let currentUser = useSelector(state => state.tr.user);
   // let arr = useSelector(state => state.tr.tasks);
 
+  const flag = useSelector(state => state.r.Flag);
+
   const submit = (details) => {
 
-    alert("פרטיך נקלטו")
-    console.log(details);
-    addbike(details);
+    console.log(flag)
+    // alert("פרטיך נקלטו")
+    // console.log(details);
+    // addbike(details);
   }
 
   const addbike = async (details) => {
@@ -125,9 +137,9 @@ const Payment2 = () => {
   }
 
   return <>
- 
-  {/* <Stepper/> */}
-  <h1></h1>
+
+    {/* <Stepper/> */}
+    <h1></h1>
     <form id="formLoginR" onSubmit={() => submit()}>
       <Card sx={{ minWidth: 80 }}>
         <CardContent>
@@ -137,68 +149,91 @@ const Payment2 = () => {
           </Typography>
           <br></br>
 
+          {/* name */}
 
-          <TextField fullWidth label="שם בעל הכרטיס" id="fullWidth"    {...register("Name", {})} /><br></br><br></br>
 
-
-          <TextField fullWidth id="fullWidth" label="ת.ז" variant="outlined"  {...register("ID", { required: true, pattern: /^[0-9]{1,9}/ })} />
-          {errors.ID?.type == "pattern" && <div className="error">
-            תעודת זהות לא תקינה
-          </div>}
-          {errors.ID?.type == "required" &&
-            <div className="error">
-              שדה חובה
-            </div>}
+          <TextField fullWidth label="שם מלא" id="fullWidth" {...register("name", { required: "name is required", })} />
+          {errors.name && <p className="errorMsg">{errors.name.message}</p>}
           <br></br><br></br>
 
+          {/* id */}
+
+          <TextField fullWidth id="fullWidth" label="ת.ז" variant="outlined"
+
+            {...register("id", {
+              required: "id is required",
+              pattern: {
+                value: /[1-9]{9}/,
+                message: "Invalid id "
+              },
+
+            })} />
+          {errors.id && <p className="errorMsg">{errors.id.message}</p>}
+          <br></br><br></br>
+
+          {/* card */}
 
           <TextField fullWidth id="fullWidth" label="מספר כרטיס אשראי" variant="outlined"
-          
-          InputProps={{
-            startAdornment:<><img id="img" src="visa.png"/> <br></br>
-            <img  id="img" src="israkart.png"/>
-            <img  id="img" src="אמריקאן.png"/>
-            <img  id="img" src="מאסאר.png"/>
 
-            
-            
-            
-            </> 
-          }}
+            InputProps={{
+              startAdornment: <><img id="img" src="visa.png" /> <br></br>
+                <img id="img" src="israkart.png" />
+                <img id="img" src="אמריקאן.png" />
+                <img id="img" src="מאסאר.png" />
+              </>
+            }}
+            {...register("card", {
+              required: "card is required",
+              pattern: {
+                value: /[1-9]{16}/,
+                message: "Invalid card "
+              },
+              maxLength: {
+                value: 16,
+                message: "Password should be until 16 numbers."
+              }
 
-          {...register("Card", { required: true, pattern: /^[0-9]{1,16}/ })} />
-          {errors.ID?.type == "pattern" && <div className="error">
-            תעודת זהות לא תקינה
-          </div>}
-          {errors.ID?.type == "required" &&
-            <div className="error">
-              שדה חובה
-            </div>}
-            <br></br><br></br>
+            })}
+          />
+          {errors.card && <p className="errorMsg">{errors.card.message}</p>}
+          <br></br><br></br>
+
+          {/* date */}
+
+          <TextField id="outlined-basic" label="תאריך תפוגה MM/YY" variant="outlined"
+            {...register("date", {
+              required: "date is required",
+              pattern: {
+                // ???? יכול לקבל הכל בתנאי שיש את התנאי
+                value: /[0-9]{2}[^@][1-9]{2}$/,
+                message: "Invalid date "
+              },
+
+            })}
+          />
+          {errors.date && <p className="errorMsg">{errors.date.message}</p>}
 
 
-          <TextField id="outlined-basic" label="תאריך תפוגה \n MM/YY" variant="outlined"  {...register("Card", { required: true, pattern: /^[0-9]{1,16}/ })} />
-          {errors.ID?.type == "pattern" && <div className="error">
-            תעודת זהות לא תקינה
-          </div>}
-          {errors.ID?.type == "required" &&
-            <div className="error">
-              שדה חובה
-            </div>}
+          {/* cvv */}
 
+          <TextField id="outlined-basic" label="CVV" variant="outlined"
+            {...register("cvv", {
+              required: "cvv is required",
+              pattern: {
+                value: /[1-9]{3}/,
+                message: "Invalid cvv "
+              },
 
-            <TextField id="outlined-basic" label="CVV" variant="outlined"  {...register("Card", { required: true, pattern: /^[0-9]{1,16}/ })} />
-          {errors.ID?.type == "pattern" && <div className="error">
-            תעודת זהות לא תקינה
-          </div>}
-          {errors.ID?.type == "required" &&
-            <div className="error">
-              שדה חובה
-            </div>}
-        
+            })}
+          />
+          {errors.cvv && <p className="errorMsg">{errors.cvv.message}</p>}
+
         </CardContent>
+
+        {/* save */}
+
         <CardActions>
-          <Button  variant="contained" endIcon={<SendIcon />} id="addR" type="submit">שמור</Button>
+          <Button variant="contained" endIcon={<SendIcon />} id="addR" type="submit">שמור</Button>
         </CardActions>
       </Card>
 

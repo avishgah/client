@@ -13,7 +13,9 @@ export const SELECT_TASKS="SELECT_TASKS";
 export const ADD_TASKS="ADD_TASKS";
 export const HISTORY_TASKS="HISTORY_TASKS";
 
-export const CHANGE_FLAG="CHANGE_FLAG";
+
+export const CHANGE_FLAG_TRUE="CHANGE_FLAG_TRUE";
+export const CHANGE_FLAG_FALSE="CHANGE_FLAG_FALSE";
 
 
 

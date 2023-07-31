@@ -1,16 +1,15 @@
 import React from 'react'
-import Payment from './Payment';
 import { Route, Routes } from 'react-router-dom'
 import Returns from './return/Returns';
 import Payment2 from './Payment2';
 import PicId from './PicId';
 import Start from './Start';
-
+import Register from './Register'
 const Rout = () => {
     return (
         <>
             <Routes>
-                <Route path="/Payment" element={<Payment />}></Route>
+                <Route path="/Register" element={<Register />}></Route>
             </Routes>
             <Routes>
                 <Route path="/Returns" element={<Returns />}></Route>
@@ -24,6 +23,9 @@ const Rout = () => {
             </Routes>
             <Routes>
                 <Route path="/Start" element={<Start />}></Route>
+            </Routes>
+            <Routes>
+                <Route path="/Returns/Start" element={<Start />}></Route>
             </Routes>
             <Routes>
                 <Route path="" element={<Start />}></Route>

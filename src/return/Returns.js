@@ -8,20 +8,18 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 const Returns = () => {
-    const dispatch = useDispatch();
-
     const nav = useNavigate();
-
+    const dispatch = useDispatch();
     useEffect(() => {
-        dispatch({ type: type.CHANGE_FLAG })
-
-
-    }, [])
+      dispatch({type:type.CHANGE_FLAG_FALSE})
+  
+      
+  }, [])
 
     const submit = (details) => {
         console.log(details);
         alert(" נא לשים את האפנים בעמדה פנויה, תודה ולהתראות")
-        nav('./Start')
+        nav('/Start')
     }
 
     const { register, handleSubmit, getValues, formState: { isValid, errors, dirtyFields, touchedFields, isDirty } } = useForm({
@@ -30,19 +28,20 @@ const Returns = () => {
 
 
     return (<>
+
         <h1>הקש תעודת זהות</h1>
         <form id="formLoginR" onSubmit={handleSubmit(submit)}>
             <Box component="form" noValidate autoComplete="off">
-                <TextField id="outlined-basic" className="tz-filed" label="id" variant="outlined" {...register("tz", { required: true, pattern: /^[0-9]{1,9}/ })} />
-                {errors.ID?.type == "pattern" && <div className="error">
-                    {/* אפשרי גם קטן מ-9 */}
-                    תעודת זהות לא תקינה
-                </div>}
-                {errors.ID?.type == "required" &&
-                    <div className="error">
-                        שדה חובה
-                    </div>}
-                <br></br>
+                <TextField id="outlined-basic" className="tz-filed" label="id" variant="outlined"        {...register("id", {
+              required: "id is required",
+              pattern: {
+                value: /[1-9]{9}/,
+                message: "Invalid id "
+              },
+
+            })} />
+          {errors.id && <p className="errorMsg">{errors.id.message}</p>}
+          <br></br><br></br>
 
             </Box><br></br><br></br>
 

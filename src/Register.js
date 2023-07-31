@@ -11,7 +11,9 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import TextField from '@mui/material/TextField';
 import { useForm } from 'react-hook-form';
 import { Stack } from '@mui/material';
+
 import * as type from "./store/actions/actionType";
+
 import { useDispatch, useSelector } from "react-redux";
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // import { LocalizationProvider } from '@mui/x-date-pickers-pro/LocalizationProvider';
@@ -65,13 +67,13 @@ import './Payment2.css';
 
 
 
-const Payment = () => {
+const Register = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch({type:type.CHANGE_FLAG})
+    dispatch({ type: type.CHANGE_FLAG_TRUE })
 
-    
-}, [])
+
+  }, [])
 
   const [value, setValue] = React.useState(null);
 
@@ -111,25 +113,24 @@ const Payment = () => {
 
   const submit = (details) => {
 
+    console.log(value.$D + "/" + value.$M + "/" + value.$y)
     alert("פרטיך נקלטו")
     console.log(details);
-    addbike(details);
+    // addbike(details);
   }
 
   const addbike = async (details) => {
     var promise = await axios.post("https://localhost:7075/api/User", details);
     alert(promise.data);
   }
- 
+
 
 
 
 
   return <>
-    {/* <Stepper/> */}  
-    
-    
-    <form id="formLoginR" onSubmit={() => submit()}>
+
+    <form id="formLoginR" onSubmit={handleSubmit(submit)}>
       <Card sx={{ minWidth: 80 }}>
         <CardContent>
 
@@ -138,22 +139,40 @@ const Payment = () => {
           </Typography>
           <br></br>
 
+          {/* name */}
 
-          <TextField fullWidth label="שם" id="fullWidth"    {...register("Name", {})} /><br></br><br></br>
+          <TextField fullWidth label="שם מלא" id="fullWidth" {...register("name", {   required: "name is required",})} /><br></br><br></br>
+          {errors.name && <p className="errorMsg">{errors.name.message}</p>}
+          
+          {/* id */}
 
+          <TextField fullWidth id="fullWidth" label="ת.ז" variant="outlined"
 
-          <TextField fullWidth id="fullWidth" label="ת.ז" variant="outlined"  {...register("ID", { required: true, pattern: /^[0-9]{1,9}/ })} />
-          {errors.ID?.type == "pattern" && <div className="error">
-            תעודת זהות לא תקינה
-          </div>}
-          {errors.ID?.type == "required" &&
-            <div className="error">
-              שדה חובה
-            </div>}
+            {...register("id", {
+              required: "id is required",
+              pattern: {
+                value: /[1-9]{9}/,
+                message: "Invalid id "
+              },
+
+            })} />
+          {errors.id && <p className="errorMsg">{errors.id.message}</p>}
           <br></br><br></br>
 
-          <TextField fullWidth label="טלפון" id="fullWidth"    {...register("Phon", {})} /><br></br><br></br>
+          {/* phon */}
 
+          <TextField fullWidth label="טלפון" id="fullWidth"
+            {...register("phon", {
+              required: "phon is required",
+              pattern: {
+                value: /[1-9]{10}/,
+                message: "Invalid phon "
+              },
+
+            })} /><br></br><br></br>
+          {errors.phon && <p className="errorMsg">{errors.phon.message}</p>}
+
+          {/* address */}
 
           <TextField
             fullWidth
@@ -161,6 +180,7 @@ const Payment = () => {
             id="fullWidth"
             label="כתובת"
             {...register("adress", {})}
+
           /><br></br><br></br>
           <TextField
             fullWidth
@@ -169,24 +189,37 @@ const Payment = () => {
             label="עיר"
             {...register("town", {})}
           /><br></br><br></br>
-          <TextField fullWidth id="fullWidth" label="מייל" variant="outlined"  {...register("email", { required: true, pattern: /^[0-9A-Za-z]{1,}@gmail.com$/ })} />
-          {errors.email?.type == "pattern" && <div className="error">
-            מייל לא בתבנית הנכונה
-          </div>}
-          {errors.email?.type == "required" &&
-            <div className="error">
-              שדה חובה
-            </div>}
+
+          {/* email */}
+
+          <TextField fullWidth id="fullWidth" label="מייל" variant="outlined"  {...register("email", {
+            required: "email is required",
+            pattern: {
+              value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+              message: "Invalid email"
+            }
+          })}
+          />
+          {errors.email && <p className="errorMsg">{errors.email.message}</p>}
           <br></br><br></br>
 
-          <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined"  fullWidth id="fullWidth" >
+          {/* password */}
+
+
+          <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined" fullWidth id="fullWidth" >
             <InputLabel htmlFor="outlined-adornment-password">סיסמא</InputLabel>
             <OutlinedInput
 
-              {...register("password", { required: true })}
               fullWidth
               id="fullWidth"
               type={showPassword ? 'text' : 'password'}
+              {...register("password", {
+                required: "Password is required.",
+                minLength: {
+                  value: 6,
+                  message: "Password should be at-least 6 characters."
+                }
+              })}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -201,23 +234,18 @@ const Payment = () => {
               }
               label="סיסמא"
             />
-            {errors.password?.type == "pattern" &&
-              <div className="error">
-                סיסמא לא תקינה
-              </div>}
-            {errors.password?.type == "required" &&
-              <div className="error">
-                שדה חובה
-              </div>}
+            {errors.password && <p className="errorMsg">{errors.password.message}</p>}
+
+            {/* date */}
 
           </FormControl>
-
-          <LocalizationProvider  fullWidth id="fullWidth"  dateAdapter={AdapterDayjs}>
-            <DemoContainer components={['DatePicker']}>
+          <LocalizationProvider dateAdapter={AdapterDayjs} >
+            <DemoContainer components={['DatePicker']} {...register("date", { required: true })}>
               <DatePicker value={value} onChange={(newValue) => setValue(newValue)} />
             </DemoContainer>
           </LocalizationProvider>
 
+          {/* save */}
 
         </CardContent>
         <CardActions>
@@ -232,4 +260,4 @@ const Payment = () => {
 }
 
 
-export default Payment;
+export default Register;
