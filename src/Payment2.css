@@ -1,4 +1,4 @@
-#cardAshray{
+#cardAshray {
     background-color: grey;
 }
 
@@ -9,13 +9,14 @@
     text-align: right;
     margin-left: 20vw;
 }
-#img{
-width: 30px;
+
+#img {
+    width: 30px;
 }
 
-.css-ag7rrr-MuiTypography-root{
+.css-ag7rrr-MuiTypography-root {
     background-color: rgb(232, 226, 226);
-   /* border-radius: 5%; */
+    /* border-radius: 5%; */
     padding: 8px;
     border: solid rgb(159, 147, 147) 1px;
 }
@@ -23,22 +24,25 @@ width: 30px;
 
 /* payment */
 /* date */
-.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root{
+.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
     width: 47vw !important;
 }
 
 
 /* password */
-.css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root{
+.css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root {
 
     /* width: 47vw !important; */
 }
 
-.css-sghohy-MuiButtonBase-root-MuiButton-root{
+.css-sghohy-MuiButtonBase-root-MuiButton-root {
     margin-left: 17vw !important;
 }
 
-#div-pic{
+#order-button{
+    margin-left:0 !important;
+}
+#div-pic {
 
     background-color: white;
     width: 20vw;
@@ -48,18 +52,32 @@ width: 30px;
 
 
 
-#pid-button{
- font-size:large !important;
- width: 100% !important;
- margin-left: 0 !important;
+#pid-button {
+    font-size: large !important;
+    width: 100% !important;
+    margin-left: 0 !important;
 
 
 }
 
-.css-sghohy-MuiButtonBase-root-MuiButton-root{
+.css-sghohy-MuiButtonBase-root-MuiButton-root {}
 
-}
-
-p{
+p {
     color: red;
+}
+
+#p2 {
+    color: black;
+    font-size: xx-large;
+    margin-left: 14px;
+    margin-right: 14px;
+}
+
+
+.css-iajp3t-MuiButtonGroup-root .MuiButtonGroup-grouped:not(:first-of-type) {
+    background-color: rgb(226, 221, 221) !important;
+}
+
+.css-iajp3t-MuiButtonGroup-root .MuiButtonGroup-grouped:not(:last-of-type) {
+    background-color: rgb(226, 221, 221) !important;
 }

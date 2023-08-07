@@ -13,13 +13,13 @@ import Start from './Start';
 // import Picture from "./Picture"
 import Returns from './return/Returns';
 import Stepper from './Stepper';
-
+import Coun from './Coun';
 import { useDispatch, useSelector } from 'react-redux';
 import * as type from "./store/actions/actionType";
 import Register from './Register';
 
 function App() {
-
+<Coun/>
   const nav = useNavigate();
   const flag = useSelector(state => state.r.Flag);
 
@@ -40,7 +40,6 @@ function App() {
 
       <Footer />
     </Fragment>
-
 
   </>);
 }

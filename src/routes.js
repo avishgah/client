@@ -5,6 +5,7 @@ import Payment2 from './Payment2';
 import PicId from './PicId';
 import Start from './Start';
 import Register from './Register'
+import Order from './Order';
 const Rout = () => {
     return (
         <>
@@ -26,6 +27,9 @@ const Rout = () => {
             </Routes>
             <Routes>
                 <Route path="/Returns/Start" element={<Start />}></Route>
+            </Routes>
+            <Routes>
+                <Route path="/Order" element={<Order />}></Route>
             </Routes>
             <Routes>
                 <Route path="" element={<Start />}></Route>

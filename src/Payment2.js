@@ -149,6 +149,7 @@ const Payment2 = () => {
           </Typography>
           <br></br>
 
+
           {/* name */}
 
 
@@ -205,7 +206,7 @@ const Payment2 = () => {
               required: "date is required",
               pattern: {
                 // ???? יכול לקבל הכל בתנאי שיש את התנאי
-                value: /[0-9]{2}[^@][1-9]{2}$/,
+                value: /^[0-31]-[1-12]$/,
                 message: "Invalid date "
               },
 
@@ -213,8 +214,6 @@ const Payment2 = () => {
           />
           {errors.date && <p className="errorMsg">{errors.date.message}</p>}
 
-
-          {/* cvv */}
 
           <TextField id="outlined-basic" label="CVV" variant="outlined"
             {...register("cvv", {

@@ -12,6 +12,12 @@ import TextField from '@mui/material/TextField';
 import { useForm } from 'react-hook-form';
 import { Stack } from '@mui/material';
 
+// count
+import ButtonGroup from '@mui/material/ButtonGroup';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+
+
 import * as type from "./store/actions/actionType";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -68,6 +74,16 @@ import './Payment2.css';
 
 
 const Register = () => {
+
+  // count
+  const [count, setCount] = React.useState(1);
+  const [invisible, setInvisible] = React.useState(false);
+
+  const handleBadgeVisibility = () => {
+    setInvisible(!invisible);
+  };
+  ///
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch({ type: type.CHANGE_FLAG_TRUE })
@@ -141,9 +157,9 @@ const Register = () => {
 
           {/* name */}
 
-          <TextField fullWidth label="שם מלא" id="fullWidth" {...register("name", {   required: "name is required",})} /><br></br><br></br>
+          <TextField fullWidth label="שם מלא" id="fullWidth" {...register("name", { required: "name is required", })} /><br></br><br></br>
           {errors.name && <p className="errorMsg">{errors.name.message}</p>}
-          
+
           {/* id */}
 
           <TextField fullWidth id="fullWidth" label="ת.ז" variant="outlined"
@@ -151,7 +167,7 @@ const Register = () => {
             {...register("id", {
               required: "id is required",
               pattern: {
-                value: /[1-9]{9}/,
+                value: /^\d{9}$/,
                 message: "Invalid id "
               },
 
@@ -165,7 +181,7 @@ const Register = () => {
             {...register("phon", {
               required: "phon is required",
               pattern: {
-                value: /[1-9]{10}/,
+                value: /^[1-9]{10}$/,
                 message: "Invalid phon "
               },
 
@@ -244,6 +260,38 @@ const Register = () => {
               <DatePicker value={value} onChange={(newValue) => setValue(newValue)} />
             </DemoContainer>
           </LocalizationProvider>
+          <br></br><br></br>
+          <div><b>מספר אופניים להשכרה </b></div><br></br>
+          {/* count */}
+
+          <Box>
+            <div>
+              <ButtonGroup>
+                <Button
+                  aria-label="reduce"
+                  onClick={() => {
+                    setCount(Math.max(count - 1, 0));
+                  }}
+                >
+                  <RemoveIcon fontSize="small" />
+                </Button>
+
+                <div id="p2">{count}</div>
+
+                <Button
+                  aria-label="increase"
+                  onClick={() => {
+                    setCount(count + 1);
+                  }}
+                >
+                  <AddIcon fontSize="small" />
+                </Button>
+              </ButtonGroup>
+            </div>
+
+          </Box>
+
+
 
           {/* save */}
 
