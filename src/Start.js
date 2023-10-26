@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import Maps from './Maps';
 import AddUser from "./AddUser/AddUser";
 import Coun from './Coun';
+
 // import Picture from './Picture'
 const Start = () => {
     const nav = useNavigate();
@@ -42,7 +43,7 @@ const Start = () => {
             {/* <Picture/> */}
             {/* <PicId /> */}
             {/* <Coun/> */}
-            <Maps />
+            {/* <Maps /> */}
         </div>
     </>
     )

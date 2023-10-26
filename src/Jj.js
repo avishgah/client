@@ -10,7 +10,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import TextField from '@mui/material/TextField';
 import { useForm } from 'react-hook-form';
-import { Link, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 
 // count
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -73,7 +73,7 @@ import './Payment2.css';
 
 
 
-const Register = () => {
+const Jj = () => {
 
   // count
   const [count, setCount] = React.useState(1);
@@ -135,7 +135,8 @@ const Register = () => {
   //   // addbike(details);
   // }
   const submit = (details) => {
-    console.log(details);
+    alert("mmm")
+    //     console.log(details);
     //     console.log(value.$D + "/" + value.$M + "/" + value.$y)
 
     //     // const user = {
@@ -145,60 +146,47 @@ const Register = () => {
     //     //     Mail: details.email,
 
     //     // }\\
-    const user =
-    {
-      "name": details.name,
-      "address": details.adress,
-      "mail": details.email,
-      "password": details.password,
-      "toun": details.toun,
-      "phon": details.phon,
-      "tz": details.id,
-      "dateBirth": new Date(),
-      "pic": " ",
-      "isManager": false,
-      "status": true,
-      "readTerms": true
-    }
+    //     const user =
+    //     {
+    //       "name": details.name,
+    //       "address": details.adress,
+    //       "mail": details.email,
+    //       "password": details.password,
+    //       "toun": details.toun,
+    //       "phon": details.phon,
+    //       "tz": details.id,
+    //       "dateBirth": details.date,
+    //       "pic": " ",
+    //       "isManager": false,
+    //       "status": true,
+    //       "readTerms": true
+    //     }
 
-    axios.post(`https://localhost:7207/api/user`, user).then(res => {
+    //     axios.post(`https://localhost:7207/api/user`, user).then(res => {
 
-      console.log(res + "kkkk");
+    //       console.log(res.data + ";;;;;;");
 
-      if (res.data == null) {
-        alert("error")
-        return null;
+    //       if (res.data == null) {
+    //         alert("error")
+    //         return null;
 
-      }
+    //       }
 
-      else {
-      }
-    }).catch(alert("משתמש קיים"))
 
-    const order = {
-      "id": count,
-      "datePay": "2023-10-23T21:47:49.242Z",
-      "idStation": 2,
-      "dateOrder": new Date(),
-      "code": "string",
-      // צריכה לשמור אותו בסטייט כללי
-      "idCust": 3,
-      "endSum": 0,
-      "isPay": true,
-      "custName": "string"
+    //       else {
+    //         //לשגר לסטייט הכללי
+    //         // console.log( res.data.user)
 
-    }
-    axios.post(`https://localhost:7207/api/Order`, order).then(res => {
+    //         // dispatch({
+    //         //     type: type.CURRENT_USER,
+    //         //     payload: res.data
+    //         // })
 
-      console.log(res + "kkkk");
-      alert("add")
-      if (res.data == null) {
-        alert("error")
-        return null;
+    //         // nav("/ToDo")
+    //         nav("/ToDo")
 
-      }
-
-    })
+    //       }
+    //     }).catch(console.log("err"))
 
 
 
@@ -315,13 +303,11 @@ const Register = () => {
             {/* date */}
 
           </FormControl>
-          {/* זמן עושה בעיות */}
-          {/* <LocalizationProvider dateAdapter={AdapterDayjs} >
+          <LocalizationProvider dateAdapter={AdapterDayjs} >
             <DemoContainer components={['DatePicker']} {...register("date", { required: true })}>
               <DatePicker value={value} onChange={(newValue) => setValue(newValue)} />
             </DemoContainer>
-          </LocalizationProvider> */}
-
+          </LocalizationProvider>
           <br></br><br></br>
           <div><b>מספר אופניים להשכרה </b></div><br></br>
           {/* count */}
@@ -362,28 +348,20 @@ const Register = () => {
           {/* <Button variant="contained" endIcon={<SendIcon />} id="addR" type="submit">שמור</Button> */}
           <Stack direction="row" spacing={2}>
 
-            <Button variant="contained" endIcon={<SendIcon />} id="addR" type="submit">
-              התחבר
-            </Button>
 
-          </Stack><br></br>
-          <Link
-            component="button"
-            variant="body2"
-            onClick={() => {
-              nav('/Connection')
-            }}
-          >
-            ? משתמש רשום
-          </Link>
+          </Stack>
         </CardActions>
       </Card>
 
 
+            <Button variant="contained" endIcon={<SendIcon />} id="addR" type="submit">
+              התחבר
+            </Button>
     </form >
+
 
   </>
 }
 
 
-export default Register;
+export default Jj;

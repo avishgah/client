@@ -6,6 +6,7 @@ import PicId from './PicId';
 import Start from './Start';
 import Register from './Register'
 import Order from './Order';
+import Connection from './Connection';
 const Rout = () => {
     return (
         <>
@@ -30,6 +31,9 @@ const Rout = () => {
             </Routes>
             <Routes>
                 <Route path="/Order" element={<Order />}></Route>
+            </Routes>
+            <Routes>
+                <Route path="/Connection" element={<Connection />}></Route>
             </Routes>
             <Routes>
                 <Route path="" element={<Start />}></Route>

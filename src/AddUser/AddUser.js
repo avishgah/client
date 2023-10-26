@@ -111,42 +111,59 @@ const AddUser = () => {
     // let currentUser = useSelector(state => state.tr.user);
     // let arr = useSelector(state => state.tr.tasks);
 
+   
     const submit = (details) => {
 
-        console.log(details);
-        console.log(value.$D+"/"+value.$M+"/"+value.$y)
+      console.log(details);
+      console.log(value.$D+"/"+value.$M+"/"+value.$y)
 
-        const user = {
-            name: details.Name,
-            phon: details.Phon,
-            password: details.password,
-            email: details.email
-        }
-        axios.post(`http://localhost:8080/User/addUser`, user).then(res => {
-        alert("jjj")
-         console.log(res.data+";;;;;;");
+      // const user = {
+      //     name: details.name,
+      //     Phon: details.Phon,
+      //     Password: details.password,
+      //     Mail: details.email,
+    
+      // }\\
+      const user= 
+       {"name": details.name,
+      "address": details.adress,
+      "mail": details.email,
+      "password":details.password,
+      "toun": details.toun,
+      "phon": details.phon,
+      "tz": details.id,
+      "dateBirth": details.dateBirth,
+      "pic": details.pic,                                    
+      "isManager": false,
+      "status": true,
+      "readTerms": true
+  }
+      axios.post(`https://localhost:7207/api/user`, user).then(res => {
 
-        if (res.data == null) {
-                alert("error")
-                return null;
+       console.log(res.data+";;;;;;");
 
-            }
+      if (res.data == null) {
+              alert("error")
+              return null;
+
+          }
 
 
-            else {
-                //לשגר לסטייט הכללי
-                // console.log( res.data.user)
+          else {
+              //לשגר לסטייט הכללי
+              // console.log( res.data.user)
 
-                // dispatchEvent({
-                //     type: type.CURRENT_USER,
-                //     payload: res.data
-                // })
+              // dispatch({
+              //     type: type.CURRENT_USER,
+              //     payload: res.data
+              // })
 
-                // nav("/ToDo")
-                // nav("/ToDo")
+              // nav("/ToDo")
 
-            } 
-        })
+          } 
+      })
+
+
 
 
 
@@ -220,7 +237,7 @@ const AddUser = () => {
                         helperText="Please enter your name"
                         id="demo-helper-text-aligned"
                         label="Name"
-                        {...register("Name", {})}
+                        {...register("name", {})}
                     />
                              <TextField
                         helperText="Please enter your phon"
@@ -232,7 +249,7 @@ const AddUser = () => {
                         helperText="Please enter your phon"
                         id="demo-helper-text-aligned"
                         label="Phon"
-                        {...register("Phon", {})}
+                        {...register("phon", {})}
                     />
                        <TextField
                         helperText="Please enter your phon"
@@ -244,7 +261,7 @@ const AddUser = () => {
                         helperText="Please enter your phon"
                         id="demo-helper-text-aligned"
                         label="town"
-                        {...register("town", {})}
+                        {...register("toun", {})}
                     />
                          <TextField
                         helperText="Please enter your phon"
@@ -272,7 +289,7 @@ const AddUser = () => {
 
 
 
-                    <TextField id="outlined-basic" label="id" variant="outlined"  {...register("ID", { required: true, pattern: /^[0-9]{1,9}/ })} />
+                    <TextField id="outlined-basic" label="id" variant="outlined"  {...register("id", { required: true, pattern: /^[0-9]{1,9}/ })} />
                     {errors.ID?.type == "pattern" && <div className="error">
                         תעודת זהות לא תקינה
                     </div>}
