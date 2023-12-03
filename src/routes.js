@@ -32,6 +32,9 @@ const Rout = () => {
             <Routes>
                 <Route path="/Order" element={<Order />}></Route>
             </Routes>
+
+           
+
             <Routes>
                 <Route path="/Connection" element={<Connection />}></Route>
             </Routes>

@@ -18,13 +18,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as type from "./store/actions/actionType";
 import Register from './Register';
 
+
 function App() {
-<Coun/>
+  <Coun />
   const nav = useNavigate();
   const flag = useSelector(state => state.r.Flag);
 
   return (<>
-
     {/* איך משנים FLAGלFALSE */}
     {/* {flag = false} */}
     {flag == true ? <Stepper /> : null}

@@ -11,39 +11,93 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import axios from "axios";
+import OrderCard from "./OrderCard";
+import { useState } from "react";
+import { useRef } from "react";
+import { createContext, useContext } from 'react';
 
 const Order = () => {
     const nav = useNavigate();
-
-
+    // dataRef="kkk"
 
     const [open, setOpen] = React.useState(false);
-    const [count, setCount] = React.useState(10);
+    // const [count, setCount] = React.useState(10);
+
+
+    const [custo, setCust] = useState(null);
+    const [orderBike, setOrderBike] = useState(null);
+
+
+    const [listOrde, setList] = React.useState([]);
+
+
 
     const handleClickOpen = () => {
         setOpen(true);
     };
     const handleClickOpenAndCount = () => {
         setOpen(true);
-        setCount(Math.max(count - 1, 0))
+        count = Math.max(count - 1, 0)
     };
 
     const handleClose = () => {
         setOpen(false);
     };
 
+    var cust = null;
+    var count = null;
+    var listOrder = [];
+    const GetOrderById = async (id) => {
+        const x = await axios.get(`https://localhost:7207/api/order/GetOrderById/${id}`).then(res => {
+            console.log(res.data)
+            listOrder = res.data;
+            count = res.data.length;
+
+            setList(res.data)
+            // handleClickOpen();
+        })
+    }
+
+    const getUserByTz = async (id) => {
+        const y = await axios.get(`https://localhost:7207/api/user/GetUserByTz/${id}`).then(res => {
+            console.log(res.data)
+            cust = res.data;
+            setCust(res.data)
 
 
-    const submit = (details) => {
+        })
+    }
 
-        handleClickOpen();
+    const getNumBike = async (id) => {
+        console.log(id)
+        return new Promise((resolve, reject) => {
+            axios.get(`https://localhost:7207/api/orderBike/GetOrderByIdOrder/${id}`).then(res => {
+                console.log(res.data)
+                setOrderBike(res.data)
+
+
+                // Simulating an asynchronous operation
+                setTimeout(() => {
+                    const value = res.data; // Set your desired value here
+                    resolve(value); // Resolve the Promise with a specific value
+
+                })
+            })
+        }, 1000);
+
+    }
+    const submit = async (details) => {
+
         console.log(details);
-        // for (var i = 0; i < 8; i++) {
-        {/* {console.log(i)} */ }
 
-        // }
-        // alert(" נא לשים את האפנים בעמדה פנויה, תודה ולהתראות")
-        // nav('/Start')
+        await GetOrderById(details.id);
+        await getUserByTz(details.id);
+
+        console.log(cust);
+        console.log(count);
+        console.log(listOrder);
+
     }
 
     const { register, handleSubmit, getValues, formState: { isValid, errors, dirtyFields, touchedFields, isDirty } } = useForm({
@@ -52,11 +106,11 @@ const Order = () => {
 
 
     return <>
-        <h1>wellcome</h1>
-
         <div>
-
-            <Dialog
+            {/* {
+                listOrder.map((item, index) => { return <OrderCard key={index} cust={cust} props={item} /> })
+            } */}
+            {/* <Dialog
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
@@ -77,9 +131,8 @@ const Order = () => {
                     <Button onClick={handleClickOpenAndCount}>שיחרור</Button>
                     <Button onClick={handleClose} autoFocus> ביטול </Button>
                 </DialogActions>
-            </Dialog>
+            </Dialog> */}
         </div>
-
 
         <h1>הקש תעודת זהות</h1>
         <form id="formLoginR" onSubmit={handleSubmit(submit)}>
@@ -105,7 +158,32 @@ const Order = () => {
 
 
             </Stack>
+
+
+
         </form>
+
+        <div><ul>
+            {
+                custo != null ? <>
+
+                    <p>שלום, {custo.name}</p>
+                    {console.log(listOrde)}
+                    {console.log(custo)}
+                    {console.log(orderBike)}
+                    {listOrde.map((item, index) => { return <li key={index}>  <OrderCard order={getNumBike} props={item} cust={custo} index={index + 1} index2={item.id} orderBike={orderBike} /></li> })}
+
+
+
+                </>
+                    : null
+
+            }
+        </ul>
+
+        </div>
+
+
     </>
 }
 
