@@ -35,11 +35,7 @@ function App() {
       <Route path="/Returns" element={<Returns />}></Route>
     </Routes>
 
-    <Fragment>
-      <Header />
 
-      <Footer />
-    </Fragment>
 
   </>);
 }

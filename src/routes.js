@@ -5,8 +5,8 @@ import Payment2 from './Payment2';
 import PicId from './PicId';
 import Start from './Start';
 import Register from './Register'
-import Order from './Order';
 import Connection from './Connection';
+import Order from './order/Order';
 const Rout = () => {
     return (
         <>

@@ -1,0 +1,29 @@
+#li{
+    list-style-type: none;
+    flex-grow: 1;
+}
+#parent{
+    /* width: 100%; */
+    display: flex;
+    justify-content: center;  
+       /* flex-basis: 500px; */
+}
+#ul{
+    display: flex;
+    justify-content: center;   
+  
+ 
+  
+    /* flex-wrap: nowrap;
+    text-align: center; */
+}
+#l{
+    font-size: 25px;
+    color: rgb(130, 56, 56);
+}
+
+#formLoginRO{
+
+    display: block;
+
+}

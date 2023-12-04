@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-
+import './order.css'
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -49,10 +49,11 @@ const Order = () => {
     var count = null;
     var listOrder = [];
     const GetOrderById = async (id) => {
-        const x = await axios.get(`https://localhost:7207/api/order/GetOrderById/${id}`).then(res => {
+        const x = await axios.get(`https://localhost:7207/api/order/GetOrderByIdCustNotDone/${id}`).then(res => {
             console.log(res.data)
             listOrder = res.data;
             count = res.data.length;
+         
 
             setList(res.data)
             // handleClickOpen();
@@ -66,7 +67,7 @@ const Order = () => {
             setCust(res.data)
 
 
-        })
+        }).catch(err=> console.log("user is not defind"))
     }
 
     const getNumBike = async (id) => {
@@ -83,9 +84,8 @@ const Order = () => {
                     resolve(value); // Resolve the Promise with a specific value
 
                 })
-            })
+            }).catch(err => console.log(err))
         }, 1000);
-
     }
     const submit = async (details) => {
 
@@ -107,35 +107,11 @@ const Order = () => {
 
     return <>
         <div>
-            {/* {
-                listOrder.map((item, index) => { return <OrderCard key={index} cust={cust} props={item} /> })
-            } */}
-            {/* <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">
-                    {" לרשותך "}
-                    {count}
-                    {"אפניים בהזמנה "}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        ,תרצה לשחרר אוניים נוספות ? לחיצה על אישור תשחרר אופניים נוספות
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-
-                    <Button onClick={handleClickOpenAndCount}>שיחרור</Button>
-                    <Button onClick={handleClose} autoFocus> ביטול </Button>
-                </DialogActions>
-            </Dialog> */}
+   
         </div>
 
-        <h1>הקש תעודת זהות</h1>
-        <form id="formLoginR" onSubmit={handleSubmit(submit)}>
+        <form id="formLoginRO" onSubmit={handleSubmit(submit)}>
+            <h1>הקש תעודת זהות</h1>
             <Box component="form" noValidate autoComplete="off">
                 <TextField id="outlined-basic" className="tz-filed" label="id" variant="outlined"        {...register("id", {
                     required: "id is required",
@@ -158,30 +134,25 @@ const Order = () => {
 
 
             </Stack>
-
-
-
         </form>
+        {custo != null ? <>
 
-        <div><ul>
-            {
-                custo != null ? <>
+            {document.getElementById("formLoginRO").style.display = 'none' }
+            {/* {document.getElementById("formLoginRO").style.visibility="hidden"} */}
+            <h1 id="l">שלום, {custo.name}</h1><br></br><br></br>
 
-                    <p>שלום, {custo.name}</p>
+            <div id="parent">
+                <ul id="ul">
+
                     {console.log(listOrde)}
                     {console.log(custo)}
                     {console.log(orderBike)}
-                    {listOrde.map((item, index) => { return <li key={index}>  <OrderCard order={getNumBike} props={item} cust={custo} index={index + 1} index2={item.id} orderBike={orderBike} /></li> })}
+                    {listOrde.map((item, index) => { return <li id="li" key={index}>  <OrderCard order={getNumBike} props={item} cust={custo} index={index + 1} index2={item.id} orderBike={orderBike} /></li> })}
 
+                </ul>
 
-
-                </>
-                    : null
-
-            }
-        </ul>
-
-        </div>
+            </div>
+        </> : null}
 
 
     </>
