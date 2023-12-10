@@ -5,6 +5,7 @@ const initialState = {
     user: null,
     tasks: [],
     Flag: false,
+    Flag_next: false,
     // users:[]
 
 }
@@ -72,7 +73,17 @@ const Reducer = (state = initialState, action) => {
                 Flag: false
             }
 
+        case type.CHANGE_FLAG_TRUE2:
+            return {
+                ...state,
+                Flag_next: true
+            }
 
+        case type.CHANGE_FLAG_FALSE2:
+            return {
+                ...state,
+                Flag_next: false
+            }
 
     }
 

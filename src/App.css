@@ -5,7 +5,7 @@ body{
 
 .css-ke5b6m-MuiButtonBase-root-MuiButton-root{
   background-color: white !important;
-  color: blue !important;
+  color: orange !important;
   padding: 58px !important;
   width: 39% !important;
   font-size: xxx-large !important;
@@ -15,12 +15,12 @@ body{
 }
 
 .css-ke5b6m-MuiButtonBase-root-MuiButton-root:hover{
-  background-color: blue !important;
+  background-color: orange !important;
   color:white !important;
 }
 
 h1{
   font-size: 500%;
-  color: blue;
+  color: orange;
   text-align: center;
 }

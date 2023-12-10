@@ -17,7 +17,6 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
-
 import * as type from "./store/actions/actionType";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -35,7 +34,7 @@ import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 // import { useDispatch, useSelector } from 'react-redux';
 
-import { useNavigate } from 'react-router-dom';
+import { json, useNavigate } from 'react-router-dom';
 import Stepper from './Stepper'
 
 
@@ -60,6 +59,8 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 
 
+// import { useHistory } from 'react-router-dom';
+
 
 import './Payment2.css';
 
@@ -75,6 +76,8 @@ import './Payment2.css';
 
 const Register = () => {
 
+
+  const flag = useSelector(state => state.r.Flag_next);
   // count
   const [count, setCount] = React.useState(1);
   const [invisible, setInvisible] = React.useState(false);
@@ -87,7 +90,7 @@ const Register = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch({ type: type.CHANGE_FLAG_TRUE })
-
+    // someFunctionFromAnotherComponent();
 
   }, [])
 
@@ -134,7 +137,19 @@ const Register = () => {
   //   console.log(details);
   //   // addbike(details);
   // }
-  const submit = (details) => {
+
+  useEffect(() => {
+    sessionStorage.setItem('myData', JSON.stringify(false))
+    // sessionStorage.setItem('myData', JSON.stringify(''))
+
+  }, [])
+
+  const dispatch2 = useDispatch();
+
+
+
+  const submit =async (details) => {
+    console.log(flag)
     console.log(details);
     //     console.log(value.$D + "/" + value.$M + "/" + value.$y)
 
@@ -145,68 +160,81 @@ const Register = () => {
     //     //     Mail: details.email,
 
     //     // }\\
-    const user =
-    {
-      "name": details.name,
-      "address": details.adress,
-      "mail": details.email,
-      "password": details.password,
-      "toun": details.toun,
-      "phon": details.phon,
-      "tz": details.id,
-      "dateBirth": new Date(),
-      "pic": " ",
-      "isManager": false,
-      "status": true,
-      "readTerms": true
-    }
+    // const user =
+    // {
+    //   "name": details.name,
+    //   "address": details.adress,
+    //   "mail": details.email,
+    //   "password": details.password,
+    //   "toun": details.toun,
+    //   "phon": details.phon,
+    //   "tz": details.id,
+    //   "dateBirth": new Date(),
+    //   "pic": " ",
+    //   "isManager": false,
+    //   "status": true,
+    //   "readTerms": true
+    // }
 
-    axios.post(`https://localhost:7207/api/user`, user).then(res => {
+    // axios.post(`https://localhost:7207/api/user`, user).then(res => {
 
-      console.log(res + "kkkk");
+    //   console.log(res + "kkkk");
 
-      if (res.data == null) {
-        alert("error")
-        return null;
+    //   if (res.data == null) {
+    //     alert("error")
+    //     return null;
 
-      }
+    //   }
 
-      else {
-      }
-    }).catch(alert("משתמש קיים"))
+    //   else {
+    //   }
+    // }).catch(alert("משתמש קיים"))
 
-    const order = {
-      "id": count,
-      "datePay": "2023-10-23T21:47:49.242Z",
-      "idStation": 2,
-      "dateOrder": new Date(),
-      "code": "string",
-      // צריכה לשמור אותו בסטייט כללי
-      "idCust": 3,
-      "endSum": 0,
-      "isPay": true,
-      "custName": "string"
+    // const order = {
+    //   "id": count,
+    //   "datePay": "2023-10-23T21:47:49.242Z",
+    //   "idStation": 2,
+    //   "dateOrder": new Date(),
+    //   "code": "string",
+    //   // צריכה לשמור אותו בסטייט כללי
+    //   "idCust": 3,
+    //   "endSum": 0,
+    //   "isPay": true,
+    //   "custName": "string"
 
-    }
-    axios.post(`https://localhost:7207/api/Order`, order).then(res => {
+    // }
+    // axios.post(`https://localhost:7207/api/Order`, order).then(res => {
 
-      console.log(res + "kkkk");
-      alert("add")
-      if (res.data == null) {
-        alert("error")
-        return null;
+    //   console.log(res + "kkkk");
+    //   alert("add")
+    //   if (res.data == null) {
+    //     alert("error")
+    //     return null;
 
-      }
+    //   }
 
-    })
+    // })
 
+    const myObject = { details };
+    // const encodedObject = encodeURIComponent(JSON.stringify(myObject));
+    // window.location.href = `Stepper?data=${encodedObject}`;
+
+    // document.getElementById("nextB").style.disabled=false;
+    await dispatch2({ type: type.CHANGE_FLAG_TRUE2 })
+
+
+    console.log(flag)
+    sessionStorage.setItem('myData', JSON.stringify(true))
+
+    // nav('/Stepper')
+    // window.location.reload(); 
 
 
   }
 
   return <>
 
-    <form id="formLoginR" onSubmit={handleSubmit(submit)}>
+    <form id="formLoginR" onChange={handleSubmit(submit)}>
       <Card sx={{ minWidth: 80 }}>
         <CardContent>
 
@@ -362,9 +390,9 @@ const Register = () => {
           {/* <Button variant="contained" endIcon={<SendIcon />} id="addR" type="submit">שמור</Button> */}
           <Stack direction="row" spacing={2}>
 
-            <Button variant="contained" endIcon={<SendIcon />} id="addR" type="submit">
-              התחבר
-            </Button>
+            {/* <Button variant="contained" endIcon={<SendIcon />} id="addR" type="submit">
+              הבא
+            </Button> */}
 
           </Stack><br></br>
           <Link
@@ -381,7 +409,7 @@ const Register = () => {
 
 
     </form >
-
+  
   </>
 }
 

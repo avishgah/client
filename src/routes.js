@@ -7,11 +7,20 @@ import Start from './Start';
 import Register from './Register'
 import Connection from './Connection';
 import Order from './order/Order';
+// import { Stepper } from '@mui/material';
+
+import Stepper from './Stepper';
+
+
+
 const Rout = () => {
     return (
         <>
             <Routes>
                 <Route path="/Register" element={<Register />}></Route>
+            </Routes>
+            <Routes>
+                <Route path="/Stepper" element={<Stepper />}></Route>
             </Routes>
             <Routes>
                 <Route path="/Returns" element={<Returns />}></Route>

@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import AddUser from './AddUser/AddUser';
 import Picture from './Picture';
 import { Route, Routes } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate ,useHistory} from 'react-router-dom';
 import Payment from './Payment';
 
 function App() {
