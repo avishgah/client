@@ -27,7 +27,7 @@ function App() {
   return (<>
     {/* איך משנים FLAGלFALSE */}
     {/* {flag = false} */}
-    {flag == true ? <Stepper /> : null}
+    {/* {flag == true ? <Stepper /> : null} */}
     <Routes>
       <Route path="" element={<Start />} />
       <Route path="/Register" element={<Register />}></Route>

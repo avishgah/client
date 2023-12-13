@@ -59,6 +59,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 
 
+
 // import { useHistory } from 'react-router-dom';
 
 
@@ -73,8 +74,7 @@ import './Payment2.css';
 
 
 
-
-const Register = () => {
+const Register = ({ setIsFinish }) => {
 
 
   const flag = useSelector(state => state.r.Flag_next);
@@ -148,7 +148,7 @@ const Register = () => {
 
 
 
-  const submit =async (details) => {
+  const submit = async (details) => {
     console.log(flag)
     console.log(details);
     //     console.log(value.$D + "/" + value.$M + "/" + value.$y)
@@ -222,9 +222,7 @@ const Register = () => {
     // document.getElementById("nextB").style.disabled=false;
     await dispatch2({ type: type.CHANGE_FLAG_TRUE2 })
 
-
-    console.log(flag)
-    sessionStorage.setItem('myData', JSON.stringify(true))
+    setIsFinish(true);
 
     // nav('/Stepper')
     // window.location.reload(); 
@@ -232,18 +230,47 @@ const Register = () => {
 
   }
 
+  const isDateValid = () => {
+    alert("lll")
+    const date1 = new Date(value.$y, value.$M, value.$D);
+    const date2 = new Date();
+    // console.log(date1);
+    // const diffTime = Math.abs(date2 - date1);
+    // const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    // if (diffDays / 365 >= 16) {
+    //   console.log("תקין")
+    // }
+    // console.log(diffDays + " days");
+    const years = Math.abs(date2.getFullYear() - date1.getFullYear());
+    if (years > 16) {
+      console.log("heyy1")
+      return true;
+    } if (years == 16 && date1.getMonth() > date2.getMonth() || years == 16 && date1.getMonth() == date2.getMonth() && date1.getDate() <= date2.getDate()) {
+      console.log("heyy2")
+      return true;
+    }
+    return false;
+  }
+
+ 
+
+
+
   return <>
 
-    <form id="formLoginR" onChange={handleSubmit(submit)}>
+    <form id="formLoginR" style={{width:"85vw",mr:"15vw"}} onChange={handleSubmit(submit)}>
       <Card sx={{ minWidth: 80 }}>
         <CardContent>
 
           <Typography variant="h5" component="div">
-            פרטים אישיים
+            פרטים אישיים 
           </Typography>
           <br></br>
 
           {/* name */}
+          <span style={{ color: 'red' }}>
+     * {/* אייקון של כוכב */}
+    </span>
 
           <TextField fullWidth label="שם מלא" id="fullWidth" {...register("name", { required: "name is required", })} /><br></br><br></br>
           {errors.name && <p className="errorMsg">{errors.name.message}</p>}
@@ -344,12 +371,18 @@ const Register = () => {
 
           </FormControl>
           {/* זמן עושה בעיות */}
-          {/* <LocalizationProvider dateAdapter={AdapterDayjs} >
-            <DemoContainer components={['DatePicker']} {...register("date", { required: true })}>
-              <DatePicker value={value} onChange={(newValue) => setValue(newValue)} />
+          <LocalizationProvider dateAdapter={AdapterDayjs} >
+            <DemoContainer components={['DatePicker']} {...register("date", {
+                validate: {
+                  validDate:()=> isDateValid()
+                }
+              })} >
+              <DatePicker value={value} onChange={(newValue) => { setValue(newValue) }} />
             </DemoContainer>
-          </LocalizationProvider> */}
-
+          </LocalizationProvider>
+          {
+console.log(errors)
+          }
           <br></br><br></br>
           <div><b>מספר אופניים להשכרה </b></div><br></br>
           {/* count */}
@@ -409,7 +442,7 @@ const Register = () => {
 
 
     </form >
-  
+
   </>
 }
 

@@ -27,7 +27,7 @@ const Start = () => {
             <h1>ברוכים הבאים</h1>
             <Stack direction="row" spacing={2}>
                 {/* <Button color="secondary">Secondary</Button> */}
-                <Button variant="contained" color="success" onClick={() => nav('/Register')} >
+                <Button variant="contained" color="success" onClick={() => nav('/Stepper')} >
                     לקחת
                 </Button>
 

@@ -15,12 +15,12 @@ import { useState } from 'react';
 import * as type from "./store/actions/actionType";
 
 import { useSelector } from 'react-redux';
+import PicId from './PicId';
 const steps = ['פרטים אישיים', 'תשלום', 'תצלום'];
-
 export default function HorizontalLinearStepper() {
     const [activeStep, setActiveStep] = React.useState(0);
     const [skipped, setSkipped] = React.useState(new Set());
-
+    const [isFinish, setIsFinish] = useState(false);
     const nav = useNavigate();
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
     const isStepOptional = (step) => {
@@ -35,34 +35,34 @@ export default function HorizontalLinearStepper() {
     const flag = useSelector(state => state.r.Flag_next);
 
     useEffect(() => {
-        const myData = sessionStorage.getItem('myData');
-        decodedObject = JSON.parse(decodeURIComponent(myData));
-        console.log(decodedObject);
-        console.log(flag);
-        if(flag){
-        // const timer = setTimeout(() => {
-            setIsButtonDisabled(false); // Enable the button after 3 seconds
-        // }, 3000);
-        }
+     
         // Clean up the timer to avoid memory leaks
         // return () => clearTimeout(timer);
         // }
 
     }, [])
 
+    const getStepContent = (index) => {
+        switch (index) {
+            case 0: return <Register setIsFinish = {setIsFinish}/>;
+            case 1: return <Payment2 setIsFinish = {setIsFinish} />;
+            case 2: return <PicId setIsFinish = {setIsFinish}/>;
+            default: return;
+        }
+    }
 
     const handleNext = () => {
         const myData = localStorage.getItem('myData');
         decodedObject = JSON.parse(decodeURIComponent(myData));
         console.log(decodedObject); // יציג: { key: 'value' }
-
+        setIsFinish(false);
         // console.log(activeStep)
         // console.log(skipped)
         let newSkipped = skipped;
-        if (activeStep == 0)
-            nav('/Payment2');
-        if (activeStep == 1)
-            nav('/PicId');
+        // if (activeStep == 0)
+        //     nav('/Payment2');
+        // if (activeStep == 1)
+        //     nav('/PicId');
 
         if (isStepSkipped(activeStep)) {
             newSkipped = new Set(newSkipped.values());
@@ -107,10 +107,14 @@ export default function HorizontalLinearStepper() {
         setActiveStep(0);
         nav('/Start')
     };
-
+    const styles = {
+        customStepLabel: {
+          fontSize: '30px', // Change this value to the desired font size
+        },
+      };
     return (
         <>
-            <Box sx={{ width: '100%' }}>
+            <Box sx={{ width: '100%', direction: "rtl"}}>
                 <Stepper activeStep={activeStep}>
                     {steps.map((label, index) => {
                         const stepProps = {};
@@ -124,8 +128,8 @@ export default function HorizontalLinearStepper() {
                             stepProps.completed = false;
                         }
                         return (
-                            <Step key={label} {...stepProps}>
-                                <StepLabel {...labelProps}>{label}</StepLabel>
+                            <Step  key={label} {...stepProps}>
+                                <StepLabel style={styles.customStepLabel} {...labelProps} ><b>{label}</b></StepLabel>
                             </Step>
                         );
                     })}
@@ -141,20 +145,19 @@ export default function HorizontalLinearStepper() {
                         </Box>
                     </React.Fragment>
                 ) : (
-                    <React.Fragment>
-                        <Typography sx={{ mt: 2, mb: 1 }}>
-
-                            {/* Step {activeStep + 1} */}
-
+                    <React.Fragment><br></br>
+                        <Typography sx={{ mt: 2, mb: 1,mr:"30vw"}}>
+                            {getStepContent(activeStep)}
                         </Typography>
                         <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+
                             <Button
                                 color="inherit"
                                 disabled={activeStep === 0}
                                 onClick={handleBack}
                                 sx={{ mr: 1 }}
                             >
-                                Back
+                                חזור
                             </Button>
                             <Box sx={{ flex: '1 1 auto' }} />
                             {isStepOptional(activeStep) && (
@@ -163,8 +166,8 @@ export default function HorizontalLinearStepper() {
                                 </Button>
                             )}
 
-                            <Button onClick={handleNext} id="nextB" disabled={isButtonDisabled}>
-                                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                            <Button onClick={handleNext} id="nextB" disabled={!isFinish}>
+                                {activeStep === steps.length - 1 ? 'סיום' : 'הבא'}
                             </Button>
                         </Box>
                     </React.Fragment>
