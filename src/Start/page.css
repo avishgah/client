@@ -1,0 +1,117 @@
+#select {
+    padding: 10px;
+    font-size: larger;
+}
+
+#con {
+    text-align: right;
+    margin-left: 0 !important;
+    width: 300px !important;
+    background-color: rgb(179, 123, 12);
+    color: white;
+    font-size: 25px;
+    border-radius: 20px;
+
+}
+
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    font-size: 30px;
+    text-align: center;
+    height: 44.4vw;
+    margin-bottom: 0;
+}
+
+.flex-item-left {
+    border: black 2px solid;
+    background-color: #525252;
+    color: white;
+    padding: 10px;
+    flex: 55%;
+}
+
+.flex-item-right {
+    background-color: white;
+    border: black 2px solid;
+    padding: 10px;
+    text-align: center;
+    flex: 45%;
+    font-size: large;
+}
+
+/* Responsive layout - makes a one column-layout instead of two-column layout */
+@media (max-width: 800px) {
+    .flex-container {
+        flex-direction: column;
+    }
+
+    #ftime {
+        margin-left: 34%;
+    }
+}
+
+
+
+#pI {
+    color: white;
+    font-size: 20px;
+}
+
+#start {
+    margin-left: 0;
+    width: 400px !important;
+    background-color: none;
+    border: solid 4px white;
+    color: white;
+    font-size: 25px;
+    /* border-radius: 20px; */
+    /* margin-right: 10%; */
+}
+
+.button:hover {
+    border: solid 4px #525252;
+    background-color: white;
+    color: #525252;
+}
+
+/* button */
+
+.button {
+    width: 400px !important;
+    background-color: #525252;
+    border: solid 4px white;
+    color: white;
+    font-size: 25px;
+    text-align: center;
+    padding: 20px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.1s;
+}
+
+.button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+
+.button:hover span {
+    padding-right: 25px;
+}
+
+.button:hover span:after {
+    opacity: 1;
+    right: 0;
+}

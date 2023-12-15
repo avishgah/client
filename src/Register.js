@@ -10,7 +10,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import TextField from '@mui/material/TextField';
 import { useForm } from 'react-hook-form';
-import { Link, Stack } from '@mui/material';
+import { Checkbox, FormControlLabel, Link, Stack, colors } from '@mui/material';
 
 // count
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -29,6 +29,7 @@ import { useDispatch, useSelector } from "react-redux";
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
+import AttachmentIcon from '@mui/icons-material/Attachment';
 
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
@@ -70,7 +71,10 @@ import './Payment2.css';
 
 // ,, כתובת, , , עיר, , , תאריך לידה, תצלום תעודת זהות, סוג לקוח(לקוח, מנהל), לא פעיל, אישור קריאת תקנון
 
-
+import Input from '@mui/joy/Input';
+import LinearProgress from '@mui/joy/LinearProgress';
+import Key from '@mui/icons-material/Key';
+import { useState } from 'react';
 
 
 
@@ -94,7 +98,7 @@ const Register = ({ setIsFinish }) => {
 
   }, [])
 
-  const [value, setValue] = React.useState(null);
+  const [value, setValue] = React.useState('');
 
   const { register, handleSubmit, getValues, formState: { isValid, errors, dirtyFields, touchedFields, isDirty } } = useForm({
     mode: "all"
@@ -126,6 +130,15 @@ const Register = ({ setIsFinish }) => {
     setActiveStep(0);
   };
 
+  function validateForm() {
+    var checkbox = document.getElementById('myCheckbox');
+
+    if (!checkbox.checked) {
+      alert('Please agree to the terms and conditions');
+      return false; // מניעת השליחה של הטופס
+    }
+    return true; // אישור שליחת הטופס כאשר ה-checkbox נבחר
+  }
 
   // let currentUser = useSelector(state => state.tr.user);
   // let arr = useSelector(state => state.tr.tasks);
@@ -151,31 +164,32 @@ const Register = ({ setIsFinish }) => {
   const submit = async (details) => {
     console.log(flag)
     console.log(details);
-    //     console.log(value.$D + "/" + value.$M + "/" + value.$y)
+    // console.log(value.$D + "/" + value.$M + "/" + value.$y)
 
-    //     // const user = {
-    //     //     name: details.name,
-    //     //     Phon: details.Phon,
-    //     //     Password: details.password,
-    //     //     Mail: details.email,
+    // const user = {
+    //     name: details.name,
+    //     Phon: details.Phon,
+    //     Password: details.password,
+    //     Mail: details.email,
 
-    //     // }\\
-    // const user =
-    // {
-    //   "name": details.name,
-    //   "address": details.adress,
-    //   "mail": details.email,
-    //   "password": details.password,
-    //   "toun": details.toun,
-    //   "phon": details.phon,
-    //   "tz": details.id,
-    //   "dateBirth": new Date(),
-    //   "pic": " ",
-    //   "isManager": false,
-    //   "status": true,
-    //   "readTerms": true
-    // }
+    // }\\
+    const user =
+    {
+      "name": details.name,
+      "address": details.adress,
+      "mail": details.email,
+      "password": details.password,
+      "toun": details.toun,
+      "phon": details.phon,
+      "tz": details.id,
+      "dateBirth": new Date(),
+      "pic": " ",
+      "isManager": false,
+      "status": true,
+      "readTerms": true
+    }
 
+    console.log(user)
     // axios.post(`https://localhost:7207/api/user`, user).then(res => {
 
     //   console.log(res + "kkkk");
@@ -251,34 +265,48 @@ const Register = ({ setIsFinish }) => {
     }
     return false;
   }
+  const [valuePass, setValuePass] = React.useState('');
+  const minLength = 12;
 
- 
 
+  var l = '';
+  const func = () => {
+    l = document.getElementById("k").value;
+    console.log(l)
+  }
 
+  const [checked, setChecked] = useState(false);
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+  };
 
   return <>
 
-    <form id="formLoginR" style={{width:"85vw",mr:"15vw"}} onChange={handleSubmit(submit)}>
+    <form id="formLoginR" style={{ width: "85vw", mr: "15vw", direction: "rtl" }} onSubmit={handleSubmit(submit)}>
       <Card sx={{ minWidth: 80 }}>
         <CardContent>
 
           <Typography variant="h5" component="div">
-            פרטים אישיים 
+            פרטים אישיים
           </Typography>
           <br></br>
 
           {/* name */}
-          <span style={{ color: 'red' }}>
-     * {/* אייקון של כוכב */}
-    </span>
 
-          <TextField fullWidth label="שם מלא" id="fullWidth" {...register("name", { required: "name is required", })} /><br></br><br></br>
-          {errors.name && <p className="errorMsg">{errors.name.message}</p>}
+          <label>  שם מלא <span style={{ color: 'red' }}>
+            * {/* אייקון של כוכב */}
+          </span></label>
+
+          <TextField fullWidth id="fullWidth"
+            style={errors.name ? { border: "red solid 1px", borderRadius: "5px" } : null}
+            {...register("name", { required: "name is required", })} /><br></br><br></br>
 
           {/* id */}
-
-          <TextField fullWidth id="fullWidth" label="ת.ז" variant="outlined"
-
+          <label>  תעודת זהות<span style={{ color: 'red' }}>
+            * {/* אייקון של כוכב */}
+          </span></label>
+          <TextField fullWidth id="fullWidth" variant="outlined"
+            style={errors.id ? { border: "red solid 1px", borderRadius: "5px" } : null}
             {...register("id", {
               required: "id is required",
               pattern: {
@@ -287,12 +315,16 @@ const Register = ({ setIsFinish }) => {
               },
 
             })} />
-          {errors.id && <p className="errorMsg">{errors.id.message}</p>}
           <br></br><br></br>
 
           {/* phon */}
 
-          <TextField fullWidth label="טלפון" id="fullWidth"
+          <label>טלפון <span style={{ color: 'red' }}>
+            * {/* אייקון של כוכב */}
+          </span></label>
+          <TextField fullWidth id="fullWidth"
+                style={errors.phon ? { border: "red solid 1px", borderRadius: "5px" } : null}
+
             {...register("phon", {
               required: "phon is required",
               pattern: {
@@ -301,29 +333,42 @@ const Register = ({ setIsFinish }) => {
               },
 
             })} /><br></br><br></br>
-          {errors.phon && <p className="errorMsg">{errors.phon.message}</p>}
+
+          <label> עיר<span style={{ color: 'red' }}>
+            * {/* אייקון של כוכב */}
+          </span></label>
+          <TextField
+                  style={errors.toun ? { border: "red solid 1px", borderRadius: "5px" } : null}
+            fullWidth
+            helperText=""
+            id="fullWidth"
+
+            {...register("toun", { required: "toun is required" })}
+          />
+          <br></br><br></br>
 
           {/* address */}
-
+          <label> כתובת <span style={{ color: 'red' }}>
+            * {/* אייקון של כוכב */}
+          </span></label>
           <TextField
+                  style={errors.adress ? { border: "red solid 1px", borderRadius: "5px" } : null}
             fullWidth
             helperText=""
             id="fullWidth"
-            label="כתובת"
-            {...register("adress", {})}
 
-          /><br></br><br></br>
-          <TextField
-            fullWidth
-            helperText=""
-            id="fullWidth"
-            label="עיר"
-            {...register("toun", {})}
-          /><br></br><br></br>
+            {...register("adress", { required: "adress is required" })}
+          />
+          <br></br><br></br>
+
 
           {/* email */}
-
-          <TextField fullWidth id="fullWidth" label="מייל" variant="outlined"  {...register("email", {
+          <label> מייל<span style={{ color: 'red' }}>
+            * {/* אייקון של כוכב */}
+          </span></label>
+          <TextField fullWidth id="fullWidth" variant="outlined"
+                  style={errors.email ? { border: "red solid 1px", borderRadius: "5px" } : null}
+          {...register("email", {
             required: "email is required",
             pattern: {
               value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
@@ -331,14 +376,69 @@ const Register = ({ setIsFinish }) => {
             }
           })}
           />
-          {errors.email && <p className="errorMsg">{errors.email.message}</p>}
           <br></br><br></br>
 
           {/* password */}
+          <label>צור סיסמא <span style={{ color: 'red' }}>
+            * {/* אייקון של כוכב */}
+          </span></label>
+          <Stack
+            spacing={0.5}
+            sx={{
+              '--hue': Math.min(value.length * 10, 120),
+            }}
+          >
+            <Input
+                    style={errors.password ? { border: "red solid 1px", borderRadius: "5px" } : null}
+              {...register("password", {
+                required: "Password is required.",
+                minLength: {
+                  value: 6,
+                  message: "Password should be at-least 6 characters."
+                }
+              })}
+              type={showPassword ? 'text' : 'password'}
+              placeholder="Type in here…"
+              startDecorator={<InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
 
+              }
+              value={value}
+              onChange={(event) => setValue(event.target.value)}
 
-          <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined" fullWidth id="fullWidth" >
-            <InputLabel htmlFor="outlined-adornment-password">סיסמא</InputLabel>
+            />
+            <LinearProgress
+              determinate
+              size="sm"
+              value={Math.min((value.length * 100) / minLength, 100)}
+              onClick={handleClickShowPassword}
+              onMouseDown={handleMouseDownPassword}
+              sx={{
+                bgcolor: 'background.level3',
+                color: 'hsl(var(--hue) 80% 40%)',
+              }}
+            />
+
+            <Typography
+              level="body-xs"
+              sx={{ alignSelf: 'flex-end', color: 'hsl(var(--hue) 80% 30%)' }}
+            >
+              {value.length < 3 && 'Very weak'}
+              {value.length >= 3 && value.length < 6 && 'Weak'}
+              {value.length >= 6 && value.length < 10 && 'Strong'}
+              {value.length >= 10 && 'Very strong'}
+            </Typography>
+          </Stack>
+          {/* <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined" fullWidth id="fullWidth" > */}
+          {/* <InputLabel htmlFor="outlined-adornment-password">סיסמא</InputLabel>
             <OutlinedInput
 
               fullWidth
@@ -365,27 +465,28 @@ const Register = ({ setIsFinish }) => {
               }
               label="סיסמא"
             />
-            {errors.password && <p className="errorMsg">{errors.password.message}</p>}
+            {errors.password && <p className="errorMsg">{errors.password.message}</p>} */}
 
-            {/* date */}
-
-          </FormControl>
+          {/* date */}
+          {/* <label>  תאריך לידה <span style={{ color: 'red' }}>
+              * 
+            </span></label> */}
+          {/* </FormControl> */}
           {/* זמן עושה בעיות */}
-          <LocalizationProvider dateAdapter={AdapterDayjs} >
+          {/* <LocalizationProvider dateAdapter={AdapterDayjs} >
             <DemoContainer components={['DatePicker']} {...register("date", {
-                validate: {
-                  validDate:()=> isDateValid()
-                }
-              })} >
+              validate: {
+                validDate: () => isDateValid()
+              }
+            })} >
               <DatePicker value={value} onChange={(newValue) => { setValue(newValue) }} />
             </DemoContainer>
           </LocalizationProvider>
           {
-console.log(errors)
-          }
+            console.log(errors)
+          } */}
           <br></br><br></br>
-          <div><b>מספר אופניים להשכרה </b></div><br></br>
-          {/* count */}
+          {/* <div><b>מספר אופניים להשכרה </b></div><br></br>
 
           <Box>
             <div>
@@ -412,7 +513,41 @@ console.log(errors)
               </ButtonGroup>
             </div>
 
-          </Box>
+          </Box> */}
+
+
+          {/* save  */}
+          <label id="ll">תצלום תעודת זהות / דרכון</label>
+          <br></br>
+          <div id="div-pic" direction="rtl"  >
+
+            <Button
+              endIcon={<AttachmentIcon />}
+              variant="contained"
+              component="label"
+              id="pid-button"
+            >
+              <input
+                // name="ll"
+                id="k"
+                type="file"
+                onChange={func}
+
+              // hidden
+              />
+            </Button>
+            <p></p>
+            <input style={{ color: "red" }} type="checkbox" id="myCheckbox" checked={checked}
+              onClick={handleChange}
+              {...register("chek", {
+                required: true,
+              })}
+            ></input>
+            <a href='/page.txt' download>תקנון שימוש</a>
+            {errors.chek && <p className="errorMsg">חובה לאשר</p>}
+
+
+          </div>
 
 
 
@@ -442,7 +577,7 @@ console.log(errors)
 
 
     </form >
-
+   
   </>
 }
 

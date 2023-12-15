@@ -3,13 +3,15 @@ import { Route, Routes } from 'react-router-dom'
 import Returns from './return/Returns';
 import Payment2 from './Payment2';
 import PicId from './PicId';
-import Start from './Start';
+import Start from './Start/Start';
 import Register from './Register'
 import Connection from './Connection';
 import Order from './order/Order';
 // import { Stepper } from '@mui/material';
 
 import Stepper from './Stepper';
+import Introduc from './Start/Introduc';
+import ChooseStation from './Start/ChooseStation';
 
 
 
@@ -47,10 +49,16 @@ const Rout = () => {
             <Routes>
                 <Route path="/Connection" element={<Connection />}></Route>
             </Routes>
-            <Routes>
+            {/* <Routes>
                 <Route path="" element={<Start />}></Route>
+            </Routes> */}
+            <Routes>
+                <Route path="/introduc" element={<Introduc />}></Route>
             </Routes>
-
+            <Routes>
+                <Route path="chooseStation" element={<ChooseStation />}></Route>
+            </Routes>
+    
         </>
     )
 }

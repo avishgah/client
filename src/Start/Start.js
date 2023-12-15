@@ -1,14 +1,14 @@
 import { Button, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import PicId from "./PicId";
+import PicId from "../PicId";
 
-import * as type from "./store/actions/actionType";
+import * as type from "../store/actions/actionType";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 
-import Maps from './Maps';
-import AddUser from "./AddUser/AddUser";
-import Coun from './Coun';
+import Maps from '../Maps';
+import AddUser from "../AddUser/AddUser";
+import Coun from '../Coun';
 
 // import Picture from './Picture'
 const Start = () => {

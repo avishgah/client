@@ -9,7 +9,7 @@ import Takes from './take/Takes';
 import AddUser from './AddUser/AddUser';
 import { Route, useNavigate } from 'react-router-dom';
 import Payment from './Register';
-import Start from './Start';
+import Start from './Start/Start';
 // import Picture from "./Picture"
 import Returns from './return/Returns';
 import Stepper from './Stepper';
@@ -17,24 +17,26 @@ import Coun from './Coun';
 import { useDispatch, useSelector } from 'react-redux';
 import * as type from "./store/actions/actionType";
 import Register from './Register';
+import GetBike from './GetBiKE/GetBike';
+import ChooseStation from './Start/ChooseStation';
+import Introduc from './Start/Introduc';
 
 
 function App() {
-  <Coun />
+  // <Coun />
   const nav = useNavigate();
   const flag = useSelector(state => state.r.Flag);
 
   return (<>
+
+
     {/* איך משנים FLAGלFALSE */}
     {/* {flag = false} */}
     {/* {flag == true ? <Stepper /> : null} */}
-    <Routes>
-      <Route path="" element={<Start />} />
-      <Route path="/Register" element={<Register />}></Route>
-      <Route path="/Start" element={<Start />}></Route>
-      <Route path="/Returns" element={<Returns />}></Route>
-    </Routes>
+    {/* <GetBike/> */}
+    {/* <ChooseStation /> */}
 
+    <Introduc/>
 
 
   </>);

@@ -3,6 +3,7 @@ import * as type from "../actions/actionType";
 const initialState = {
     // currentUser: null,
     user: null,
+    station: null,
     tasks: [],
     Flag: false,
     Flag_next: false,
@@ -18,7 +19,11 @@ const Reducer = (state = initialState, action) => {
                 ...state,
                 user: action.payload
             }
-
+        case type.CURRENT_STATION:
+            return {
+                ...state,
+                station: action.payload
+            }
         case type.SELECT_TASKS:
             return {
                 ...state,

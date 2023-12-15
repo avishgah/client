@@ -113,7 +113,8 @@ const Payment2 = () => {
   };
   const dispatch = useDispatch();
   React.useEffect(() => {
-    dispatch({ type: type.CHANGE_FLAG_TRUE })
+    dispatch({ type: type.CHANGE_FLAG_TRUE  
+    })
 
 
   }, [])
