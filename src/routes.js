@@ -12,12 +12,17 @@ import Order from './order/Order';
 import Stepper from './Stepper';
 import Introduc from './Start/Introduc';
 import ChooseStation from './Start/ChooseStation';
+import TakeOrder from './Start/TakeOrder';
+import StepByStep from './StepByStep';
 
 
 
 const Rout = () => {
     return (
         <>
+            <Routes>
+                <Route path="/" element={<ChooseStation />}></Route>
+            </Routes>
             <Routes>
                 <Route path="/Register" element={<Register />}></Route>
             </Routes>
@@ -44,7 +49,9 @@ const Rout = () => {
                 <Route path="/Order" element={<Order />}></Route>
             </Routes>
 
-           
+            <Routes>
+                <Route path="/Step" element={<StepByStep />}></Route>
+            </Routes>
 
             <Routes>
                 <Route path="/Connection" element={<Connection />}></Route>
@@ -58,7 +65,11 @@ const Rout = () => {
             <Routes>
                 <Route path="chooseStation" element={<ChooseStation />}></Route>
             </Routes>
-    
+
+            <Routes>
+                <Route path="TakeOrder" element={<TakeOrder />}></Route>
+            </Routes>
+
         </>
     )
 }

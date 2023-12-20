@@ -9,6 +9,13 @@
 /* input */
 
 
+#alert{
+    visibility: hidden;
+    width: 28vw;
+    margin-right: 25%;
+    padding: 10px;
+    font-size: medium
+}
 
 #addRE {
     margin-left: 45vw !important;
@@ -27,4 +34,14 @@ body {
     /* border-radius: % !important; */
     text-align: center !important;
     margin-top: 5% !important;
+}
+
+#ul{
+    display: flex;
+}
+
+#li{
+    display: flex;
+    flex-direction: column; 
+    margin-left: 200px;
 }

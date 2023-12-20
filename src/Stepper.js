@@ -14,13 +14,43 @@ import { useState } from 'react';
 
 import * as type from "./store/actions/actionType";
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PicId from './PicId';
-const steps = ['פרטים אישיים', 'תשלום', 'תצלום'];
+import axios from 'axios';
+import { DialogContent, DialogTitle } from '@mui/material';
+
+import { styled } from '@mui/material/styles';
+
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
+import * as types from "./store/actions/actionType";
+
+
+const steps = ['כמות אופניים', 'פרטים אישיים', 'תשלום'];
+
+
+
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    '& .MuiDialogContent-root': {
+        padding: theme.spacing(2),
+    },
+    '& .MuiDialogActions-root': {
+        padding: theme.spacing(1),
+    },
+}));
+
+
 export default function HorizontalLinearStepper() {
     const [activeStep, setActiveStep] = React.useState(0);
     const [skipped, setSkipped] = React.useState(new Set());
+
+
     const [isFinish, setIsFinish] = useState(false);
+    const [isExist, setIsExist] = useState(false);
+
+
     const nav = useNavigate();
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
     const isStepOptional = (step) => {
@@ -33,21 +63,79 @@ export default function HorizontalLinearStepper() {
     var decodedObject;
 
     const flag = useSelector(state => state.r.Flag_next);
+    const currentStation = useSelector(state => state.r.station);
 
     useEffect(() => {
-     
-        // Clean up the timer to avoid memory leaks
-        // return () => clearTimeout(timer);
-        // }
+        console.log(currentStation)
+        if (currentStation != null) {
+            const c = currentStation.id;
+            console.log(c);
+            axios.get(`https://localhost:7207/api/order/isExist/${c}/${1}`).then(res => {
+
+                console.log(res.data + ";;;;;;");
+
+                if (res.data) {
+                    setIsExist(true);
+                }
+                else {
+                    handleClickOpen();
+                }
+
+                if (res.data == null) {
+                    alert("error")
+                    return null;
+
+                }
+            }).catch(err => console.log(err))
+        }
 
     }, [])
 
-    const getStepContent = (index) => {
-        switch (index) {
-            case 0: return <Register setIsFinish = {setIsFinish}/>;
-            case 1: return <Payment2 setIsFinish = {setIsFinish} />;
-            case 2: return <PicId setIsFinish = {setIsFinish}/>;
-            default: return;
+    const [object, setObject] = useState(null);
+    const dispatch = useDispatch();
+
+    const onSubmit = (data) => {
+        console.log(data)
+        const o = { ...object }
+        console.log("o:", o);
+
+        console.log(activeStep);
+        switch (activeStep) {
+            case 0:
+                setObject({ ...o });
+                break;
+            case 1:
+                dispatch({
+                    type: types.CURRENT_USER,
+                    payload: data
+                })
+                setObject({ ...o });
+                break;
+            case 2:
+                setObject({ ...o });
+                break;
+
+            default:
+                break;
+        }
+        setActiveStep(activeStep + 1);
+
+    }
+
+    const getStepContent = (step) => {
+        switch (step) {
+            case 0:
+
+                return <PicId onSubmit={onSubmit} />;
+
+            case 1:
+                return <Register onSubmit={onSubmit} />;
+            case 2:
+                return <Payment2 onSubmit={onSubmit} />;
+
+
+            default:
+                return;
         }
     }
 
@@ -75,16 +163,6 @@ export default function HorizontalLinearStepper() {
     };
 
     const handleBack = () => {
-        console.log(activeStep)
-        if (activeStep == 1) {
-            // ניתן לקרוא את המידע מ-LocalStorage בדף השני
-
-            nav('/Register');
-        }
-        if (activeStep == 2) {
-
-            nav('/Payment2');
-        }
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
@@ -109,69 +187,116 @@ export default function HorizontalLinearStepper() {
     };
     const styles = {
         customStepLabel: {
-          fontSize: '30px', // Change this value to the desired font size
+            fontSize: '30px', // Change this value to the desired font size
         },
-      };
+    };
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+        nav('/introduc');
+    };
+
     return (
         <>
-            <Box sx={{ width: '100%', direction: "rtl"}}>
-                <Stepper activeStep={activeStep}>
-                    {steps.map((label, index) => {
-                        const stepProps = {};
-                        const labelProps = {};
-                        if (isStepOptional(index)) {
-                            labelProps.optional = (
-                                <Typography variant="caption"></Typography>
-                            );
-                        }
-                        if (isStepSkipped(index)) {
-                            stepProps.completed = false;
-                        }
-                        return (
-                            <Step  key={label} {...stepProps}>
-                                <StepLabel style={styles.customStepLabel} {...labelProps} ><b>{label}</b></StepLabel>
-                            </Step>
-                        );
-                    })}
-                </Stepper>
-                {activeStep === steps.length ? (
-                    <React.Fragment>
-                        <Typography sx={{ mt: 2, mb: 1 }}>
-                            {alert("פרטיך נקלטו בהצלחה הנאה נעימה")}
-                        </Typography>
-                        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                            <Box sx={{ flex: '1 1 auto' }} />
-                            <Button onClick={handleReset}>Reset</Button>
-                        </Box>
-                    </React.Fragment>
-                ) : (
-                    <React.Fragment><br></br>
-                        <Typography sx={{ mt: 2, mb: 1,mr:"30vw"}}>
-                            {getStepContent(activeStep)}
-                        </Typography>
-                        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+            {
+                !isExist ?
 
-                            <Button
-                                color="inherit"
-                                disabled={activeStep === 0}
-                                onClick={handleBack}
-                                sx={{ mr: 1 }}
-                            >
-                                חזור
+                    < BootstrapDialog
+                        onClose={handleClose}
+                        aria-labelledby="customized-dialog-title"
+                        open={open}
+                        style={{ direction: "rtl" }}
+                    >
+                        <DialogTitle sx={{ m: 0, p: 2, color: "rgb(26, 87, 53)" }} id="customized-dialog-title">
+                            שגיאת שירות
+                        </DialogTitle>
+                        <IconButton
+                            aria-label="close"
+                            onClick={handleClose}
+                            sx={{
+                                position: 'absolute',
+                                // right:0,
+                                left: 8,
+                                top: 8,
+                                color: (theme) => theme.palette.grey[500],
+                            }}
+                        >
+                            <CloseIcon />
+                        </IconButton>
+                        <DialogContent dividers>
+                            <Typography gutterBottom>
+                                שלום,
+                            </Typography>
+                            <Typography gutterBottom>
+                                מצטערים בתחנה זו אין אופניים פנויים, אנא נסו בתחנות קרובות.
+                            </Typography>
+                            <Typography gutterBottom>
+                                סליחה ותודה שבחרת להשתמש ברשת פדאל.
+                            </Typography>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button autoFocus onClick={handleClose}>
+                                סגור
                             </Button>
-                            <Box sx={{ flex: '1 1 auto' }} />
-                            {isStepOptional(activeStep) && (
-                                <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                                    Skip
-                                </Button>
-                            )}
+                        </DialogActions>
+                    </BootstrapDialog > :
 
-                            <Button onClick={handleNext} id="nextB" disabled={!isFinish}>
-                                {activeStep === steps.length - 1 ? 'סיום' : 'הבא'}
-                            </Button>
-                        </Box>
-                    </React.Fragment>
-                )}
-            </Box>
+                    <Box sx={{ width: '100%', direction: "rtl" }}>
+                        <Stepper activeStep={activeStep}>
+                            {steps.map((label, index) => {
+                                const stepProps = {};
+                                const labelProps = {};
+                                if (isStepOptional(index)) {
+                                    labelProps.optional = (
+                                        <Typography variant="caption"></Typography>
+                                    );
+                                }
+                                if (isStepSkipped(index)) {
+                                    stepProps.completed = false;
+                                }
+                                return (
+                                    <Step key={label} {...stepProps}>
+                                        <StepLabel style={styles.customStepLabel} {...labelProps} ><b>{label}</b></StepLabel>
+                                    </Step>
+                                );
+                            })}
+                        </Stepper>
+                        {activeStep === steps.length ? (
+                            <React.Fragment>
+                                <Typography sx={{ mt: 2, mb: 1 }}>
+                                    {alert("פרטיך נקלטו בהצלחה הנאה נעימה")}
+                                </Typography>
+                                <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                                    <Box sx={{ flex: '1 1 auto' }} />
+                                    <Button onClick={handleReset}>Reset</Button>
+                                </Box>
+                            </React.Fragment>
+                        ) : (
+                            <React.Fragment><br></br>
+                                {/* <div>{getStepContent(index)}</div> */}
+                                <Typography sx={{ mt: 2, mb: 1, mr: "30vw" }}>
+                                    {getStepContent(activeStep)}
+                                </Typography>
+                                <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+
+                                    <Button
+                                        color="inherit"
+                                        disabled={activeStep === 0}
+                                        onClick={handleBack}
+                                        sx={{ mr: 1 }}
+                                    >
+                                        חזור
+                                    </Button>
+
+                                </Box>
+                            </React.Fragment>
+                        )}
+                    </Box>
+            }
         </>);
 }

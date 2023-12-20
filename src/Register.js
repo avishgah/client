@@ -78,7 +78,7 @@ import { useState } from 'react';
 
 
 
-const Register = ({ setIsFinish }) => {
+const Register = () => {
 
 
   const flag = useSelector(state => state.r.Flag_next);
@@ -106,6 +106,7 @@ const Register = ({ setIsFinish }) => {
   const nav = useNavigate();
 
   const [showPassword, setShowPassword] = React.useState(false);
+  const [showDate, setShoDate] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -140,39 +141,38 @@ const Register = ({ setIsFinish }) => {
     return true; // אישור שליחת הטופס כאשר ה-checkbox נבחר
   }
 
-  // let currentUser = useSelector(state => state.tr.user);
-  // let arr = useSelector(state => state.tr.tasks);
-
-  // const submit = (details) => {
-
-  //   console.log(value.$D + "/" + value.$M + "/" + value.$y)
-  //   alert("פרטיך נקלטו")
-  //   console.log(details);
-  //   // addbike(details);
-  // }
+  const currentUser = useSelector(state => state.r.user);
+  const currentStation = useSelector(state => state.r.station);
+  const countBike = useSelector(state => state.r.count);
+  const [listUsers, setlistUsers] = useState([]);
 
   useEffect(() => {
-    sessionStorage.setItem('myData', JSON.stringify(false))
-    // sessionStorage.setItem('myData', JSON.stringify(''))
-
+    axios.get('https://localhost:7207/api/User')
+      .then(res => {
+        console.log(res.data)
+        setlistUsers(res.data)
+        console.log(currentStation);
+        // nav('/NavB')
+      }).catch(err => console.log(err))
   }, [])
 
   const dispatch2 = useDispatch();
+  let flagIsExist = false;
+  const IsExistUser = async (details) => {
+    console.log("hii")
+    const listUser = listUsers;
 
+    listUser.forEach(user => {
+      if (user.tz == details.id || user.mail == details.email) {
+        console.log("שם משתמש קיים");
+        flagIsExist = true;
+      }
 
+    });
+    return flagIsExist;
 
-  const submit = async (details) => {
-    console.log(flag)
-    console.log(details);
-    // console.log(value.$D + "/" + value.$M + "/" + value.$y)
-
-    // const user = {
-    //     name: details.name,
-    //     Phon: details.Phon,
-    //     Password: details.password,
-    //     Mail: details.email,
-
-    // }\\
+  }
+  const AddUser = async (details) => {
     const user =
     {
       "name": details.name,
@@ -188,64 +188,88 @@ const Register = ({ setIsFinish }) => {
       "status": true,
       "readTerms": true
     }
+    console.log("helow fron add")
+    const x = await axios.post(`https://localhost:7207/api/user`, user).then(res => {
+      console.log(res.data + "add");
 
-    console.log(user)
-    // axios.post(`https://localhost:7207/api/user`, user).then(res => {
+      if (res.data == null) {
+        alert("error")
+        return null;
 
-    //   console.log(res + "kkkk");
+      }
+    }).catch(alert("משתמש קיים"))
+  }
 
-    //   if (res.data == null) {
-    //     alert("error")
-    //     return null;
+  const getLastUserAdd = async () => {
+    const v = await axios.get('https://localhost:7207/api/User')
+      .then(res => {
+        console.log(res.data[res.data.length - 1])
 
-    //   }
+        dispatch({
+          type: type.CURRENT_USER,
+          payload: res.data[res.data.length - 1]
+        })
 
-    //   else {
-    //   }
-    // }).catch(alert("משתמש קיים"))
+      }).catch(err => console.log(err))
+  }
 
+  const AddOrders = async () => {
+
+    // console.log(currentUser,"current");
+    // console.log(currentUser.id,"current");
+    // console.log(currentStation,"currentstation");/
+    let user = currentUser;
+    let station = currentStation;
+    let countB = countBike;
+    console.log(countB)
     // const order = {
-    //   "id": count,
-    //   "datePay": "2023-10-23T21:47:49.242Z",
-    //   "idStation": 2,
-    //   "dateOrder": new Date(),
+    //   "id": 0,
+    //   "datePay": null,
+    //   "idStation": station.id,
+    //   "dateOrder": Date.now(),
     //   "code": "string",
-    //   // צריכה לשמור אותו בסטייט כללי
-    //   "idCust": 3,
+    //   "idCust": user.id,
     //   "endSum": 0,
-    //   "isPay": true,
-    //   "custName": "string"
-
+    //   "isPay": false,
+    //   "custName": user.name,
+    //   "count": countBike
     // }
-    // axios.post(`https://localhost:7207/api/Order`, order).then(res => {
+    //send empty
+    const IsPay = false; 
+    const s = await axios.post(`https://localhost:7207/api/Order`, {
+      countB, IsPay, id: 0, datePay: null, IdCust:
+        currentUser.id,
+      idStation: currentStation.id,
+      dateOrder: new Date(), EndSum: 0
+    }).then(res => {
 
-    //   console.log(res + "kkkk");
-    //   alert("add")
-    //   if (res.data == null) {
-    //     alert("error")
-    //     return null;
+      console.log(res)
+      console.log(res.data)
 
-    //   }
-
-    // })
-
-    const myObject = { details };
-    // const encodedObject = encodeURIComponent(JSON.stringify(myObject));
-    // window.location.href = `Stepper?data=${encodedObject}`;
-
-    // document.getElementById("nextB").style.disabled=false;
-    await dispatch2({ type: type.CHANGE_FLAG_TRUE2 })
-
-    setIsFinish(true);
-
-    // nav('/Stepper')
-    // window.location.reload(); 
-
+    })
 
   }
 
+  const submit = async (details) => {
+    console.log(flag)
+    console.log(details);
+
+    const andIsE = await IsExistUser(details);
+
+    console.log(andIsE);
+
+    if (andIsE) {
+      alert("משתמש קיים")
+    }
+    else {
+      await AddUser(details);
+      await getLastUserAdd();
+      await AddOrders();
+    }
+  }
+
   const isDateValid = () => {
-    alert("lll")
+    // alert("lll")
     const date1 = new Date(value.$y, value.$M, value.$D);
     const date2 = new Date();
     // console.log(date1);
@@ -266,6 +290,9 @@ const Register = ({ setIsFinish }) => {
     return false;
   }
   const [valuePass, setValuePass] = React.useState('');
+
+  const [valueDate, setValueDate] = React.useState('');
+
   const minLength = 12;
 
 
@@ -298,6 +325,7 @@ const Register = ({ setIsFinish }) => {
           </span></label>
 
           <TextField fullWidth id="fullWidth"
+            defaultValue={currentUser == null ? '' : currentUser.name}
             style={errors.name ? { border: "red solid 1px", borderRadius: "5px" } : null}
             {...register("name", { required: "name is required", })} /><br></br><br></br>
 
@@ -305,8 +333,10 @@ const Register = ({ setIsFinish }) => {
           <label>  תעודת זהות<span style={{ color: 'red' }}>
             * {/* אייקון של כוכב */}
           </span></label>
-          <TextField fullWidth id="fullWidth" variant="outlined"
-            style={errors.id ? { border: "red solid 1px", borderRadius: "5px" } : null}
+          <TextField fullWidth id="fullWidth"
+            style={errors.name ? { border: "red solid 1px", borderRadius: "5px" } : null}
+
+            defaultValue={currentUser == null ? '' : currentUser.id}
             {...register("id", {
               required: "id is required",
               pattern: {
@@ -315,7 +345,6 @@ const Register = ({ setIsFinish }) => {
               },
 
             })} />
-          <br></br><br></br>
 
           {/* phon */}
 
@@ -323,7 +352,9 @@ const Register = ({ setIsFinish }) => {
             * {/* אייקון של כוכב */}
           </span></label>
           <TextField fullWidth id="fullWidth"
-                style={errors.phon ? { border: "red solid 1px", borderRadius: "5px" } : null}
+            defaultValue={currentUser == null ? '' : currentUser.phon}
+
+            style={errors.phon ? { border: "red solid 1px", borderRadius: "5px" } : null}
 
             {...register("phon", {
               required: "phon is required",
@@ -338,7 +369,9 @@ const Register = ({ setIsFinish }) => {
             * {/* אייקון של כוכב */}
           </span></label>
           <TextField
-                  style={errors.toun ? { border: "red solid 1px", borderRadius: "5px" } : null}
+            style={errors.toun ? { border: "red solid 1px", borderRadius: "5px" } : null}
+            defaultValue={currentUser == null ? '' : currentUser.toun}
+
             fullWidth
             helperText=""
             id="fullWidth"
@@ -352,7 +385,9 @@ const Register = ({ setIsFinish }) => {
             * {/* אייקון של כוכב */}
           </span></label>
           <TextField
-                  style={errors.adress ? { border: "red solid 1px", borderRadius: "5px" } : null}
+            style={errors.adress ? { border: "red solid 1px", borderRadius: "5px" } : null}
+            defaultValue={currentUser == null ? '' : currentUser.adress}
+
             fullWidth
             helperText=""
             id="fullWidth"
@@ -367,14 +402,16 @@ const Register = ({ setIsFinish }) => {
             * {/* אייקון של כוכב */}
           </span></label>
           <TextField fullWidth id="fullWidth" variant="outlined"
-                  style={errors.email ? { border: "red solid 1px", borderRadius: "5px" } : null}
-          {...register("email", {
-            required: "email is required",
-            pattern: {
-              value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-              message: "Invalid email"
-            }
-          })}
+            defaultValue={currentUser == null ? '' : currentUser.email}
+
+            style={errors.email ? { border: "red solid 1px", borderRadius: "5px" } : null}
+            {...register("email", {
+              required: "email is required",
+              pattern: {
+                value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+                message: "Invalid email"
+              }
+            })}
           />
           <br></br><br></br>
 
@@ -389,7 +426,9 @@ const Register = ({ setIsFinish }) => {
             }}
           >
             <Input
-                    style={errors.password ? { border: "red solid 1px", borderRadius: "5px" } : null}
+              style={errors.password ? { border: "red solid 1px", borderRadius: "5px" } : null}
+
+
               {...register("password", {
                 required: "Password is required.",
                 minLength: {
@@ -397,6 +436,8 @@ const Register = ({ setIsFinish }) => {
                   message: "Password should be at-least 6 characters."
                 }
               })}
+              defaultValue={currentUser == null ? '' : currentUser.password}
+
               type={showPassword ? 'text' : 'password'}
               placeholder="Type in here…"
               startDecorator={<InputAdornment position="end">
@@ -437,35 +478,7 @@ const Register = ({ setIsFinish }) => {
               {value.length >= 10 && 'Very strong'}
             </Typography>
           </Stack>
-          {/* <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined" fullWidth id="fullWidth" > */}
-          {/* <InputLabel htmlFor="outlined-adornment-password">סיסמא</InputLabel>
-            <OutlinedInput
 
-              fullWidth
-              id="fullWidth"
-              type={showPassword ? 'text' : 'password'}
-              {...register("password", {
-                required: "Password is required.",
-                minLength: {
-                  value: 6,
-                  message: "Password should be at-least 6 characters."
-                }
-              })}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="סיסמא"
-            />
-            {errors.password && <p className="errorMsg">{errors.password.message}</p>} */}
 
           {/* date */}
           {/* <label>  תאריך לידה <span style={{ color: 'red' }}>
@@ -473,48 +486,32 @@ const Register = ({ setIsFinish }) => {
             </span></label> */}
           {/* </FormControl> */}
           {/* זמן עושה בעיות */}
+          <label>תאריך לידה <span style={{ color: 'red' }}>
+            * {/* אייקון של כוכב */}
+          </span></label>
+
           {/* <LocalizationProvider dateAdapter={AdapterDayjs} >
-            <DemoContainer components={['DatePicker']} {...register("date", {
+            <DemoContainer fullWidth components={['DatePicker']} {...register("date", {
               validate: {
-                validDate: () => isDateValid()
+                validDate: () => isDateValid(),
+                message: "in valid date"
               }
             })} >
-              <DatePicker value={value} onChange={(newValue) => { setValue(newValue) }} />
+              <DatePicker value={valueDate} onChange={(newValue) => { setValueDate(newValue) }} />
             </DemoContainer>
-          </LocalizationProvider>
-          {
-            console.log(errors)
-          } */}
+          </LocalizationProvider> */}
+
+
           <br></br><br></br>
-          {/* <div><b>מספר אופניים להשכרה </b></div><br></br>
 
-          <Box>
-            <div>
-              <ButtonGroup>
-                <Button
-                  aria-label="reduce"
-                  onClick={() => {
-                    setCount(Math.max(count - 1, 0));
-                  }}
-                >
-                  <RemoveIcon fontSize="small" />
-                </Button>
-
-                <div id="p2">{count}</div>
-
-                <Button
-                  aria-label="increase"
-                  onClick={() => {
-                    setCount(count + 1);
-                  }}
-                >
-                  <AddIcon fontSize="small" />
-                </Button>
-              </ButtonGroup>
-            </div>
-
-          </Box> */}
-
+          {/* <input
+            type='date'
+            {...register("test", {
+              validate: (value, formValues) => isDateValid() == true ? setShoDate(true) : setShoDate(false),
+              message: showDate ? "good" : "bad"
+            })}
+          />
+          {errors.test == true && <p className="errorMsg">{errors.test.message}</p>} */}
 
           {/* save  */}
           <label id="ll">תצלום תעודת זהות / דרכון</label>
@@ -556,28 +553,31 @@ const Register = ({ setIsFinish }) => {
         </CardContent>
         <CardActions>
           {/* <Button variant="contained" endIcon={<SendIcon />} id="addR" type="submit">שמור</Button> */}
-          <Stack direction="row" spacing={2}>
 
-            {/* <Button variant="contained" endIcon={<SendIcon />} id="addR" type="submit">
-              הבא
-            </Button> */}
 
-          </Stack><br></br>
+        </CardActions>
+        <Stack direction="row" spacing={5} marginRight="24vw">
           <Link
+            style={{ marginLeft: "20px", direction: "rtl" }}
+
             component="button"
             variant="body2"
             onClick={() => {
               nav('/Connection')
             }}
           >
-            ? משתמש רשום
+            משתמש רשום?
           </Link>
-        </CardActions>
+          <Button color="inherit" style={{ fontSize: "15px", fontWeight: "bold", backgroundColor: "#1976d2", color: "white", width: "125px" }} type="submit" textAlign="right">
+            הבא
+          </Button>
+
+        </Stack><br></br>
       </Card>
 
 
     </form >
-   
+
   </>
 }
 

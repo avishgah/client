@@ -5,8 +5,10 @@ const initialState = {
     user: null,
     station: null,
     tasks: [],
+    orders: [],
     Flag: false,
     Flag_next: false,
+    count: 1
     // users:[]
 
 }
@@ -29,7 +31,16 @@ const Reducer = (state = initialState, action) => {
                 ...state,
                 tasks: action.payload
             }
-
+        case type.COUNT_BIKE:
+            return {
+                ...state,
+                count: action.payload
+            }
+        case type.LIST_ORDER:
+            return {
+                ...state,
+                orders: action.payload
+            }
         case type.ADD_TASKS:
             return {
                 ...state,

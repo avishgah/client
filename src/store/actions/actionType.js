@@ -4,6 +4,8 @@ export const CURRENT_USER="CURRENT_USER";
 export const CURRENT_STATION="CURRENT_STATION";
 // export const ADD_USER="ADD_USER";
 export const LOG_OUT="LOG_OUT";
+export const LIST_ORDER="LIST_ORDER";
+export const COUNT_BIKE="COUNT_BIKE";
 
 
 //task

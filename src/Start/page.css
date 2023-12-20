@@ -29,7 +29,7 @@
     background-color: #525252;
     color: white;
     padding: 10px;
-    flex: 55%;
+
 }
 
 .flex-item-right {
@@ -37,7 +37,7 @@
     border: black 2px solid;
     padding: 10px;
     text-align: center;
-    flex: 45%;
+
     font-size: large;
 }
 
@@ -56,7 +56,7 @@
 
 #pI {
     color: white;
-    font-size: 20px;
+    font-size: 17px;
 }
 
 #start {
@@ -93,8 +93,7 @@
 
 .button span {
     cursor: pointer;
-    display: inline-block;
-    position: relative;
+    position: relative; 
     transition: 0.1s;
 }
 
@@ -114,4 +113,57 @@
 .button:hover span:after {
     opacity: 1;
     right: 0;
+}
+
+
+
+#myDiv {
+    width: 200px;
+    height: 200px;
+
+    background-color: lightblue;
+    position: absolute;
+    top: 50%;
+
+    left: 50%;
+
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.5s ease-in-out;
+}
+
+#gg {
+    /* text-shadow: 0.5px 0.5px white; */
+    font-weight: 700;
+}
+
+#icon {
+    font-size: 50px;
+    fill: black !important;
+    background-color: white;
+}
+
+#icon:hover {
+    font-size: 60px;
+}
+
+#helpper{
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+    margin-left: 75%;
+    margin-top: 10%;
+    background-color: #31373a;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    height: 35px;
+    width: 20%;
+    padding: 3%;
+}
+
+#helpper:hover {
+    /* font-size: 30px;
+    border-radius: 40px;
+    height: 40px;
+    width: 40px;
+    background-color: red; */
 }

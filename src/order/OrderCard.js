@@ -72,9 +72,12 @@ const OrderCard = ({ order, props, cust, index, index2, orderBike }) => {
 
             console.log("giid")
             alert("הוחזר בהצלחה ! אנא הנח את האופניים בעמדה")
+
         }).catch(err => console.log(err))
 
-    };
+        getO()
+
+    }
 
     const handleClose = () => {
         setOpen(false);
@@ -82,6 +85,7 @@ const OrderCard = ({ order, props, cust, index, index2, orderBike }) => {
 
     const [expanded, setExpanded] = React.useState(false);
     const [stationO, setStation] = useState(null);
+    const [bikes, setBikes] = useState(null);
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
@@ -99,18 +103,36 @@ const OrderCard = ({ order, props, cust, index, index2, orderBike }) => {
         }
     }
     useEffect(() => {
-        axios.get(`https://localhost:7207/api/Station/${props.idStation}`).then(res => {
-            console.log(res.data)
-            l = res.data;
-            setStation(res.data);
-            setCount(orderB.length)
-            // setOrderBike(order(props.id))
-            console.log(orderB)
-            getO();
 
-        }).catch(err => (console.log(err)))
+        const fetchData = async () => {
+            const a = await axios.get(`https://localhost:7207/api/Station/${props.idStation}`).then(res => {
+                console.log(res.data)
+                l = res.data;
+                setStation(res.data);
+                setCount(orderB.length)
+                // setOrderBike(order(props.id))
+                console.log(orderB)
+                getO();
+
+            }).catch(err => (console.log(err)))
 
 
+
+
+            const b = await axios.get(`https://localhost:7207/api/Bike`).then(res => {
+                console.log(res.data, "bikes")
+                // l = res.data;
+                setBikes(res.data);
+                // setCount(orderB.length)
+                // setOrderBike(order(props.id))
+                // console.log(orderB)
+                // getO();
+
+            }).catch(err => (console.log(err)))
+        }
+
+        // call the function
+        fetchData()
     }, [])
 
     const deleteFunc = (id) => {
@@ -132,12 +154,12 @@ const OrderCard = ({ order, props, cust, index, index2, orderBike }) => {
             {console.log('Resolved Array:', orderB)}
             {console.log("order bike :", orderBike)}
             {
-              console.log(count)
+                console.log(count)
             }
             {/* {getStationName(props.idStation)} */}
             {/*  textAlign: 'center', padding: "10px", marginLeft: "50px", marginBottom: "50px",flexShrink:0,flexBasis: "100px"  */}
 
-            <Card onClick={() => (handleClickOpen())} sx={{maxWidth: 800, textAlign: 'center',width:"600px",marginLeft:"20px" }}>
+            <Card onClick={() => (handleClickOpen())} sx={{ maxWidth: 800, textAlign: 'center', width: "600px", marginLeft: "20px" }}>
                 <CardHeader
                     avatar={
                         <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -185,7 +207,7 @@ const OrderCard = ({ order, props, cust, index, index2, orderBike }) => {
             >
                 <DialogTitle id="alert-dialog-title">
                     {" לרשותך "}
-                    {count}
+                    {orderB.length}
                     {" אפניים בהזמנה "}
                 </DialogTitle>
                 <DialogContent>

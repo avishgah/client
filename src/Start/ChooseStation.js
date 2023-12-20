@@ -7,10 +7,11 @@ import './page.css'
 import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import * as type from "../store/actions/actionType";
+import { useNavigate } from "react-router-dom";
 
 const ChooseStation = () => {
     const [selectPoin, setSlectedPoint] = useState(null)
-    let currentStation = useSelector(state => state.r.station);
+    const currentStation = useSelector(state => state.r.station);
     useEffect(() => {
         axios.get('https://localhost:7207/api/Station/GetStationListWhereTrue')
             .then(res => {
@@ -48,18 +49,18 @@ const ChooseStation = () => {
                 console.log("llolkk")
                 dispatch({
                     type: type.CURRENT_STATION,
-                    payload: currentstation
+                    payload: mapers[i]
                 })
             }
         }
 
 
-
+        nav('/introduc');
 
     }
-
+    const nav = useNavigate();
     return (<>
-        <div style={{marginTop:"100px"}}>
+        <div style={{ marginTop: "100px" }}>
             <h1 id="h1" >בחירת תחנה</h1>
             <select id="select"
                 onChange={({ target }) => setSlectedPoint(target.value)}>
