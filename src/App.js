@@ -33,13 +33,15 @@ function App() {
 
     return (<>
         <Routes>
-            <Route path="/" element={<ChooseStation />}></Route>
+            {/* <Route path="/" element={<ChooseStation />}></Route> */}
         </Routes>
+
+
         {/* <Stepper /> */}
         {/* <PicId /> */}
         {/* <Order/> */}
         {/* <Returns></Returns> */}
-        {/* <Register/> */}
+        <Register/>
 
         {/* <StepByStep></StepByStep> */}
         {/* <Returns/> */}

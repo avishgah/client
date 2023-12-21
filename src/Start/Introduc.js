@@ -27,7 +27,7 @@ const Introduc = () => {
                     </p>
                     {/* <br></br> */}
 
-                    <p id="gg" style={{ fontSize: "20px", color: "#602424" }}><b>בטיחותכם חשובה לנו אנא הקשיבו להוראות הבטיחות וסעו בזהירות ! כללי בטיחות בדרכים :</b></p>
+                    <p id="gg" style={{ fontSize: "20px", color: "#602424" }}><b>בטיחותכם חשובה לנו אנא הקשיבו להוראות הבטיחות וסעו בזהירות ! כללי בטיחות</b></p>
 
                     <Box
 
@@ -39,6 +39,7 @@ const Introduc = () => {
 
                             height: 100,
                             display: 'block',
+                            src: "./Images/logo.jpg",
                             // maxWidth: 50,
                             overflow: '40px',
                         }}

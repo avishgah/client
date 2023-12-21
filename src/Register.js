@@ -131,6 +131,12 @@ const Register = () => {
     setActiveStep(0);
   };
 
+  const israeliCities = [
+    "ירושלים", "תל אביב-יפו", "חיפה", "ראשון לציון", "פתח תקווה", "אשדוד", "נתניה", "באר שבע", "בני ברק", "חולון", "רמת גן", "בית שמש", "אשקלון", "רחובות",
+    "בת ים", "הרצליה", "חדרה", "כפר סבא", "מודיעין-מכבים-עילית", "רעננה", "נצרת", "רמלה", "רהט", "ראש העין", "הוד השרון", "ביתר עילית", "נהריה", "גבעתיים",
+    "קריית גת", "קריית אתא", "עפולה", "יבנה", "אילת", "נס ציונה", "עכו", "אלעד", "רמת השרון", "טבריה", "צפת"
+  ]
+
   function validateForm() {
     var checkbox = document.getElementById('myCheckbox');
 
@@ -179,7 +185,7 @@ const Register = () => {
       "address": details.adress,
       "mail": details.email,
       "password": details.password,
-      "toun": details.toun,
+      "toun": selectPoin,
       "phon": details.phon,
       "tz": details.id,
       "dateBirth": new Date(),
@@ -235,7 +241,7 @@ const Register = () => {
     //   "count": countBike
     // }
     //send empty
-    const IsPay = false; 
+    const IsPay = false;
     const s = await axios.post(`https://localhost:7207/api/Order`, {
       countB, IsPay, id: 0, datePay: null, IdCust:
         currentUser.id,
@@ -301,6 +307,8 @@ const Register = () => {
     l = document.getElementById("k").value;
     console.log(l)
   }
+  const [selectPoin, setSlectedPoint] = useState('ירושלים')
+
 
   const [checked, setChecked] = useState(false);
   const handleChange = (event) => {
@@ -366,9 +374,19 @@ const Register = () => {
             })} /><br></br><br></br>
 
           <label> עיר<span style={{ color: 'red' }}>
+
             * {/* אייקון של כוכב */}
-          </span></label>
-          <TextField
+          </span></label><br></br>
+
+          <select  style={{padding:"10px",width:"100%"}} onChange={({ target }) => setSlectedPoint(target.value)}>
+            {israeliCities.map(marker => (
+              <option key={marker} value={marker} selected={selectPoin === marker}>
+                {marker}
+              </option>
+            ))}
+          </select>
+
+          {/* <TextField
             style={errors.toun ? { border: "red solid 1px", borderRadius: "5px" } : null}
             defaultValue={currentUser == null ? '' : currentUser.toun}
 
@@ -377,7 +395,7 @@ const Register = () => {
             id="fullWidth"
 
             {...register("toun", { required: "toun is required" })}
-          />
+          /> */}
           <br></br><br></br>
 
           {/* address */}

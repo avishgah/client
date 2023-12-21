@@ -81,3 +81,9 @@ p {
 .css-iajp3t-MuiButtonGroup-root .MuiButtonGroup-grouped:not(:last-of-type) {
     background-color: rgb(226, 221, 221) !important;
 }
+
+#selected{
+    /* padding: 20px; */
+    /* width: 100%; */
+    /* font-size: large; */
+}
