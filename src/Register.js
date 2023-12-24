@@ -13,7 +13,6 @@ import { useForm } from 'react-hook-form';
 import { Checkbox, FormControlLabel, Link, Stack, colors } from '@mui/material';
 
 // count
-import ButtonGroup from '@mui/material/ButtonGroup';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
@@ -32,18 +31,9 @@ import { useDispatch, useSelector } from "react-redux";
 import AttachmentIcon from '@mui/icons-material/Attachment';
 
 import Button from '@mui/material/Button';
-import SendIcon from '@mui/icons-material/Send';
-// import { useDispatch, useSelector } from 'react-redux';
 
 import { json, useNavigate } from 'react-router-dom';
-import Stepper from './Stepper'
 
-
-// import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import StepContent from '@mui/material/StepContent';
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 
@@ -58,23 +48,13 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-
-
-
-// import { useHistory } from 'react-router-dom';
-
-
 import './Payment2.css';
 
-// import './AddUser.scss';
-
-
-// ,, כתובת, , , עיר, , , תאריך לידה, תצלום תעודת זהות, סוג לקוח(לקוח, מנהל), לא פעיל, אישור קריאת תקנון
 
 import Input from '@mui/joy/Input';
 import LinearProgress from '@mui/joy/LinearProgress';
-import Key from '@mui/icons-material/Key';
 import { useState } from 'react';
+import yup from '@hookform/resolvers/yup'
 
 
 
@@ -83,13 +63,8 @@ const Register = () => {
 
   const flag = useSelector(state => state.r.Flag_next);
   // count
-  const [count, setCount] = React.useState(1);
-  const [invisible, setInvisible] = React.useState(false);
 
-  const handleBadgeVisibility = () => {
-    setInvisible(!invisible);
-  };
-  ///
+ 
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -100,13 +75,13 @@ const Register = () => {
 
   const [value, setValue] = React.useState('');
 
-  const { register, handleSubmit, getValues, formState: { isValid, errors, dirtyFields, touchedFields, isDirty } } = useForm({
+  const { register, handleSubmit, getValues, formState: {  errors } } = useForm({
+    resolver:yupR,
     mode: "all"
   });
   const nav = useNavigate();
 
   const [showPassword, setShowPassword] = React.useState(false);
-  const [showDate, setShoDate] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -114,22 +89,9 @@ const Register = () => {
     event.preventDefault();
   };
 
-  // let dispatch=useDispatch();
+  
 
-  // step
-  const [activeStep, setActiveStep] = React.useState(0);
-
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
+ 
 
   const israeliCities = [
     "ירושלים", "תל אביב-יפו", "חיפה", "ראשון לציון", "פתח תקווה", "אשדוד", "נתניה", "באר שבע", "בני ברק", "חולון", "רמת גן", "בית שמש", "אשקלון", "רחובות",
@@ -137,15 +99,7 @@ const Register = () => {
     "קריית גת", "קריית אתא", "עפולה", "יבנה", "אילת", "נס ציונה", "עכו", "אלעד", "רמת השרון", "טבריה", "צפת"
   ]
 
-  function validateForm() {
-    var checkbox = document.getElementById('myCheckbox');
-
-    if (!checkbox.checked) {
-      alert('Please agree to the terms and conditions');
-      return false; // מניעת השליחה של הטופס
-    }
-    return true; // אישור שליחת הטופס כאשר ה-checkbox נבחר
-  }
+  
 
   const currentUser = useSelector(state => state.r.user);
   const currentStation = useSelector(state => state.r.station);
@@ -162,7 +116,6 @@ const Register = () => {
       }).catch(err => console.log(err))
   }, [])
 
-  const dispatch2 = useDispatch();
   let flagIsExist = false;
   const IsExistUser = async (details) => {
     console.log("hii")
@@ -178,7 +131,7 @@ const Register = () => {
     return flagIsExist;
 
   }
-  const AddUser = async (details) => {
+  const AddUser =  (details) => {
     const user =
     {
       "name": details.name,
@@ -195,7 +148,7 @@ const Register = () => {
       "readTerms": true
     }
     console.log("helow fron add")
-    const x = await axios.post(`https://localhost:7207/api/user`, user).then(res => {
+     axios.post(`https://localhost:7207/api/user`, user).then(res => {
       console.log(res.data + "add");
 
       if (res.data == null) {
@@ -206,8 +159,8 @@ const Register = () => {
     }).catch(alert("משתמש קיים"))
   }
 
-  const getLastUserAdd = async () => {
-    const v = await axios.get('https://localhost:7207/api/User')
+  const getLastUserAdd =  () => {
+     axios.get('https://localhost:7207/api/User')
       .then(res => {
         console.log(res.data[res.data.length - 1])
 
@@ -219,7 +172,7 @@ const Register = () => {
       }).catch(err => console.log(err))
   }
 
-  const AddOrders = async () => {
+  const AddOrders =  () => {
 
     // console.log(currentUser,"current");
     // console.log(currentUser.id,"current");
@@ -503,12 +456,12 @@ const Register = () => {
               * 
             </span></label> */}
           {/* </FormControl> */}
-          {/* זמן עושה בעיות */}
+          {/* זמן עושה בעיות */}y
           <label>תאריך לידה <span style={{ color: 'red' }}>
             * {/* אייקון של כוכב */}
           </span></label>
 
-          {/* <LocalizationProvider dateAdapter={AdapterDayjs} >
+          <LocalizationProvider dateAdapter={AdapterDayjs} >
             <DemoContainer fullWidth components={['DatePicker']} {...register("date", {
               validate: {
                 validDate: () => isDateValid(),
@@ -517,7 +470,7 @@ const Register = () => {
             })} >
               <DatePicker value={valueDate} onChange={(newValue) => { setValueDate(newValue) }} />
             </DemoContainer>
-          </LocalizationProvider> */}
+          </LocalizationProvider>
 
 
           <br></br><br></br>
