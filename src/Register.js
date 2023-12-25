@@ -13,12 +13,13 @@ import { useForm } from 'react-hook-form';
 import { Checkbox, FormControlLabel, Link, Stack, colors } from '@mui/material';
 
 // count
+import ButtonGroup from '@mui/material/ButtonGroup';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
 import * as type from "./store/actions/actionType";
 
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // import { LocalizationProvider } from '@mui/x-date-pickers-pro/LocalizationProvider';
 
@@ -31,9 +32,18 @@ import { useDispatch, useSelector } from "react-redux";
 import AttachmentIcon from '@mui/icons-material/Attachment';
 
 import Button from '@mui/material/Button';
+import SendIcon from '@mui/icons-material/Send';
+// import { useDispatch, useSelector } from 'react-redux';
 
 import { json, useNavigate } from 'react-router-dom';
+import Stepper from './Stepper'
 
+
+// import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
+import StepContent from '@mui/material/StepContent';
+import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 
@@ -48,13 +58,23 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
+
+
+
+// import { useHistory } from 'react-router-dom';
+
+
 import './Payment2.css';
 
+// import './AddUser.scss';
+
+
+// ,, כתובת, , , עיר, , , תאריך לידה, תצלום תעודת זהות, סוג לקוח(לקוח, מנהל), לא פעיל, אישור קריאת תקנון
 
 import Input from '@mui/joy/Input';
 import LinearProgress from '@mui/joy/LinearProgress';
+import Key from '@mui/icons-material/Key';
 import { useState } from 'react';
-import yup from '@hookform/resolvers/yup'
 
 
 
@@ -63,8 +83,13 @@ const Register = () => {
 
   const flag = useSelector(state => state.r.Flag_next);
   // count
+  const [count, setCount] = React.useState(1);
+  const [invisible, setInvisible] = React.useState(false);
 
- 
+  const handleBadgeVisibility = () => {
+    setInvisible(!invisible);
+  };
+  ///
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -75,13 +100,13 @@ const Register = () => {
 
   const [value, setValue] = React.useState('');
 
-  const { register, handleSubmit, getValues, formState: {  errors } } = useForm({
-    resolver:yupR,
+  const { register, handleSubmit, getValues, formState: { isValid, errors, dirtyFields, touchedFields, isDirty } } = useForm({
     mode: "all"
   });
   const nav = useNavigate();
 
   const [showPassword, setShowPassword] = React.useState(false);
+  const [showDate, setShoDate] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -89,9 +114,22 @@ const Register = () => {
     event.preventDefault();
   };
 
-  
+  // let dispatch=useDispatch();
 
- 
+  // step
+  const [activeStep, setActiveStep] = React.useState(0);
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleReset = () => {
+    setActiveStep(0);
+  };
 
   const israeliCities = [
     "ירושלים", "תל אביב-יפו", "חיפה", "ראשון לציון", "פתח תקווה", "אשדוד", "נתניה", "באר שבע", "בני ברק", "חולון", "רמת גן", "בית שמש", "אשקלון", "רחובות",
@@ -99,9 +137,21 @@ const Register = () => {
     "קריית גת", "קריית אתא", "עפולה", "יבנה", "אילת", "נס ציונה", "עכו", "אלעד", "רמת השרון", "טבריה", "צפת"
   ]
 
-  
+  function validateForm() {
+    var checkbox = document.getElementById('myCheckbox');
 
-  const currentUser = useSelector(state => state.r.user);
+    if (!checkbox.checked) {
+      alert('Please agree to the terms and conditions');
+      return false; // מניעת השליחה של הטופס
+    }
+    return true; // אישור שליחת הטופס כאשר ה-checkbox נבחר
+  }
+  let lastUser = null;
+  const { currentUser } = useSelector(state => {
+    return {
+      currentUser: state.r.user
+    }
+  }, shallowEqual);
   const currentStation = useSelector(state => state.r.station);
   const countBike = useSelector(state => state.r.count);
   const [listUsers, setlistUsers] = useState([]);
@@ -113,9 +163,12 @@ const Register = () => {
         setlistUsers(res.data)
         console.log(currentStation);
         // nav('/NavB')
+        getLastUserAdd();
       }).catch(err => console.log(err))
   }, [])
+  useEffect(() => { }, [currentUser])
 
+  const dispatch2 = useDispatch();
   let flagIsExist = false;
   const IsExistUser = async (details) => {
     console.log("hii")
@@ -131,24 +184,11 @@ const Register = () => {
     return flagIsExist;
 
   }
-  const AddUser =  (details) => {
-    const user =
-    {
-      "name": details.name,
-      "address": details.adress,
-      "mail": details.email,
-      "password": details.password,
-      "toun": selectPoin,
-      "phon": details.phon,
-      "tz": details.id,
-      "dateBirth": new Date(),
-      "pic": " ",
-      "isManager": false,
-      "status": true,
-      "readTerms": true
-    }
+  const AddUser = async (details) => {
+
     console.log("helow fron add")
-     axios.post(`https://localhost:7207/api/user`, user).then(res => {
+    console.log(details)
+    const x = await axios.post(`https://localhost:7207/api/user`, details).then(res => {
       console.log(res.data + "add");
 
       if (res.data == null) {
@@ -156,14 +196,17 @@ const Register = () => {
         return null;
 
       }
-    }).catch(alert("משתמש קיים"))
+    }).catch(error => {
+      console.log("משתמש קיים");
+      console.error(error)
+    })
   }
 
-  const getLastUserAdd =  () => {
-     axios.get('https://localhost:7207/api/User')
+  const getLastUserAdd = async () => {
+    const v = await axios.get('https://localhost:7207/api/User')
       .then(res => {
-        console.log(res.data[res.data.length - 1])
-
+        console.log(res.data[res.data.length - 1], "last")
+        lastUser = res.data[res.data.length - 1];
         dispatch({
           type: type.CURRENT_USER,
           payload: res.data[res.data.length - 1]
@@ -172,7 +215,7 @@ const Register = () => {
       }).catch(err => console.log(err))
   }
 
-  const AddOrders =  () => {
+  const AddOrders = async () => {
 
     // console.log(currentUser,"current");
     // console.log(currentUser.id,"current");
@@ -181,24 +224,26 @@ const Register = () => {
     let station = currentStation;
     let countB = countBike;
     console.log(countB)
+    console.log(user, "llll")
+
     // const order = {
     //   "id": 0,
     //   "datePay": null,
-    //   "idStation": station.id,
+    //   "idStation": currentStation?.id,
     //   "dateOrder": Date.now(),
     //   "code": "string",
-    //   "idCust": user.id,
+    //   "idCust": user?.id,
     //   "endSum": 0,
     //   "isPay": false,
-    //   "custName": user.name,
+    //   "custName": user?.name,
     //   "count": countBike
     // }
     //send empty
     const IsPay = false;
     const s = await axios.post(`https://localhost:7207/api/Order`, {
       countB, IsPay, id: 0, datePay: null, IdCust:
-        currentUser.id,
-      idStation: currentStation.id,
+        lastUser?.id,
+      idStation: 34,
       dateOrder: new Date(), EndSum: 0
     }).then(res => {
 
@@ -288,7 +333,7 @@ const Register = () => {
           <TextField fullWidth id="fullWidth"
             defaultValue={currentUser == null ? '' : currentUser.name}
             style={errors.name ? { border: "red solid 1px", borderRadius: "5px" } : null}
-            {...register("name", { required: "name is required", })} /><br></br><br></br>
+            {...register("Name", { required: "name is required", })} /><br></br><br></br>
 
           {/* id */}
           <label>  תעודת זהות<span style={{ color: 'red' }}>
@@ -298,7 +343,7 @@ const Register = () => {
             style={errors.name ? { border: "red solid 1px", borderRadius: "5px" } : null}
 
             defaultValue={currentUser == null ? '' : currentUser.id}
-            {...register("id", {
+            {...register("Tz", {
               required: "id is required",
               pattern: {
                 value: /^\d{9}$/,
@@ -317,7 +362,7 @@ const Register = () => {
 
             style={errors.phon ? { border: "red solid 1px", borderRadius: "5px" } : null}
 
-            {...register("phon", {
+            {...register("Phon", {
               required: "phon is required",
               pattern: {
                 value: /^[1-9]{10}$/,
@@ -331,7 +376,7 @@ const Register = () => {
             * {/* אייקון של כוכב */}
           </span></label><br></br>
 
-          <select  style={{padding:"10px",width:"100%"}} onChange={({ target }) => setSlectedPoint(target.value)}>
+          <select style={{ padding: "10px", width: "100%" }} onChange={({ target }) => setSlectedPoint(target.value)}>
             {israeliCities.map(marker => (
               <option key={marker} value={marker} selected={selectPoin === marker}>
                 {marker}
@@ -363,7 +408,7 @@ const Register = () => {
             helperText=""
             id="fullWidth"
 
-            {...register("adress", { required: "adress is required" })}
+            {...register("Address", { required: "adress is required" })}
           />
           <br></br><br></br>
 
@@ -376,7 +421,7 @@ const Register = () => {
             defaultValue={currentUser == null ? '' : currentUser.email}
 
             style={errors.email ? { border: "red solid 1px", borderRadius: "5px" } : null}
-            {...register("email", {
+            {...register("Mail", {
               required: "email is required",
               pattern: {
                 value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
@@ -388,7 +433,6 @@ const Register = () => {
 
           {/* password */}
           <label>צור סיסמא <span style={{ color: 'red' }}>
-            * {/* אייקון של כוכב */}
           </span></label>
           <Stack
             spacing={0.5}
@@ -400,7 +444,7 @@ const Register = () => {
               style={errors.password ? { border: "red solid 1px", borderRadius: "5px" } : null}
 
 
-              {...register("password", {
+              {...register("Password", {
                 required: "Password is required.",
                 minLength: {
                   value: 6,
@@ -456,12 +500,12 @@ const Register = () => {
               * 
             </span></label> */}
           {/* </FormControl> */}
-          {/* זמן עושה בעיות */}y
+          {/* זמן עושה בעיות */}
           <label>תאריך לידה <span style={{ color: 'red' }}>
             * {/* אייקון של כוכב */}
           </span></label>
 
-          <LocalizationProvider dateAdapter={AdapterDayjs} >
+          {/* <LocalizationProvider dateAdapter={AdapterDayjs} >
             <DemoContainer fullWidth components={['DatePicker']} {...register("date", {
               validate: {
                 validDate: () => isDateValid(),
@@ -470,7 +514,7 @@ const Register = () => {
             })} >
               <DatePicker value={valueDate} onChange={(newValue) => { setValueDate(newValue) }} />
             </DemoContainer>
-          </LocalizationProvider>
+          </LocalizationProvider> */}
 
 
           <br></br><br></br>
@@ -507,7 +551,7 @@ const Register = () => {
             <p></p>
             <input style={{ color: "red" }} type="checkbox" id="myCheckbox" checked={checked}
               onClick={handleChange}
-              {...register("chek", {
+              {...register("ReadTerms", {
                 required: true,
               })}
             ></input>
