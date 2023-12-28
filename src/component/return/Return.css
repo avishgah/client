@@ -9,11 +9,11 @@
 /* input */
 
 
-#alert{
+#alert {
     visibility: hidden;
-    width: 28vw;
+    width: 26.5vw;
     margin-right: 25%;
-    padding: 10px;
+    /* padding: 10px; */
     font-size: medium
 }
 
@@ -23,6 +23,7 @@
 
 body {
     text-align: center;
+    background-color: #525252 ;
 }
 
 .tz-filed {
@@ -30,18 +31,21 @@ body {
     color: blue !important;
     padding: 1px !important;
     width: 50% !important;
-    font-size: small!important;
+    font-size: small !important;
     /* border-radius: % !important; */
     text-align: center !important;
     margin-top: 5% !important;
 }
 
-#ul{
+#ul {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-#li{
-    display: flex;
-    flex-direction: column; 
-    margin-left: 200px;
+#li {
+    list-style-type: none;
+    flex-grow: 1;
+    overflow-wrap: break-word;
+    margin-top: 40px;
 }

@@ -6,13 +6,13 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
-import Returns from './return/Returns';
+import Returns from '../return/Returns';
 import Register from './Register';
 import Payment2 from './Payment2';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
-import * as type from "./store/actions/actionType";
+import * as type from "../../store/actions/actionType";
 
 import { useDispatch, useSelector } from 'react-redux';
 import PicId from './PicId';
@@ -25,10 +25,12 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
-import * as types from "./store/actions/actionType";
+import * as types from "../../store/actions/actionType";
+import RegisterYup from './RegisterYup';
+import Camera from './Camera';
+// import cv2 from 'opencv';
 
-
-const steps = ['כמות אופניים', 'פרטים אישיים', 'תשלום'];
+const steps = ['כמות אופניים', 'פרטים אישיים', 'תשלום', 'תצלום תעודה'];
 
 
 
@@ -114,7 +116,9 @@ export default function HorizontalLinearStepper() {
             case 2:
                 setObject({ ...o });
                 break;
-
+            case 3:
+                setObject({ ...o });
+                break;
             default:
                 break;
         }
@@ -125,14 +129,14 @@ export default function HorizontalLinearStepper() {
     const getStepContent = (step) => {
         switch (step) {
             case 0:
-
                 return <PicId onSubmit={onSubmit} />;
 
             case 1:
-                return <Register onSubmit={onSubmit} />;
+                return <RegisterYup onSubmit={onSubmit} />;
             case 2:
                 return <Payment2 onSubmit={onSubmit} />;
-
+            case 3:
+                return <Camera onSubmit={onSubmit} />;
 
             default:
                 return;
@@ -200,6 +204,24 @@ export default function HorizontalLinearStepper() {
         setOpen(false);
         nav('/introduc');
     };
+
+    //that dissapaer after 5 second
+    useEffect(() => {
+        // Show the modal when the component mounts
+        showAutoDismissDialog();
+      }, []);
+    
+      const showAutoDismissDialog = () => {
+        const dialog = document.getElementById('autoDismissDialog');
+        if (dialog) {
+          const modal = new window.bootstrap.Modal(dialog);
+          modal.show();
+    
+          setTimeout(() => {
+            modal.hide();
+          }, 5000); // 5000 milliseconds = 5 seconds
+        }
+      };
 
     return (
         <>
@@ -298,5 +320,8 @@ export default function HorizontalLinearStepper() {
                         )}
                     </Box>
             }
+
+
+            
         </>);
 }

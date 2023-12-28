@@ -17,7 +17,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
-import * as type from "./store/actions/actionType";
+import * as type from "../../store/actions/actionType";
 
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -147,6 +147,8 @@ const Register = () => {
     return true; // אישור שליחת הטופס כאשר ה-checkbox נבחר
   }
   let lastUser = null;
+  let curentStation = null;
+  let countB = null;
   const { currentUser } = useSelector(state => {
     return {
       currentUser: state.r.user
@@ -162,6 +164,9 @@ const Register = () => {
         console.log(res.data)
         setlistUsers(res.data)
         console.log(currentStation);
+        curentStation=currentStation;
+        countB=countBike
+
         // nav('/NavB')
         getLastUserAdd();
       }).catch(err => console.log(err))
@@ -217,33 +222,13 @@ const Register = () => {
 
   const AddOrders = async () => {
 
-    // console.log(currentUser,"current");
-    // console.log(currentUser.id,"current");
-    // console.log(currentStation,"currentstation");/
-    let user = currentUser;
-    let station = currentStation;
-    let countB = countBike;
     console.log(countB)
-    console.log(user, "llll")
+    // console.log(user, "llll")
 
-    // const order = {
-    //   "id": 0,
-    //   "datePay": null,
-    //   "idStation": currentStation?.id,
-    //   "dateOrder": Date.now(),
-    //   "code": "string",
-    //   "idCust": user?.id,
-    //   "endSum": 0,
-    //   "isPay": false,
-    //   "custName": user?.name,
-    //   "count": countBike
-    // }
-    //send empty
     const IsPay = false;
     const s = await axios.post(`https://localhost:7207/api/Order`, {
-      countB, IsPay, id: 0, datePay: null, IdCust:
-        lastUser?.id,
-      idStation: 34,
+      countB, IsPay, id: 0, datePay: null, IdCust: lastUser?.id,
+      idStation: curentStation?.id,
       dateOrder: new Date(), EndSum: 0
     }).then(res => {
 
@@ -365,7 +350,7 @@ const Register = () => {
             {...register("Phon", {
               required: "phon is required",
               pattern: {
-                value: /^[1-9]{10}$/,
+                value: /^[0-9]{10}$/,
                 message: "Invalid phon "
               },
 

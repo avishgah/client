@@ -39,9 +39,10 @@
     margin-left: 17vw !important;
 }
 
-#order-button{
-    margin-left:0 !important;
+#order-button {
+    margin-left: 0 !important;
 }
+
 #div-pic {
 
     background-color: white;
@@ -60,10 +61,9 @@
 
 }
 
-.css-sghohy-MuiButtonBase-root-MuiButton-root {}
 
 p {
-    color: red;
+    /* color: red; */
 }
 
 #p2 {
@@ -82,8 +82,40 @@ p {
     background-color: rgb(226, 221, 221) !important;
 }
 
-#selected{
+#selected {
     /* padding: 20px; */
     /* width: 100%; */
     /* font-size: large; */
+}
+
+.button-pic {
+    /* font-size: "15px" !important;
+    font-weight: bold !important;
+    color:white !important;*/
+    width: 150px !important;
+    /* background-color: #1976d2 !important;  */
+    border: solid  #1976d2 1px !important ;
+}
+
+#div-details {
+    /* margin-top: 1vw; */
+    background-color: rgb(232, 226, 226) ;
+    padding: 8px;
+    width: 38.5vw;
+    border: solid rgb(159, 147, 147) 1px;
+    text-align: right;
+    color: black;
+    margin-right: 1vw;
+    padding: 10px;
+    font-size: large;
+    /* font-weight: lighter; */
+    /* margin-left: 2vw; */
+}
+
+.formAdd {
+    background-color: white;
+    width: 42vw;
+    direction: rtl;
+    text-align: right;
+    margin-left: 35vw;
 }

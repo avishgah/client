@@ -1,27 +1,22 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import Returns from './return/Returns';
-import Payment2 from './Payment2';
-import PicId from './PicId';
-import Start from './Start/Start';
-import Register from './Register'
-import Connection from './Connection';
-import Order from './order/Order';
-// import { Stepper } from '@mui/material';
-
-import Stepper from './Stepper';
-import Introduc from './Start/Introduc';
-import ChooseStation from './Start/ChooseStation';
-import TakeOrder from './Start/TakeOrder';
-import StepByStep from './StepByStep';
-
-
-
+import ChooseStation from './component/Start/ChooseStation'
+import Register from './component/steppers/Register'
+import Returns from './component/return/Returns'
+import Payment2 from './component/steppers/Payment2'
+import PicId from './component/steppers/PicId'
+import Order from './component/order/Order'
+import Connection from './component/Connection'
+import Introduc from './component//Start/Introduc'
+import Start from './component/Start/Start';
+import Camera from './component/steppers/Camera'
+import TakeOrder from './component/Start/TakeOrder';
+import Stepper from './component/steppers/Stepper';
 const Rout = () => {
     return (
         <>
             <Routes>
-                {/* <Route path="/" element={<ChooseStation />}></Route> */}
+                <Route path="/" element={<ChooseStation />}></Route>
             </Routes>
             <Routes>
                 <Route path="/Register" element={<Register />}></Route>
@@ -49,9 +44,6 @@ const Rout = () => {
                 <Route path="/Order" element={<Order />}></Route>
             </Routes>
 
-            <Routes>
-                <Route path="/Step" element={<StepByStep />}></Route>
-            </Routes>
 
             <Routes>
                 <Route path="/Connection" element={<Connection />}></Route>
@@ -65,10 +57,13 @@ const Rout = () => {
             <Routes>
                 <Route path="chooseStation" element={<ChooseStation />}></Route>
             </Routes>
-
+            <Routes>
+                <Route path="Camera" element={<Camera />}></Route>
+            </Routes>
             <Routes>
                 <Route path="TakeOrder" element={<TakeOrder />}></Route>
             </Routes>
+
 
         </>
     )

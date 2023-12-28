@@ -20,8 +20,8 @@ const Introduc = () => {
         {console.log(currentStation)}
         <div class="flex-container">
             <div class="flex-item-left" style={{ direction: "rtl", textAlign: "right", flex: "55%" }}>
-                <div style={{ width: "70%", height: "50%", marginRight: "10%" }}>
-                    <h2 style={{ textAlign: "right", fontSize: "35px", marginTop: "8%" }}>שלום,</h2>
+                <div style={{ width: "70%", height: "50%", marginRight: "10%"}}>
+                    <h2 style={{ textAlign: "right", fontSize: "35px", marginTop: "0%" }}>שלום,</h2>
                     <p id="pI" >ברוכים הבאים לרשת פדאל , רכיבה על אופניים תביא אתכם מהר יותר ליעדכם בצורה מהירה, בטוחה , ירוקה וזולה ותחסוך מכם את העמידה בפקקים וחיפוש חנייה.<br></br>
                         הרכיבה על אופניים מאפשרת גישה נוחה למקומות אליהם אין באפשרות רכבים פרטיים להגיע ומשפרת את הניידות בעיר.
                     </p>
@@ -36,6 +36,7 @@ const Introduc = () => {
                         sx={{
                             // marginTop: "1%",
                             // marginLeft: "25%",
+                            marginBottom:"2%",
 
                             height: 100,
                             display: 'block',
@@ -47,7 +48,7 @@ const Introduc = () => {
                         src='/saftyRulls.png'
                     />
 
-                    <br></br>
+                    {/* <br></br> */}
 
                     <div style={{ direction: "rtl", fontSize: "13px", textAlign: "right", color: "white" }}>
                         נתקלתם בבעיה ? אנחנו פה לעזור !<br></br>

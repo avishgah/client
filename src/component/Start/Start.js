@@ -1,14 +1,12 @@
 import { Box, Button, IconButton, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import PicId from "../PicId";
+import PicId from "../steppers/PicId";
 
-import * as type from "../store/actions/actionType";
+import * as type from "../../store/actions/actionType";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 
-import Maps from '../Maps';
-import AddUser from "../AddUser/AddUser";
-import Coun from '../Coun';
+import AddUser from "../../component/AddUser/AddUser";
 
 import './page.css';
 

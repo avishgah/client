@@ -18,7 +18,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
 
-import * as type from "./store/actions/actionType";
+import * as type from "../store/actions/actionType";
 
 import { useDispatch, useSelector } from "react-redux";
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -36,7 +36,7 @@ import SendIcon from '@mui/icons-material/Send';
 // import { useDispatch, useSelector } from 'react-redux';
 
 import { useNavigate } from 'react-router-dom';
-import Stepper from './Stepper'
+import Stepper from './steppers/Stepper'
 
 
 // import Stepper from '@mui/material/Stepper';
@@ -61,7 +61,7 @@ import CardContent from '@mui/material/CardContent';
 
 
 
-import './Payment2.css';
+// import './Payment2.css';
 
 const Connection = () => {
 

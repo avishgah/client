@@ -57,7 +57,7 @@ import Stepper from './Stepper'
 import { useDispatch, useSelector } from 'react-redux';
 
 
-import * as type from "./store/actions/actionType";
+import * as type from "../../store/actions/actionType";
 
 
 // import './AddUser.scss';
@@ -113,6 +113,11 @@ const Payment2 = ({ onSubmit }) => {
   };
   const dispatch = useDispatch();
   React.useEffect(() => {
+    console.log(currentUser, "currentU");
+    console.log(currentStation, "currentS");
+    console.log(countBikes, "count");
+
+
     dispatch({
       type: type.CHANGE_FLAG_TRUE
     })
@@ -126,6 +131,8 @@ const Payment2 = ({ onSubmit }) => {
   const flag = useSelector(state => state.r.Flag);
 
   const currentUser = useSelector(state => state.r.user);
+  const currentStation = useSelector(state => state.r.station);
+  const countBikes = useSelector(state => state.r.count);
 
 
   const submit = (details) => {
@@ -135,11 +142,6 @@ const Payment2 = ({ onSubmit }) => {
     // console.log(details);
     // addbike(details);
     onSubmit(details)
-  }
-
-  const addbike = async (details) => {
-    var promise = await axios.post("https://localhost:7075/api/User", details);
-    alert(promise.data);
   }
 
   return <>
@@ -167,7 +169,7 @@ const Payment2 = ({ onSubmit }) => {
           {/* id */}
 
           <TextField fullWidth id="fullWidth" label="ת.ז של בעל הכרטיס" variant="outlined"
-            defaultValue={currentUser == null ? '' : currentUser.id}
+            defaultValue={currentUser == null ? '' : currentUser.tz}
             style={errors.id ? { border: "red solid 1px", borderRadius: "5px" } : null}
             {...register("id", {
               required: "id is required",

@@ -1,47 +1,39 @@
 import './App.css';
 
 import { Fragment, useEffect } from 'react';
-import Header from './header';
 import Routes from './routes';
-import Footer from './footer';
 import { Button, Stack } from '@mui/material';
-import AddUser from './AddUser/AddUser';
+import AddUser from './component/AddUser/AddUser';
 import { Route, useNavigate } from 'react-router-dom';
-import Payment from './Register';
-import Start from './Start/Start';
-// import Picture from "./Picture"
-import Stepper from './Stepper';
-import Coun from './Coun';
+
+import Stepper from './component/steppers/Stepper';
 import { useDispatch, useSelector } from 'react-redux';
 import * as type from "./store/actions/actionType";
-import Register from './Register';
-import GetBike from './GetBiKE/GetBike';
-import ChooseStation from './Start/ChooseStation';
-import Introduc from './Start/Introduc';
-import Payment2 from './Payment2';
-import PicId from './PicId';
-import Connection from './Connection';
-import Order from './order/Order';
-import Returns from './return/Returns';
-import StepByStep from './StepByStep';
+import ChooseStation from './component/Start/ChooseStation'
+import Camera from './component/steppers/Camera';
+import Register from './component/steppers/Register';
+import RegisterYup from './component/steppers/RegisterYup';
+import Order from './component/order/Order';
+
 
 
 function App() {
-    <Coun />
     const nav = useNavigate();
     const flag = useSelector(state => state.r.Flag);
 
     return (<>
         <Routes>
-            {/* <Route path="/" element={<ChooseStation />}></Route> */}
+            <Route path="/" element={<ChooseStation />}></Route>
         </Routes>
 
-
+        {/* <Order/> */}
+        {/* <RegisterYup /> */}
         {/* <Stepper /> */}
+        {/* <Camera /> */}
         {/* <PicId /> */}
         {/* <Order/> */}
         {/* <Returns></Returns> */}
-        <Register/>
+        {/* <Register /> */}
 
         {/* <StepByStep></StepByStep> */}
         {/* <Returns/> */}

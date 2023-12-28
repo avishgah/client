@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import './page.css'
 import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import * as type from "../store/actions/actionType";
+import * as type from "../../store/actions/actionType";
 import { useNavigate } from "react-router-dom";
 
 const ChooseStation = () => {

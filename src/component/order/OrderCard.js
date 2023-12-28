@@ -22,11 +22,14 @@ import { useEffect } from 'react';
 
 import './order.css';
 
+import * as type from '../../store/actions/actionType';
+
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { useDispatch } from 'react-redux';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -54,7 +57,7 @@ const OrderCard = ({ order, props, cust, index, index2, orderBike }) => {
         setOpen(true);
     };
     const handleClickOpenAndCount = (id) => {
-        setOpen(true);
+        // setOpen(true);
         setCount(Math.max(count - 1, 0))
         console.log(id)
 
@@ -93,16 +96,43 @@ const OrderCard = ({ order, props, cust, index, index2, orderBike }) => {
 
 
     const getO = async () => {
+        let listOrderD = null;
         try {
             const resolvedArray = await order(props.id); // Await the resolved array
             console.log('Resolved Array:', resolvedArray); // Output the resolved array
             setOrderBike(resolvedArray)
+            listOrderD = resolvedArray;
             // Use the resolved array as needed
         } catch (error) {
             console.error('Error:', error); // Handle errors if the Promise is rejected
         }
+        console.log(listOrderD);
+        if (listOrderD.length <= 3) {
+            // Do nothing or perform an action if the length is less than or equal to 3
+        } else if (listOrderD.length <= 6) {
+            // Set the height of elements with class "flex-item-left" to 500vw
+            let elements = document.getElementsByClassName("flex-item-left");
+            for (let i = 0; i < elements.length; i++) {
+                elements[i].style.height = "70vw";
+            }
+        } else if (listOrderD.length <= 9) {
+            // Set the height of elements with class "flex-item-left" to 300vw
+            let elements = document.getElementsByClassName("flex-item-left");
+            for (let i = 0; i < elements.length; i++) {
+                elements[i].style.height = "200vw";
+            }
+        } else {
+            // Do nothing or perform an action if the length is greater than 9
+        }
+
     }
+
+    const dispatch = useDispatch();
+
     useEffect(() => {
+
+        dispatch({ type: type.CHANGE_FLAG_TRUE })
+
 
         const fetchData = async () => {
             const a = await axios.get(`https://localhost:7207/api/Station/${props.idStation}`).then(res => {
@@ -158,8 +188,9 @@ const OrderCard = ({ order, props, cust, index, index2, orderBike }) => {
             }
             {/* {getStationName(props.idStation)} */}
             {/*  textAlign: 'center', padding: "10px", marginLeft: "50px", marginBottom: "50px",flexShrink:0,flexBasis: "100px"  */}
+            <Card sx={{ maxWidth: 400, direction: "rtl", textAlign: 'right', width: "700px", marginLeft: "20px", lineHeight: "1ch" }} onClick={() => (handleClickOpen())}>
 
-            <Card onClick={() => (handleClickOpen())} sx={{ maxWidth: 800, textAlign: 'center', width: "600px", marginLeft: "20px" }}>
+                {/* <Card onClick={() => (handleClickOpen())} sx={{ maxWidth: 800, textAlign: 'center', width: "600px", marginLeft: "20px" }}> */}
                 <CardHeader
                     avatar={
                         <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -177,7 +208,8 @@ const OrderCard = ({ order, props, cust, index, index2, orderBike }) => {
                 <CardContent>
                     <Typography variant="body2" fontSize={"large"} color="text.secondary">
                         <b> הזמנה : {index}</b>
-                    </Typography><br></br>{
+                    </Typography>
+                    {
                         stationO != null ? <Typography variant="body2" fontSize={"large"} color="text.secondary">
                             <b> לתחנה :{stationO.location} , {stationO.name}</b>
                         </Typography>
@@ -191,36 +223,14 @@ const OrderCard = ({ order, props, cust, index, index2, orderBike }) => {
                     }
 
                 </CardContent>
-                <Button id="opinB">delete</Button>
-                <Button id="opinB">cancele</Button>
+
+                <Button onClick={() => handleClickOpenAndCount(orderB[0].id)}>שיחרור אופניים</Button>
+                <Button onClick={() => navigator('/Start')} autoFocus> ביטול </Button>
 
             </Card>
 
 
-
-
-            <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">
-                    {" לרשותך "}
-                    {orderB.length}
-                    {" אפניים בהזמנה "}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        ,תרצה לשחרר אוניים נוספות ? לחיצה על אישור תשחרר אופניים נוספות
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-
-                    <Button onClick={() => handleClickOpenAndCount(orderB[0].id)}>שיחרור</Button>
-                    <Button onClick={handleClose} autoFocus> ביטול </Button>
-                </DialogActions>
-            </Dialog></> : <Card sx={{ maxWidth: 345 }}>   </Card>
+        </> : <Card sx={{ maxWidth: 345 }}>   </Card>
 
         }
 

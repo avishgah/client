@@ -12,8 +12,8 @@ import { useState } from 'react';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
-import Register from './Register';
-import Payment2 from './Payment2';
+import Register from './component/steppers/Register';
+import Payment2 from './component/steppers/Payment2';
 import PicId from './PicId';
 import * as types from "./store/actions/actionType";
 

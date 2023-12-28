@@ -24,8 +24,18 @@
     margin-bottom: 0;
 }
 
+.flex-containerRE {
+    display: flex;
+    flex-direction: row;
+    font-size: 30px;
+    text-align: center;
+    height: 44.4vw;
+    margin-bottom: 0;
+    background-color: #525252;
+}
+
 .flex-item-left {
-    border: black 2px solid;
+    /* border: black 2px solid; */
     background-color: #525252;
     color: white;
     padding: 10px;
@@ -43,7 +53,7 @@
 
 /* Responsive layout - makes a one column-layout instead of two-column layout */
 @media (max-width: 800px) {
-    .flex-container {
+    .flex-container,.flex-containerRE {
         flex-direction: column;
     }
 
@@ -93,7 +103,7 @@
 
 .button span {
     cursor: pointer;
-    position: relative; 
+    position: relative;
     transition: 0.1s;
 }
 
@@ -146,7 +156,7 @@
     font-size: 60px;
 }
 
-#helpper{
+#helpper {
     color: white;
     font-size: 25px;
     font-weight: bold;

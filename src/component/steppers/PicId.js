@@ -12,7 +12,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import * as type from "./store/actions/actionType";
+import * as type from "../../store/actions/actionType";
 import { useDispatch, useSelector } from 'react-redux';
 
 let namePic;
