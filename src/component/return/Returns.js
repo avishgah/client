@@ -43,6 +43,9 @@ const Returns = () => {
       console.log("res order", res.data)
       listOrderdeded = res.data;
       setOrderBike(res.data);
+
+      ReturnListBikeByIdOrder();
+
     }).catch(err => console.log(err))
   }
 
