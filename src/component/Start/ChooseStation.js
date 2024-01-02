@@ -17,7 +17,10 @@ const ChooseStation = () => {
             .then(res => {
                 console.log(res)
                 setMapers(res.data)
-                setCurrents(res.data[0])
+                setCurrents(res.data[0]);  dispatch({
+                    type: type.CURRENT_STATION,
+                    payload: res.data[0]
+                })
                 let homePos = {}
                 res.data.filter(x => x.count > 0).forEach((element, i) => {
                     const google = window.google;

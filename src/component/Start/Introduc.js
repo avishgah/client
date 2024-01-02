@@ -59,7 +59,7 @@ const Introduc = () => {
                     </div>
 
                     <br></br>
-                    <Button class="button" style={{ textAlign: "center", marginTop: "-15%" }} onClick={() => nav('/Start')}><span>התחלה</span></Button>
+                    <Button class="button" style={{ textAlign: "center", marginTop: "-15%" }} onClick={() => nav('/Start')}><span class="arrow"></span>התחלה</Button>
                 </div>
             </div>
             <div class="flex-item-right" style={{ flex: "45%" }}>

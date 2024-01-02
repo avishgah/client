@@ -67,7 +67,8 @@ const Returns = () => {
           console.log("res list bikes axios", res.data)
           const x = res.data;
           for (var i = 0; i < x.length; i++) {
-            listOrder.push(x[i]);
+            if (x[i].status == true)
+              listOrder.push(x[i]);
             // console.log(x[i])
           }
 
@@ -75,43 +76,48 @@ const Returns = () => {
 
       }
     }
-
+    if (listOrder.length == 0) {
+      navToStart();
+    }
     dispatch({
       type: type.LIST_ORDER,
       payload: listOrder
     })
 
     setOrderBikeTrue2(listOrder);
-    // console.log(res.data);
-
   }
+  let flagr = 0;
 
 
 
   const Connect = async (details) => {
-
-    let flag = 0;
     console.log("hi")
-    for (var i = 0; i < users.length; i++) {
-      if (users[i].tz == details.id && users[i].password == details.password) {
-        console.log("connect")
-        flag = 1;
-        alert(users[i].name);
-        dispatch({
-          type: type.CURRENT_USER,
-          payload: users[i]
-        })
-        setCust(users[i])
+    axios.post('https://localhost:7207/api/User/Connect', details)
+      .then(res => {
+        console.log(res.data)
+        // nav('/NavB')
+        if (res.data != '') {
+          console.log("connect")
+          flagr = 1;
+          alert(res.data.name);
+          dispatch({
+            type: type.CURRENT_USER,
+            payload: res.data
+          })
+          setCust(res.data)
 
-        await getOrdersByIdCust(details.id);
+          getOrdersByIdCust(details.id);
 
-        await ReturnListBikeByIdOrder();
+        }
+        else {
+          document.getElementById('alert').style.visibility = "visible";
 
-        // await getNumBike()
-      }
-    }
-    if (flag == 0) {
-      document.getElementById('alert').style.visibility = "visible";
+        }
+      }).catch(err => console.log(err))
+
+    console.log(flagr)
+
+    if (flagr == 0) {
     }
 
 
@@ -167,13 +173,20 @@ const Returns = () => {
     }
   }
 
+  const navigate = useNavigate();
+  const navToStart = () => {
+    const timeout = setTimeout(() => {
+      navigate('/introduc'); // Replace '/introduc' with the path you want to navigate to
+    }, 5000);
+  }
+
   return (<>
     <div style={{ backgroundColor: "#525252" }}>
       <div class="flex-container">
 
         <div class="flex-item-left" style={{ direction: "rtl", flex: "60%" }}>
 
-          {listOrderD != null && custo != null ?
+          {custo != null && listOrderD != null ?
             <>
               {console.log("res2", listOrderD)}
 
@@ -185,9 +198,21 @@ const Returns = () => {
                 <ul id="ul">
 
                   {console.log("cust:", custo)}
-                  {console.log("order bike 2:", listOrderD)}
+                  {console.log("order bike 2:", listOrderD.length)}
+                  {
 
-                  {listOrderD.map((item, index) => { return <li id="li" key={index}>  <ReturnCard orderAll={orderBike} orders={listOrderD} props={item} cust={custo} index={index + 1} index2={item.id} /></li> })}
+                    listOrderD.length != 0 ?
+
+                      <>
+                        {listOrderD.map((item, index) => { return <li id="li" key={index}>  <ReturnCard orderAll={orderBike} orders={listOrderD} props={item} cust={custo} index={index + 1} index2={item.id} /></li> })}
+                      </> : (<>
+
+                        <p>לא נמצאו אופניים שבשימושך כעת</p>
+
+                      </>)
+
+                  }
+
 
                 </ul>
 
@@ -276,9 +301,9 @@ const Returns = () => {
                 // src={logo}
                 src='/logo2.png'
               />
-              <div id="helpper" >
-                ? עזרה
-              </div>
+                  <div id="helpper" onClick={() => navigate('/introduc')} >
+                                יציאה
+                            </div>
 
             </div>
             : null

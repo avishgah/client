@@ -58,8 +58,8 @@ const Start = () => {
                     // src={logo}
                     src='/logo2.png'
                 />
-                <div id="helpper" >
-                    ? עזרה 
+                <div id="helpper" onClick={() => nav('/introduc')} >
+                    יציאה
                 </div>
 
 

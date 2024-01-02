@@ -41,9 +41,9 @@ const TakeOrder = () => {
                     // src={logo}
                     src='/logo2.png'
                 />
-                <div id="helpper" >
-                    ? עזרה
-                </div>
+                    <div id="helpper" onClick={() => nav('/introduc')} >
+                                יציאה
+                            </div>
 
 
             </div>
