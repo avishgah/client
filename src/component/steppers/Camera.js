@@ -60,6 +60,8 @@ const Camera = ({ onSubmit }) => {
     const countBikes = useSelector(state => state.r.count);
     let currentU = currentUser;
     const navigator = useNavigate();
+
+
     const isIDCard = async () => {
         try {
             const cv = window.cv; // Access the OpenCV object
@@ -220,7 +222,7 @@ const Camera = ({ onSubmit }) => {
                         onClose={handleClose}
                         aria-labelledby="customized-dialog-title"
                         open={open}
-                        style={{ direction: "rtl",textAlign:"right" }}
+                        style={{ direction: "rtl", textAlign: "right" }}
                     >
                         <DialogTitle sx={{ m: 0, p: 2, color: "rgb(26, 87, 53)" }} id="customized-dialog-title">
                             הזמנתך בוצעה בהצלחה
@@ -243,7 +245,7 @@ const Camera = ({ onSubmit }) => {
                                 שלום, {currentU?.Name}
                             </Typography>
                             <Typography gutterBottom>
-                            לרשותך האופניים משוחררות בנורה ירוקה,
+                                לרשותך האופניים משוחררות בנורה ירוקה,
                             </Typography>
                             <Typography gutterBottom>
                                 בכל מקרה של תקלה או חוסר נוחות פנו אלינו לשירות לקוחות פדאל *2670.
@@ -257,9 +259,10 @@ const Camera = ({ onSubmit }) => {
                     </BootstrapDialog > :
                     <div >
                         <div>
-
-                            {/* <input type="file" accept="image/*" ref={fileInputRef} onChange={isIDCard} />
-                    {isIDCardDetected ? <p>The image contains an ID card.</p> : <p>No ID card detected in the image.</p>} */}
+                            {/* 
+                            <input type="file" accept="image/*" ref={fileInputRef} onChange={isIDCard} />
+                    {isIDCardDetected ? <p>The image contains an ID card.</p> : <p>No ID card detected in the image.</p>}
+                     */}
                         </div>
 
                         {cameraActive && (
@@ -284,7 +287,7 @@ const Camera = ({ onSubmit }) => {
                                 <h2>תמונה</h2>
                                 <img src={capturedImage} alt="Captured" /><br></br>
                                 <Button className='button-pic' type='submit'>שמור</Button>
-                                <Button className='button-pic' style={{marginLeft:"10px"}} onClick={restart}>חדש</Button>
+                                <Button className='button-pic' style={{ marginLeft: "10px" }} onClick={restart}>חדש</Button>
                             </div>
                         )}
 

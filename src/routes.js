@@ -12,6 +12,8 @@ import Start from './component/Start/Start';
 import Camera from './component/steppers/Camera'
 import TakeOrder from './component/Start/TakeOrder';
 import Stepper from './component/steppers/Stepper';
+import ForgetPass from './component/ForgetPassword/ForgetPass';
+import PasswordResset from './component/ForgetPassword/PasswordResset';
 const Rout = () => {
     return (
         <>
@@ -63,7 +65,12 @@ const Rout = () => {
             <Routes>
                 <Route path="TakeOrder" element={<TakeOrder />}></Route>
             </Routes>
-
+            <Routes>
+                <Route path="ForgetPass" element={< ForgetPass/>}></Route>
+            </Routes>
+            <Routes>
+                <Route path="PasswordResset" element={<PasswordResset />}></Route>
+            </Routes>
 
         </>
     )

@@ -58,6 +58,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
+import ForgetPassword from './ForgetPassword/ForgetPass';
 
 
 
@@ -116,7 +117,7 @@ const Connection = () => {
 
     const submit = (details) => {
 
-        axios.get(`https://localhost:7207/api/User/`+details.id,details.password
+        axios.get(`https://localhost:7207/api/User/` + details.id, details.password
             // params:
             // {
             //     id:details.id,
@@ -149,7 +150,12 @@ const Connection = () => {
         })
 
     }
-
+    const [open, setOpen] = React.useState(false);
+    const [mail, setMail] = React.useState("");
+    const openReset = () => {
+        setMail(getValues('Email'))
+        setOpen(true)
+    }
     return <>
 
         <form id="formLoginR" onSubmit={handleSubmit(submit)}>
@@ -211,6 +217,9 @@ const Connection = () => {
                         />
                         {errors.password && <p className="errorMsg">{errors.password.message}</p>}
                     </FormControl>
+                    <p className="move" onClick={openReset}>שכחתי סיסמא</p>
+
+                    {open ? <ForgetPassword email={mail} setOpen={setOpen} /> : null}
                     {/* save */}
 
                 </CardContent>

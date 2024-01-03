@@ -12,6 +12,7 @@ import axios from "axios";
 import { useState } from "react";
 import ReturnCard from './ReturnCard';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import ForgetPassword from '../ForgetPassword/ForgetPass';
 
 const Returns = () => {
   const nav = useNavigate();
@@ -117,13 +118,6 @@ const Returns = () => {
 
         }
       }).catch(err => console.log(err))
-
-    console.log(flagr)
-
-    if (flagr == 0) {
-    }
-
-
   }
 
   const [users, setUsers] = React.useState([])
@@ -181,6 +175,12 @@ const Returns = () => {
     const timeout = setTimeout(() => {
       navigate('/introduc'); // Replace '/introduc' with the path you want to navigate to
     }, 5000);
+  }
+  const [open, setOpen] = React.useState(false);
+  const [mail, setMail] = React.useState("");
+  const openReset = () => {
+      setMail(getValues('Email'))
+      setOpen(true)
   }
 
   return (<>
@@ -275,6 +275,9 @@ const Returns = () => {
 
 
                 </FormControl>
+                <p className="move" onClick={openReset}>שכחתי סיסמא</p>
+
+                {open ? <ForgetPassword email={mail} setOpen={setOpen} /> : null}
 
               </Box>
               <Alert id="alert" severity="error">מייל או סיסמא שגויים</Alert>
@@ -304,9 +307,9 @@ const Returns = () => {
                 // src={logo}
                 src='/logo2.png'
               />
-                  <div id="helpper" onClick={() => navigate('/introduc')} >
-                                יציאה
-                            </div>
+              <div id="helpper" onClick={() => navigate('/introduc')} >
+                יציאה
+              </div>
 
             </div>
             : null

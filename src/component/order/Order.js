@@ -18,6 +18,7 @@ import { useRef } from "react";
 import { createContext, useContext } from 'react';
 import { ConstructionOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
 import * as type from "../../store/actions/actionType";
+import ForgetPassword from "../ForgetPassword/ForgetPass";
 
 
 
@@ -172,6 +173,12 @@ const Order = () => {
             // Do nothing or perform an action if the length is greater than 9
         }
     }
+    const [open, setOpen] = React.useState(false);
+    const [mail, setMail] = React.useState("");
+    const openReset = () => {
+        setMail(getValues('Email'))
+        setOpen(true)
+    }
     return (<>
         <div style={{ backgroundColor: "#525252" }}>
 
@@ -258,6 +265,9 @@ const Order = () => {
 
 
                                 </FormControl>
+                                <p className="move" onClick={openReset}>שכחתי סיסמא</p>
+
+                                {open ? <ForgetPassword email={mail} setOpen={setOpen} /> : null}
 
                             </Box>
                             <Alert id="alert" severity="error">מייל או סיסמא שגויים</Alert>

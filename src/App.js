@@ -28,6 +28,7 @@ function App() {
 
         {/* <Order/> */}
         {/* <RegisterYup /> */}
+        {/* <Camera/> */}
         {/* <Stepper /> */}
         {/* <Camera /> */}
         {/* <PicId /> */}
