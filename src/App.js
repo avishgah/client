@@ -23,12 +23,12 @@ function App() {
 
     return (<>
         <Routes>
-            <Route path="/" element={<ChooseStation />}></Route>
+            {/* <Route path="/" element={<ChooseStation />}></Route> */}
         </Routes>
 
         {/* <Order/> */}
         {/* <RegisterYup /> */}
-        {/* <Camera/> */}
+        <Camera/>
         {/* <Stepper /> */}
         {/* <Camera /> */}
         {/* <PicId /> */}
