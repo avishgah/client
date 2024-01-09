@@ -8,12 +8,40 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as type from "../../store/actions/actionType";
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import Typography from '@mui/material/Typography';
+
+
+
+import { DialogContent, DialogTitle } from '@mui/material';
+
+import { styled } from '@mui/material/styles';
+
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
+
+// import cv2 from 'opencv';
+
+
+
+
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    '& .MuiDialogContent-root': {
+        padding: theme.spacing(2),
+    },
+    '& .MuiDialogActions-root': {
+        padding: theme.spacing(1),
+    },
+}));
+
+
 
 let namePic;
 let r = "1.png";
@@ -30,13 +58,24 @@ const Change = () => {
 }
 
 const PicId = ({ onSubmit }) => {
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+        // nav('/introduc');
+    };
+
     const currentNumBike = useSelector(state => state.r.count);
     const [count, setCount] = React.useState(currentNumBike != 1 ? currentNumBike : 1);
     const { register, handleSubmit, getValues, formState: { isValid, errors, dirtyFields, touchedFields, isDirty } } = useForm({
         mode: "all"
     });
+    const currentStation = useSelector(state => state.r.station);
 
 
+    const [open, setOpen] = React.useState(false);
 
     const dispatch = useDispatch();
 
@@ -44,10 +83,29 @@ const PicId = ({ onSubmit }) => {
 
         dispatch({ type: type.COUNT_BIKE, payload: count })
 
-        // alert("פרטיך נקלטו")
-        // console.log(details);
-        // addbike(details);
-        onSubmit(details)
+        if (currentStation != null) {
+            const c = currentStation.id;
+            console.log(c);
+            axios.get(`https://localhost:7207/api/order/isExist/${c}/${count}`).then(res => {
+
+                console.log(res.data + ";;;;;;");
+
+                if (res.data) {
+                    // setIsExist(true);
+                    onSubmit(details)
+                }
+                else {
+                    handleClickOpen();
+                }
+
+                if (res.data == null) {
+                    alert("error")
+                    return null;
+
+                }
+            }).catch(err => console.log(err))
+        }
+
     }
 
     return (<>
@@ -85,34 +143,8 @@ const PicId = ({ onSubmit }) => {
 
                     </Box>
 
-                    {/* <div id="div-pic">
-            <Box
-                component="img"
-                sx={{
-                    height: 255,
-                    display: 'block',
-                    maxWidth: 400,
-                    overflow: 'hidden',
-                    width: '100%',
-                }}
-                src={r}
-            />
 
-            <Button
-                endIcon={<AttachmentIcon />}
-                variant="contained"
-                component="label"
-                id="pid-button"
-            >
-                בחירת קובץ
-
-                <input
-                    type="file"
-                    hidden
-                />
-            </Button>
-
-        </div> */}<br></br><br></br>
+                    <br></br><br></br>
                     <Stack direction="row" spacing={5} marginRight="24vw">
 
                         <Button color="inherit" style={{ fontSize: "15px", fontWeight: "bold", backgroundColor: "#1976d2", color: "white", width: "125px" }} type="submit" textAlign="right">
@@ -123,7 +155,45 @@ const PicId = ({ onSubmit }) => {
                 </CardContent>
             </Card>
         </form>
-
+        < BootstrapDialog
+            onClose={handleClose}
+            aria-labelledby="customized-dialog-title"
+            open={open}
+            style={{ direction: "rtl" }}
+        >
+            <DialogTitle sx={{ m: 0, p: 2, color: "rgb(26, 87, 53)" }} id="customized-dialog-title">
+                שגיאת שירות
+            </DialogTitle>
+            <IconButton
+                aria-label="close"
+                onClick={handleClose}
+                sx={{
+                    position: 'absolute',
+                    // right:0,
+                    left: 8,
+                    top: 8,
+                    color: (theme) => theme.palette.grey[500],
+                }}
+            >
+                <CloseIcon />
+            </IconButton>
+            <DialogContent dividers>
+                <Typography gutterBottom>
+                    שלום,
+                </Typography>
+                <Typography gutterBottom>
+                    מצטערים בתחנה זו אין אופניים פנויים, אנא נסו בתחנות קרובות.
+                </Typography>
+                <Typography gutterBottom>
+                    סליחה ותודה שבחרת להשתמש ברשת פדאל.
+                </Typography>
+            </DialogContent>
+            <DialogActions>
+                <Button autoFocus onClick={handleClose}>
+                    סגור
+                </Button>
+            </DialogActions>
+        </BootstrapDialog >
     </>)
 }
 

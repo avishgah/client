@@ -178,6 +178,7 @@ const ReturnCard = ({ orderAll, orders, props, cust, index, index2 }) => {
             }).catch(err => console.log(err))
             setisEnd(true);
             // navigate("/introduc");
+            
             navToStart();
         }
         else {
