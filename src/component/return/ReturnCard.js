@@ -178,7 +178,14 @@ const ReturnCard = ({ orderAll, orders, props, cust, index, index2 }) => {
             }).catch(err => console.log(err))
             setisEnd(true);
             // navigate("/introduc");
-            
+            var x=`שלום, ${cust.name} \n אנו  מודים לך על שימושך באופנינו`
+            var y="קבלה"
+            console.log("kkk")
+            axios.post(`https://localhost:7207/api/User/SendEmailOnly/${cust.mail}/${cust.name}/${y.toString()}/${x}`).then(res => {
+                console.log("giid")
+            }).catch(err => console.log(err))
+    
+            setisEnd(true);
             navToStart();
         }
         else {
