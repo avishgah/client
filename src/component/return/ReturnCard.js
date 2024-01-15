@@ -165,8 +165,9 @@ const ReturnCard = ({ orderAll, orders, props, cust, index, index2 }) => {
             // window.location.reload();
         }).catch(err => console.log(err))
     }
-
+    let endSum = 0;
     const end = async (id) => {
+
 
         console.log(orders.length);
         if (orders.length == 1) {
@@ -175,16 +176,17 @@ const ReturnCard = ({ orderAll, orders, props, cust, index, index2 }) => {
             await ReturnOrder(id);
             const t = await axios.get(`https://localhost:7207/api/order/updateSum/${cust.tz}`).then(res => {
                 console.log("giid")
+                endSum = res.data;
             }).catch(err => console.log(err))
             setisEnd(true);
             // navigate("/introduc");
-            var x=`שלום, ${cust.name} \n אנו  מודים לך על שימושך באופנינו`
-            var y="קבלה"
+            var x = `שלום, ${cust.name} \n אנו  מודים לך על שימושך באופנינו`
+            var y = "קבלה"
             console.log("kkk")
-            axios.post(`https://localhost:7207/api/User/SendEmailOnly/${cust.mail}/${cust.name}/${y.toString()}/${x}`).then(res => {
+            axios.post(`https://localhost:7207/api/User/SendEmailOnly/${cust.mail}/${cust.name}/${y.toString()}/${endSum}`).then(res => {
                 console.log("giid")
             }).catch(err => console.log(err))
-    
+
             setisEnd(true);
             navToStart();
         }
