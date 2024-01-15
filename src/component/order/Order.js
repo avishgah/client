@@ -83,6 +83,7 @@ const Order = () => {
         axios.get(`https://localhost:7207/api/order/GetOrderByIdCustNotDone/${cust.id}/${station.id}`).then(res => {
             console.log(res.data, "list order")
 
+            setorder(res.data);
             // setList(listOrderByIdStation)
             if (res.data.length == 0) {
                 console.log("hii")
@@ -90,7 +91,6 @@ const Order = () => {
                 navToStart()
             }
             else {
-                setorder(res.data);
                 changeHeit(order);
             }
             console.log(res.data, "aftaer map")
