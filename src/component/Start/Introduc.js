@@ -21,13 +21,13 @@ const Introduc = () => {
         <div class="flex-container">
             <div class="flex-item-left" style={{ direction: "rtl", textAlign: "right", flex: "55%" }}>
                 <div style={{ width: "70%", height: "50%", marginRight: "10%"}}>
-                    <h2 style={{ textAlign: "right", fontSize: "35px", marginTop: "0%" }}>שלום,</h2>
+                    <h2 style={{ textAlign: "right", fontSize: "25px", marginTop: "1.5%" }}>שלום,</h2>
                     <p id="pI" >ברוכים הבאים לרשת פדאל , רכיבה על אופניים תביא אתכם מהר יותר ליעדכם בצורה מהירה, בטוחה , ירוקה וזולה ותחסוך מכם את העמידה בפקקים וחיפוש חנייה.<br></br>
                         הרכיבה על אופניים מאפשרת גישה נוחה למקומות אליהם אין באפשרות רכבים פרטיים להגיע ומשפרת את הניידות בעיר.
                     </p>
                     {/* <br></br> */}
 
-                    <p id="gg" style={{ fontSize: "20px", color: "#602424" }}><b>בטיחותכם חשובה לנו אנא הקשיבו להוראות הבטיחות וסעו בזהירות ! כללי בטיחות</b></p>
+                    <p id="gg" style={{ fontSize: "17px", color: "#602424" }}><b>בטיחותכם חשובה לנו אנא הקשיבו להוראות הבטיחות וסעו בזהירות ! כללי בטיחות</b></p>
 
                     <Box
 

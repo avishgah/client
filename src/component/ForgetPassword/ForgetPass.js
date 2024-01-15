@@ -73,7 +73,7 @@ export default function ForgetPassword({ email, setOpen }) {
                     {!isError ? <span style={{ color: "red" }}>משתמש זה אינו קיים</span> : null}
                     <br />
                     <Typography id="keep-mounted-modal-title" variant="h6" component="h2">
-                        <Button variant="contained" size="medium" onClick={resetPassword}>  איפוס סיסמא  </Button>
+                        <Button style={{fontSize:"large",color:"#602424",backgroundColor:"rgb(91 33 33 / 49%)",width:"10vw"}} onClick={resetPassword}>  איפוס סיסמא  </Button>
                     </Typography></Fragment> :
 
                     <Typography id="keep-mounted-modal-description" sx={{ mt: 2 }}>

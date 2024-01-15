@@ -1,4 +1,4 @@
-import { Alert, Box, Button, FormControl, IconButton, Input, InputAdornment, InputLabel, Stack, TextField } from "@mui/material";
+import { Alert, Box, Button, FormControl, IconButton, Input, InputAdornment, InputLabel, Link, Stack, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
@@ -82,13 +82,16 @@ const Order = () => {
         console.log("ll")
         axios.get(`https://localhost:7207/api/order/GetOrderByIdCustNotDone/${cust.id}/${station.id}`).then(res => {
             console.log(res.data, "list order")
-            setorder(res.data);
-            changeHeit(order);
+
             // setList(listOrderByIdStation)
             if (res.data.length == 0) {
                 console.log("hii")
-                flag = 1;
+
                 navToStart()
+            }
+            else {
+                setorder(res.data);
+                changeHeit(order);
             }
             console.log(res.data, "aftaer map")
         }).catch(error => {
@@ -103,7 +106,6 @@ const Order = () => {
 
 
     const Connect = async (details) => {
-        let flag = 0;
         console.log("hi")
         axios.post('https://localhost:7207/api/User/Connect', details)
             .then(res => {
@@ -119,20 +121,14 @@ const Order = () => {
                     })
                     // setCust(users[i])
                 }
+                else {
+                    document.getElementById('alert').style.visibility = "visible";
+                }
             }).catch(err => console.log(err))
-
-
-        if (flag == 0) {
-            document.getElementById('alert').style.visibility = "visible";
-        }
-
-
     }
 
 
     const navToStart = () => {
-
-
         const timeout = setTimeout(() => {
             navigate('/introduc'); // Replace '/introduc' with the path you want to navigate to
             dispatch({
@@ -201,7 +197,8 @@ const Order = () => {
                                                 {order.map((item, index) => <li id="li" key={index}>  <OrderCard setOrder={GetOrderById} cust={cust} order={item} index={index + 1} /></li>)}
                                             </> :
 
-                                            <><p id="pOrder">אין לך הזמנות בתחנה זו.</p>
+                                            <>
+                                                <p id="pOrder">אין לך הזמנות בתחנה זו.</p>
                                             </>
 
                                     }
@@ -264,18 +261,18 @@ const Order = () => {
                                     />
 
 
-                                </FormControl>
-                                <p className="move" onClick={openReset}>שכחתי סיסמא</p>
+                                </FormControl>  </Box>
+                            <br></br>
 
-                                {open ? <ForgetPassword email={mail} setOpen={setOpen} /> : null}
+                            {open ? <ForgetPassword email={mail} setOpen={setOpen} /> : null}
 
-                            </Box>
+
                             <Alert id="alert" severity="error">מייל או סיסמא שגויים</Alert>
-
 
                             <Button variant="contained" color="success" type="submit" style={{ marginRight: "4vw" }}>
                                 סיום
                             </Button>
+
                         </form>}
 
                 </div>
@@ -287,7 +284,7 @@ const Order = () => {
                                 component="img"
                                 sx={{
                                     marginTop: "30%",
-                                    marginLeft: "20%",
+                                    marginLeft: "10%",
                                     height: 300,
                                     display: 'block',
                                     // maxWidth: 50,
@@ -297,9 +294,13 @@ const Order = () => {
                                 // src={logo}
                                 src='/logo2.png'
                             />
-                            <div id="helpper" onClick={() => navigate('/introduc')} >
+                            <div className="helpper" onClick={openReset} >
+                                שכחתי סיסמא
+                            </div>
+                            <div className="helpper" onClick={() => navigate('/introduc')} >
                                 יציאה
                             </div>
+
 
                         </div>
                         : null

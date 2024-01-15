@@ -10,11 +10,12 @@
 
 
 #alert {
+    /* display: none; */
     visibility: hidden;
     width: 26.5vw;
     margin-right: 25%;
     /* padding: 10px; */
-    font-size: medium
+    font-size: small
 }
 
 #addRE {

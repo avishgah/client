@@ -1,6 +1,6 @@
 
 import react from 'react';
-import { Alert, Box, Button, FormControl, IconButton, Input, InputAdornment, InputLabel, Stack, TextField } from "@mui/material";
+import { Alert, Box, Button, FormControl, IconButton, Input, InputAdornment, InputLabel, Link, Stack, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as type from "../../store/actions/actionType";
@@ -179,8 +179,8 @@ const Returns = () => {
   const [open, setOpen] = React.useState(false);
   const [mail, setMail] = React.useState("");
   const openReset = () => {
-      setMail(getValues('Email'))
-      setOpen(true)
+    setMail(getValues('Email'))
+    setOpen(true)
   }
 
   return (<>
@@ -275,7 +275,6 @@ const Returns = () => {
 
 
                 </FormControl>
-                <p className="move" onClick={openReset}>שכחתי סיסמא</p>
 
                 {open ? <ForgetPassword email={mail} setOpen={setOpen} /> : null}
 
@@ -297,7 +296,7 @@ const Returns = () => {
                 component="img"
                 sx={{
                   marginTop: "30%",
-                  marginLeft: "20%",
+                  marginLeft: "10%",
                   height: 300,
                   display: 'block',
                   // maxWidth: 50,
@@ -307,7 +306,10 @@ const Returns = () => {
                 // src={logo}
                 src='/logo2.png'
               />
-              <div id="helpper" onClick={() => navigate('/introduc')} >
+              <div className="helpper"  onClick={openReset} >
+                שכחתי סיסמא
+              </div>
+              <div className="helpper" onClick={() => navigate('/introduc')} >
                 יציאה
               </div>
 

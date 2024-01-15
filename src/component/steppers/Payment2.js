@@ -221,7 +221,7 @@ const Payment2 = ({ onSubmit }) => {
               required: "date is required",
               pattern: {
                 // ???? יכול לקבל הכל בתנאי שיש את התנאי
-                value: /^[0-31]-[1-12]$/,
+                value:  /^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/,
                 message: "Invalid date "
               },
 

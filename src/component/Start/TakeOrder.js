@@ -31,7 +31,7 @@ const TakeOrder = () => {
                     component="img"
                     sx={{
                         marginTop: "30%",
-                        marginLeft: "20%",
+                        marginLeft: "10%",
                         height: 300,
                         display: 'block',
                         // maxWidth: 50,
@@ -41,9 +41,9 @@ const TakeOrder = () => {
                     // src={logo}
                     src='/logo2.png'
                 />
-                    <div id="helpper" onClick={() => nav('/introduc')} >
-                                יציאה
-                            </div>
+                <div className="helpper" onClick={() => nav('/introduc')} >
+                    יציאה
+                </div>
 
 
             </div>

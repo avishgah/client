@@ -71,7 +71,7 @@ const PasswordReset = ({ email, setOpen }) => {
             <span style={{ color: "red" }}>{errorState}</span> 
 
             {flag && <span style={{ color: "red" }}> יש למלא את כל השדות</span>} <br /> <br />
-            <Button variant="contained" color="primary" onClick={()=>resetPassword()}> המשך </Button>
+            <Button  style={{fontSize:"large",color:"#602424",backgroundColor:"rgb(91 33 33 / 49%)"}} onClick={()=>resetPassword()}> המשך </Button>
         </form>
     </div>
 }

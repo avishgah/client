@@ -23,7 +23,26 @@
 }
 
 #formLoginRO{
-
+    line-height: 2.1ch;
     display: block;
 
+}
+
+.helpper {
+    line-height: 1ch;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 65%;
+    /* margin-top: 1%; */
+    background-color: #31373a;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    height: 10px;
+    width: 150px;
+    padding: 3%;
+}
+
+.css-1wnsr1i{
+    width: 271px;
 }
