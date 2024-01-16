@@ -276,6 +276,40 @@ const ReturnCard = ({ orderAll, orders, props, cust, index, index2 }) => {
             }, 5000); // 5000 milliseconds = 5 seconds
         }
     };
+
+    function formatDateTime(dateTimeString) {
+        const dateStart = new Date(dateTimeString); // המשתנה כאן יכול להיות המשתנה שלך props.dateStart
+
+        const day = dateStart.getDate();
+        const month = dateStart.getMonth() + 1; // החודשים מתחילים מ־0, לכן נוסיף 1
+        const year = dateStart.getFullYear();
+        const hours = dateStart.getHours();
+        const minutes = dateStart.getMinutes();
+        const seconds = dateStart.getSeconds();
+
+        const formattedDatex = `${day}.${month}.${year}, ${hours}:${minutes}:${seconds}`;
+        return formattedDatex;
+
+    }
+    function formatDate(dateString) {
+        
+        if(dateString){
+            const timeParts = dateString.split(':');
+
+            if (timeParts.length !== 3) {
+                return "Invalid time format";
+            }
+    
+            const fixedDate = new Date(1970, 0, 1, parseInt(timeParts[0]), parseInt(timeParts[1]), parseInt(timeParts[2]));
+    
+            const hours = fixedDate.getHours().toString().padStart(2, '0');
+            const minutes = fixedDate.getMinutes().toString().padStart(2, '0');
+            const seconds = fixedDate.getSeconds().toString().padStart(2, '0');
+    
+            return `${hours}:${minutes}:${seconds}`;
+        }
+      
+    }
     return (<>
         {console.log(isEnd)}
         {props != null && cust != null ? <>
@@ -308,16 +342,16 @@ const ReturnCard = ({ orderAll, orders, props, cust, index, index2 }) => {
                             <b> אופניים מספר: </b>{props.idBike}
                         </Typography><br></br>
                         <Typography variant="body2" fontSize={"large"} color="text.secondary">
-                            <b>זמן תחילת שימוש: </b>{props.dateStart.toLocaleString()}
+                            <b>זמן תחילת שימוש: </b>{formatDateTime(props.dateStart)}
                         </Typography><br></br>
                         <Typography variant="body2" fontSize={"large"} color="text.secondary">
                             <b> זמן סיום שימוש: </b>{new Date().toLocaleString()}
                         </Typography><br></br>
                         <Typography variant="body2" fontSize={"large"} color="text.secondary">
-                            <b>סך הכל זמן: </b> {dateDiff}
+                            <b>סך הכל זמן: </b> {formatDate(dateDiff)}
                         </Typography><br></br>
                         <Typography variant="body2" fontSize={"large"} color="text.secondary">
-                            <b>תשלום: </b>{sum}
+                            <b>תשלום: </b>{sum?.toFixed(2)}
                         </Typography><br></br>
 
                     </CardContent>

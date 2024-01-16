@@ -41,7 +41,7 @@ const TakeOrder = () => {
                     // src={logo}
                     src='/logo2.png'
                 />
-                <div className="helpper" onClick={() => nav('/introduc')} >
+                <div className="helpper"  style={{ marginTop: "14%" }} oonClick={() => nav('/introduc')} >
                     יציאה
                 </div>
 

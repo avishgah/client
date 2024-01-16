@@ -58,10 +58,10 @@ const Start = () => {
                     // src={logo}
                     src='/logo2.png'
                 />
-        
-                            <div className="helpper" onClick={() => nav('/introduc')} >
-                                יציאה
-                            </div>
+
+                <div className="helpper" style={{ marginTop: "14%" }} onClick={() => nav('/introduc')} >
+                    יציאה
+                </div>
 
 
             </div>
