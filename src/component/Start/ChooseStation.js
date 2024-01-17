@@ -11,13 +11,18 @@ import { useNavigate } from "react-router-dom";
 
 const ChooseStation = () => {
     const [selectPoin, setSlectedPoint] = useState(null)
-    const currentStation = useSelector(state => state.r.station);
+    const nav = useNavigate();
+    const [mapers, setMapers] = React.useState([])
+    const [currentstation, setCurrents] = React.useState(null)
+    const dispatch = useDispatch();
+
+    //נותן לי את כל התחנות הפעילות ומסדר אותם לפי מרחק
     useEffect(() => {
         axios.get('https://localhost:7207/api/Station/GetStationListWhereTrue')
             .then(res => {
                 console.log(res)
                 setMapers(res.data)
-                setCurrents(res.data[0]);  dispatch({
+                setCurrents(res.data[0]); dispatch({
                     type: type.CURRENT_STATION,
                     payload: res.data[0]
                 })
@@ -40,9 +45,8 @@ const ChooseStation = () => {
                 });
             }).catch(err => console.log(err))
     }, [])
-    const [mapers, setMapers] = React.useState([])
-    const [currentstation, setCurrents] = React.useState(null)
-    const dispatch = useDispatch();
+
+
 
     const submit = () => {
         console.log("kk")
@@ -61,9 +65,9 @@ const ChooseStation = () => {
         nav('/introduc');
 
     }
-    const nav = useNavigate();
+ 
     return (<>
-        <div style={{ marginTop: "100px" }}>
+        <div style={{ marginTop: "90px" }}>
             <h1 id="h1" >בחירת תחנה</h1>
             <select id="select"
                 onChange={({ target }) => setSlectedPoint(target.value)}>
@@ -71,8 +75,6 @@ const ChooseStation = () => {
             </select>
             <br></br><br></br><br></br>
 
-            {console.log(selectPoin, "llllll")}
-            {console.log(currentstation, "current")}
             <Button type="submit" id="con" onClick={() => submit()}>המשך</Button>
         </div>
     </>)

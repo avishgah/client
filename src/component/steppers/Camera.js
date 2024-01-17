@@ -2,9 +2,6 @@
 
 import React, { useState, useRef } from 'react';
 import Webcam from 'react-webcam';
-
-// import cv2 from 'opencv';
-
 import { cv2 } from 'react-opencv';
 
 import Button from '@mui/material/Button';
@@ -21,13 +18,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 import * as types from "../../store/actions/actionType";
 import RegisterYup from './RegisterYup';
-// import cv2 from 'opencv';
 import Typography from '@mui/material/Typography';
 import { DialogContent, DialogTitle } from '@mui/material';
-
-
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
-
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 
@@ -42,108 +35,29 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 const Camera = ({ onSubmit }) => {
     const { register, handleSubmit, formState: { errors } } = useForm({
-        // resolver: yupResolver(schema)
     });
     const webcamRef = useRef(null);
     const [cameraActive, setCameraActive] = useState(true);
     const [capturedImage, setCapturedImage] = useState(null);
-    const fileInputRef = useRef(null);
-    const [isIDCardDetected, setIsIDCardDetected] = useState(false);
-    const [endProsses, setendProsses] = useState(false);
     const [imageLink, setImageLink] = useState(null);
-
     const [open, setOpen] = React.useState(false);
-
-
     const currentUser = useSelector(state => state.r.user);
     const currentStation = useSelector(state => state.r.station);
     const countBikes = useSelector(state => state.r.count);
     let currentU = currentUser;
+    let imageSrc = null;
     const navigator = useNavigate();
 
-
-    const isIDCard = async () => {
-        try {
-            const cv = window.cv; // Access the OpenCV object
-            if (!cv) {
-                throw new Error('OpenCV library not initialized or loaded.');
-            }
-
-            // ... rest of your OpenCV processing code
-        } catch (error) {
-            console.error('Error processing image:', error);
-        }
-        const cv = window.cv; // Access the OpenCV object
-        const imageElement = document.createElement('img');
-        console.log(fileInputRef);
-        const file = fileInputRef.current.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                imageElement.src = event.target.result;
-
-                imageElement.onload = () => {
-                    const mat = cv.imread(imageElement);
-                    const gray = new cv.Mat();
-                    const edges = new cv.Mat();
-
-                    cv.cvtColor(mat, gray, cv.COLOR_RGBA2GRAY);
-                    cv.Canny(gray, edges, 50, 150, 3);
-
-                    const contours = new cv.MatVector();
-                    const hierarchy = new cv.Mat();
-
-                    cv.findContours(edges, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
-
-                    let validContours = 0;
-                    for (let i = 0; i < contours.size(); ++i) {
-                        const approx = new cv.Mat();
-                        const contour = contours.get(i);
-                        const perimeter = cv.arcLength(contour, true);
-                        cv.approxPolyDP(contour, approx, 0.02 * perimeter, true);
-
-                        if (approx.rows === 4) {
-                            const area = cv.contourArea(contour);
-                            if (area > 5000) { // Adjust this area threshold according to your image sizes
-                                validContours++;
-                            }
-                        }
-                        approx.delete();
-                    }
-
-                    mat.delete();
-                    gray.delete();
-                    edges.delete();
-                    hierarchy.delete();
-                    contours.delete();
-
-                    if (validContours === 1) {
-                        setIsIDCardDetected(true)
-                        console.log('The image contains only an ID card.');
-                        // Perform further actions for when the image contains only an ID card
-                    } else {
-                        setIsIDCardDetected(false)
-                        console.log('The image does not contain only an ID card.');
-                    }
-                };
-            };
-            reader.readAsDataURL(file);
-        }
-        // fileInputRef.current.addEventListener('change', isIDCard);
-    };
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
     const handleClose = () => {
         setOpen(false);
         navigator('/introduc');
     };
 
-
     const handleCameraToggle = () => {
         setCameraActive(!cameraActive);
     };
-    let imageSrc = null;
+
+    //צלם
     const capture = () => {
         imageSrc = webcamRef.current.getScreenshot();
         setCapturedImage(imageSrc);
@@ -153,17 +67,19 @@ const Camera = ({ onSubmit }) => {
 
     };
 
+    //אתחול לתמונה חדשה
     const restart = () => {
         document.getElementById("D-pic").style.display = "none";
         setCameraActive(true);
     }
+
     useEffect(() => {
         if (imageLink) {
             console.log(imageLink); // Log imageLink when it changes
         }
     }, [imageLink]);
+
     const handleDownload = () => {
-        // Check if an image is captured before attempting to download
         if (capturedImage) {
             const downloadLink = document.createElement('a');
             downloadLink.href = capturedImage;
@@ -172,17 +88,13 @@ const Camera = ({ onSubmit }) => {
             downloadLink.click();
             document.body.removeChild(downloadLink);
         }
-
-        // const imageSrc = webcamRef.current.getScreenshot();
-        // setCapturedImage(imageSrc);
-
-        // Convert captured image to a data URL and set the link immediately
         if (capturedImage) {
             const dataUrl = capturedImage.split(',')[1]; // Extract base64 data from imageSrc
             setImageLink(`data:image/jpeg;base64,${dataUrl}`);
         }
         console.log(capturedImage, "kk")
     };
+
     const UpdateUser = () => {
         console.log(currentUser);
         const user = { "Pic": capturedImage, "Name": "change pic" }
@@ -197,7 +109,6 @@ const Camera = ({ onSubmit }) => {
         console.log(countBikes);
         const order = { "IdCust": currentUser?.id, "IdStation": currentStation?.id, "count": countBikes, "Code": "station" }
         const s = await axios.post(`https://localhost:7207/api/Order`, order).then(res => {
-
             setOpen(true);
             console.log(res)
             console.log(res.data)
@@ -208,8 +119,11 @@ const Camera = ({ onSubmit }) => {
 
     const submit = async (data) => {
         console.log(capturedImage);
+        //יצירת קישור לתמונה ושמירתה במחשב
         await handleDownload();
+        //עדכון המשתמש עם התמונה החדשה
         await UpdateUser();
+        //יצירת הזמנה למשתמש החדש
         await AddOrders();
         document.getElementById("D-pic").style.display = "none";
         // onSubmit(data)
@@ -258,13 +172,6 @@ const Camera = ({ onSubmit }) => {
                         </DialogActions>
                     </BootstrapDialog > :
                     <div >
-                        <div>
-                            {/* 
-                            <input type="file" accept="image/*" ref={fileInputRef} onChange={isIDCard} />
-                    {isIDCardDetected ? <p>The image contains an ID card.</p> : <p>No ID card detected in the image.</p>}
-                     */}
-                        </div>
-
                         {cameraActive && (
                             <div>
                                 <Button className='button-pic' onClick={handleCameraToggle}>
@@ -291,15 +198,6 @@ const Camera = ({ onSubmit }) => {
                             </div>
                         )}
 
-                        {imageLink && (
-                            <div>
-                                <h3>קישור לתמונה:</h3>
-                                <img src={capturedImage}></img>
-                                <a href={imageLink} target="_blank" rel="noopener noreferrer">
-                                    תמונה
-                                </a>
-                            </div>
-                        )}
                     </div>
             }
 

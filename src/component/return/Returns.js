@@ -15,47 +15,58 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import ForgetPassword from '../ForgetPassword/ForgetPass';
 
 const Returns = () => {
-  const nav = useNavigate();
+  
   const dispatch = useDispatch();
-  const [listOrde, setList] = React.useState([]);
-
-  useEffect(() => {
-    dispatch({ type: type.CHANGE_FLAG_FALSE })
+  const navigate = useNavigate();
 
 
-  }, [])
+  const { register, handleSubmit, getValues, formState: { isValid, errors, dirtyFields, touchedFields, isDirty } } = useForm({
+    mode: "all"
+  });
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+  const [open, setOpen] = React.useState(false);
+  const [mail, setMail] = React.useState("");
+
+  const openReset = () => {
+    setMail(getValues('Email'))
+    setOpen(true)
+  }
 
 
   const [custo, setCust] = useState(null);
-
-  const [hiddenStyle, setHiddenStyle] = useState({ display: 'block' });
+  const listOrderD = useSelector(state => state.r.orders);
 
   const [orderBike, setOrderBike] = useState([]);
-  const [orderBikeTrue, setOrderBikeTrue] = useState([]);
-  const [orderBikeTrue2, setOrderBikeTrue2] = useState([]);
 
-
-  var cust = null;
-  var count = null;
   var listOrder = [];
   var listOrderdeded = [];
+
+  useEffect(() => {
+    dispatch({ type: type.CHANGE_FLAG_FALSE })
+  }, [])
+
+
+  //לוקח את כל ההזמנות הפעילות של הלקוח
   const getOrdersByIdCust = async (id) => {
     const x = await axios.get(`https://localhost:7207/api/order/GetOrderByIdCust/${id}`).then(res => {
       console.log("res order", res.data)
       listOrderdeded = res.data;
-      setOrderBike(res.data);
 
+      setOrderBike(res.data);
       ReturnListBikeByIdOrder();
 
     }).catch(err => console.log(err))
   }
 
-  const listOrderD = useSelector(state => state.r.orders);
-
-  var arr = [];
-  // מקבלת את כל ההזמנות של קוד הזמנה מסוים
+  //לוקח את כל האופניים של ההזמנות הפעילות
   const ReturnListBikeByIdOrder = async () => {
-    console.log("enter reture")
+
     let orders = listOrderdeded;
     console.log(orders);
 
@@ -73,11 +84,9 @@ const Returns = () => {
           for (var i = 0; i < x.length; i++) {
             if (x[i].status == true)
               listOrder.push(x[i]);
-            // console.log(x[i])
           }
 
         }).catch(err => console.log(err))
-
       }
     }
     if (listOrder.length == 0) {
@@ -88,28 +97,24 @@ const Returns = () => {
       payload: listOrder
     })
 
-    setOrderBikeTrue2(listOrder);
   }
-  let flagr = 0;
 
 
 
   const Connect = async (details) => {
-    console.log("hi")
     axios.post('https://localhost:7207/api/User/Connect', details)
       .then(res => {
         console.log(res.data)
-        // nav('/NavB')
+
         if (res.data != '') {
-          console.log("connect")
-          flagr = 1;
+
           alert(res.data.name);
           dispatch({
             type: type.CURRENT_USER,
             payload: res.data
           })
           setCust(res.data)
-
+          //אחרי שהחבר יפה לוקח את כל האופניים של הלקוח
           getOrdersByIdCust(details.id);
 
         }
@@ -120,35 +125,6 @@ const Returns = () => {
       }).catch(err => console.log(err))
   }
 
-  const [users, setUsers] = React.useState([])
-
-  useEffect(() => {
-    axios.get('https://localhost:7207/api/User')
-      .then(res => {
-        console.log(res.data)
-        setUsers(res.data)
-        // nav('/NavB')
-      }).catch(err => console.log(err))
-  }, [])
-
-  const submit = async (details) => {
-    console.log(details);
-
-    console.log(details);
-    await Connect(details);
-    // nav('/Start')
-  }
-
-  const { register, handleSubmit, getValues, formState: { isValid, errors, dirtyFields, touchedFields, isDirty } } = useForm({
-    mode: "all"
-  });
-  const [showPassword, setShowPassword] = React.useState(false);
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
   const changeHeit = (listOrderD) => {
     console.log(listOrderD);
     if (listOrderD.length <= 3) {
@@ -170,17 +146,16 @@ const Returns = () => {
     }
   }
 
-  const navigate = useNavigate();
   const navToStart = () => {
     const timeout = setTimeout(() => {
       navigate('/introduc'); // Replace '/introduc' with the path you want to navigate to
     }, 5000);
   }
-  const [open, setOpen] = React.useState(false);
-  const [mail, setMail] = React.useState("");
-  const openReset = () => {
-    setMail(getValues('Email'))
-    setOpen(true)
+
+
+  const submit = async (details) => {
+    console.log(details);
+    await Connect(details);
   }
 
   return (<>
@@ -306,7 +281,7 @@ const Returns = () => {
                 // src={logo}
                 src='/logo2.png'
               />
-              <div className="helpper"  onClick={openReset} >
+              <div className="helpper" onClick={openReset} >
                 שכחתי סיסמא
               </div>
               <div className="helpper" onClick={() => navigate('/introduc')} >

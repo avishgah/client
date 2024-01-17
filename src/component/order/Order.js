@@ -6,33 +6,16 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import './order.css'
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+
 import axios from "axios";
 import OrderCard from "./OrderCard";
-import { useState } from "react";
-import { useRef } from "react";
-import { createContext, useContext } from 'react';
+
 import { ConstructionOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
 import * as type from "../../store/actions/actionType";
 import ForgetPassword from "../ForgetPassword/ForgetPass";
 
 
-
-
-
-
-
-
-
-
-
-
 const Order = () => {
-
 
     const { register, handleSubmit, getValues, formState: { isValid, errors, dirtyFields, touchedFields, isDirty } } = useForm({
         mode: "all"
@@ -40,36 +23,25 @@ const Order = () => {
 
     const [showPassword, setShowPassword] = React.useState(false);
 
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
-
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-
-
-    const [users, setUsers] = React.useState([])
-
     const [order, setorder] = React.useState([])
 
     const station = useSelector(state => state.r.station);
     const cust = useSelector(state => state.r.user);
-    // const listOrderD = useSelector(state => state.r.orders);
 
-    let flag = 0;
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
 
+    const handleMouseDownPassword = (event) => { event.preventDefault(); };
 
-    useEffect(() => {
-        axios.get('https://localhost:7207/api/User')
-            .then(res => {
-                console.log(res.data)
-                setUsers(res.data)
-                // nav('/NavB')
-            }).catch(err => console.log(err))
-    }, [])
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [open, setOpen] = React.useState(false);
+    const [mail, setMail] = React.useState("");
 
+    // איפוס סיסמא
+    const openReset = () => {
+        setMail(getValues('Email'))
+        setOpen(true)
+    }
 
     useEffect(() => {
         if (cust && station) {
@@ -77,9 +49,8 @@ const Order = () => {
         }
     }, [cust, station])
 
+    // לוקח את כל ההזמנות לפי הקוד לקוח וקוד תחנה
     const GetOrderById = () => {
-
-        console.log("ll")
         axios.get(`https://localhost:7207/api/order/GetOrderByIdCustNotDone/${cust.id}/${station.id}`).then(res => {
             console.log(res.data, "list order")
 
@@ -87,7 +58,6 @@ const Order = () => {
             // setList(listOrderByIdStation)
             if (res.data.length == 0) {
                 console.log("hii")
-
                 navToStart()
             }
             else {
@@ -100,26 +70,20 @@ const Order = () => {
     }
 
 
-
-
-
-
-
+    // התחברות
     const Connect = async (details) => {
-        console.log("hi")
         axios.post('https://localhost:7207/api/User/Connect', details)
             .then(res => {
                 console.log(res.data)
-                // nav('/NavB')
+
                 if (res.data != '') {
-                    console.log("connect")
-                    flag = 1;
+
                     alert(res.data.name);
+
                     dispatch({
                         type: type.CURRENT_USER,
                         payload: res.data
                     })
-                    // setCust(users[i])
                 }
                 else {
                     document.getElementById('alert').style.visibility = "visible";
@@ -127,7 +91,7 @@ const Order = () => {
             }).catch(err => console.log(err))
     }
 
-
+    // ספירה לאחור
     const navToStart = () => {
         const timeout = setTimeout(() => {
             navigate('/introduc'); // Replace '/introduc' with the path you want to navigate to
@@ -137,14 +101,9 @@ const Order = () => {
         }, 5000);
     }
 
-    const submit = (details) => {
 
-        console.log(details);
 
-        Connect(details);
-
-    }
-
+    // עיצוב גובה צג שמאל לפי כמות הזמנות
     const changeHeit = (listOrderD) => {
         console.log(listOrderD);
         if (listOrderD.length <= 3) {
@@ -169,12 +128,14 @@ const Order = () => {
             // Do nothing or perform an action if the length is greater than 9
         }
     }
-    const [open, setOpen] = React.useState(false);
-    const [mail, setMail] = React.useState("");
-    const openReset = () => {
-        setMail(getValues('Email'))
-        setOpen(true)
+
+    const submit = (details) => {
+        console.log(details);
+        Connect(details);
     }
+
+
+
     return (<>
         <div style={{ backgroundColor: "#525252" }}>
 
@@ -187,14 +148,13 @@ const Order = () => {
                             <h1 id="l">שלום, {cust.name}</h1>
 
                             <div id="parent">
-                                {console.log(order, "order")}
                                 <ul id="ul">
 
                                     {
                                         order.length != 0 ?
 
                                             <>
-                                                {order.map((item, index) => <li id="li" key={index}>  <OrderCard setOrder={GetOrderById} cust={cust} order={item} index={index + 1} /></li>)}
+                                                {order.map((item, index) => <li className="li" key={index}>  <OrderCard setOrder={GetOrderById} cust={cust} order={item} index={index + 1} /></li>)}
                                             </> :
 
                                             <>
@@ -230,7 +190,6 @@ const Order = () => {
 
                                 <label>סיסמא</label>
                                 <br></br>
-
 
                                 <FormControl sx={{ m: 1, width: '25ch' }} id="outlined-basic" className="tz-filed" label="id" variant="outlined"      >
                                     <InputLabel htmlFor="standard-adornment-password"></InputLabel>
@@ -276,6 +235,8 @@ const Order = () => {
                         </form>}
 
                 </div>
+
+                {/* עיצוב צד שמאל */}
                 {
                     cust == null ?
 

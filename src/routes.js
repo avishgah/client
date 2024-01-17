@@ -1,7 +1,6 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import ChooseStation from './component/Start/ChooseStation'
-import Register from './component/steppers/Register'
 import Returns from './component/return/Returns'
 import Payment2 from './component/steppers/Payment2'
 import PicId from './component/steppers/PicId'
@@ -19,10 +18,8 @@ const Rout = () => {
         <>
             <Routes>
                 <Route path="/" element={<ChooseStation />}></Route>
-            </Routes>
-            <Routes>
-                <Route path="/Register" element={<Register />}></Route>
-            </Routes>
+            </Routes> 
+    
             <Routes>
                 <Route path="/Stepper" element={<Stepper />}></Route>
             </Routes>

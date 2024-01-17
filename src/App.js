@@ -3,23 +3,17 @@ import './App.css';
 import { Fragment, useEffect } from 'react';
 import Routes from './routes';
 import { Button, Stack } from '@mui/material';
-import AddUser from './component/AddUser/AddUser';
 import { Route, useNavigate } from 'react-router-dom';
-
-import Stepper from './component/steppers/Stepper';
 import { useDispatch, useSelector } from 'react-redux';
-import * as type from "./store/actions/actionType";
 import ChooseStation from './component/Start/ChooseStation'
-import Camera from './component/steppers/Camera';
-import Register from './component/steppers/Register';
-import RegisterYup from './component/steppers/RegisterYup';
-import Order from './component/order/Order';
+import { Camera } from '@mui/icons-material';
+import Payment2 from './component/steppers/Payment2';
+
 
 
 
 function App() {
-    const nav = useNavigate();
-    const flag = useSelector(state => state.r.Flag);
+
 
     return (<>
         <Routes>

@@ -7,7 +7,6 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import Returns from '../return/Returns';
-import Register from './Register';
 import Payment2 from './Payment2';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -143,48 +142,14 @@ export default function HorizontalLinearStepper() {
         }
     }
 
-    const handleNext = () => {
-        const myData = localStorage.getItem('myData');
-        decodedObject = JSON.parse(decodeURIComponent(myData));
-        console.log(decodedObject); // יציג: { key: 'value' }
-        setIsFinish(false);
-        // console.log(activeStep)
-        // console.log(skipped)
-        let newSkipped = skipped;
-        // if (activeStep == 0)
-        //     nav('/Payment2');
-        // if (activeStep == 1)
-        //     nav('/PicId');
-
-        if (isStepSkipped(activeStep)) {
-            newSkipped = new Set(newSkipped.values());
-            newSkipped.delete(activeStep);
-
-        }
-
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        setSkipped(newSkipped);
-    };
+    
 
     const handleBack = () => {
+        
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    const handleSkip = () => {
-        if (!isStepOptional(activeStep)) {
-            // You probably want to guard against something like this,
-            // it should never occur unless someone's actively trying to break something.
-            throw new Error("You can't skip a step that isn't optional.");
-        }
-
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        setSkipped((prevSkipped) => {
-            const newSkipped = new Set(prevSkipped.values());
-            newSkipped.add(activeStep);
-            return newSkipped;
-        });
-    };
-
+   
     const handleReset = () => {
         setActiveStep(0);
         nav('/Start')
@@ -234,7 +199,7 @@ export default function HorizontalLinearStepper() {
                         open={open}
                         style={{ direction: "rtl" }}
                     >
-                        <DialogTitle sx={{ m: 0, p: 2, color: "rgb(26, 87, 53)" }} id="customized-dialog-title">
+                        <DialogTitle sx={{ m: 0, p: 2, color: "rgb(135 5 5)" }} id="customized-dialog-title">
                             שגיאת שירות
                         </DialogTitle>
                         <IconButton
@@ -300,7 +265,6 @@ export default function HorizontalLinearStepper() {
                             </React.Fragment>
                         ) : (
                             <React.Fragment><br></br>
-                                {/* <div>{getStepContent(index)}</div> */}
                                 <Typography sx={{ mt: 2, mb: 1, mr: "30vw" }}>
                                     {getStepContent(activeStep)}
                                 </Typography>

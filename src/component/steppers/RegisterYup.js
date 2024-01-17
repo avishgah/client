@@ -58,32 +58,71 @@ const schema = yup.object({
 
 
 const RegisterYup = ({ onSubmit }) => {
-
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const [flag, setFlag] = React.useState(true);
-    const user = useSelector(state => state.user);
-    const { register, handleSubmit, formState: { errors } } = useForm({
-        resolver: yupResolver(schema)
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm({
+        resolver: yupResolver(schema),
+        
     });
-    React.useEffect(() => { }, [user])
-
-    const [listUsers, setlistUsers] = useState([]);
-
+    const currentUser = useSelector(state => state.r.user);
     useEffect(() => {
-        axios.get('https://localhost:7207/api/User')
-            .then(res => {
-                console.log(res.data)
-                setlistUsers(res.data)
-                //   console.log(currentStation);
-                // nav('/NavB')
-            }).catch(err => console.log(err))
-    }, [])
+        console.log("useEffect")
+        if (currentUser != null) {
+            // const u = {
+            setValue("Name", currentUser.name)
+            setValue("address", currentUser.address)
+            setValue("Mail", currentUser.mail)
+            setValue("Password", currentUser.password)
+            setValue("toun", currentUser.toun)
+            setValue("Phon", currentUser.phon)
+            setValue("Tz", currentUser.tz)
+            setValue("DateBirth", currentUser.dateBirth)
+            setValue("Pic", currentUser.pic)
+            setValue("IsManager", true)
+            setValue("Status", true)
+            setValue("ReadTerms", true)
+        }
+    }, [currentUser])
+    const dispatch = useDispatch();
 
-    //e.target.files[0].name
+
+
+
+
     const axiosServer = async (details, type) => {
         console.log(details, "details")
-        const x = await axios.post(`https://localhost:7207/api/user`, details).then(res => {
+        if(currentUser){
+            const user =
+            {
+                "Name": details.Name,
+                "Address": details.address,
+                "Mail": details.Mail,
+                "Password": details.Password,
+                "Toun": details.toun,
+                "Phon": details.Phon,
+                "Tz": details.Tz,
+                "DateBirth": details.DateBirth,
+                "Pic": details.Pic,
+                "IsManager": false,
+                "Status": details.Status,
+                "ReadTerms": true
+            }
+
+            console.log(user)
+            axios.put(`https://localhost:7207/api/User/UpdateUser/${currentUser.id}`, user).then(res => {
+                console.log("kk");
+                alert("עודכן בהצלחה");
+              
+
+                axios.get(`https://localhost:7207/api/user/GetUserById/${currentUser.id}`)
+                .then(res => {
+                    console.log(res.data)
+                    onSubmit(res.data);
+                    dispatch({type: type.CURRENT_USER, payload:res.data})
+                    // nav('/NavB')
+                }).catch(err => console.log(err))
+            })
+        }
+        else{
+        axios.post(`https://localhost:7207/api/user`, details).then(res => {
             console.log(res, "res");
 
             if (res.data == "") {
@@ -92,14 +131,15 @@ const RegisterYup = ({ onSubmit }) => {
             }
             else {
                 alert("נוסף בהצלחה");
-                onSubmit(details)
-                dispatch({ type: types.CURRENT_USER , payload: res.data})
+                onSubmit(details);
+                dispatch({ type: types.CURRENT_USER, payload: res.data })
             }
 
         }).catch(error => {
             console.log("משתמש קיים");
             console.error(error)
         })
+    }
 
     }
 
@@ -116,7 +156,7 @@ const RegisterYup = ({ onSubmit }) => {
             console.log(errors);
         }
 
-       
+
     };
 
 
@@ -138,9 +178,9 @@ const RegisterYup = ({ onSubmit }) => {
                                 type={item.type}
                                 errors={errors}
                                 register={register}
-                                user={user}
+                                user={currentUser}
                                 flag={false}
-                                defaultChecked={item.defaultValue}
+
                             />
                         </div>
                     ) : (

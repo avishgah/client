@@ -1,153 +1,48 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 
-import IconButton from '@mui/material/IconButton';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import InputAdornment from '@mui/material/InputAdornment';
-import FormControl from '@mui/material/FormControl';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import TextField from '@mui/material/TextField';
 import { useForm } from 'react-hook-form';
 import { Link, Stack } from '@mui/material';
-
-
-
 
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 
-
-
 import './Payment2.css';
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import { LocalizationProvider } from '@mui/x-date-pickers-pro/LocalizationProvider';
-
-
-// import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-
 
 import Button from '@mui/material/Button';
-import SendIcon from '@mui/icons-material/Send';
-// import { useDispatch, useSelector } from 'react-redux';
-
 import { useNavigate } from 'react-router-dom';
-
-
-// import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import StepContent from '@mui/material/StepContent';
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import axios from 'axios';
-
-
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-
-import Stepper from './Stepper'
 import { useDispatch, useSelector } from 'react-redux';
 
-
 import * as type from "../../store/actions/actionType";
-
-
-// import './AddUser.scss';
-
-
-// ,, כתובת, , , עיר, , , תאריך לידה, תצלום תעודת זהות, סוג לקוח(לקוח, מנהל), לא פעיל, אישור קריאת תקנון
-
-
-
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-  >
-    •
-  </Box>
-);
-
-
+import { useEffect } from 'react';
 
 const Payment2 = ({ onSubmit }) => {
 
-  const [value, setValue] = React.useState(null);
-
-  const { register, handleSubmit, getValues, formState: { isValid, errors, dirtyFields, touchedFields, isDirty } } = useForm({
+  const { register, handleSubmit, getValues, formState: { isValid, errors} } = useForm({
     mode: "all"
   });
-  const nav = useNavigate();
 
-  const [showPassword, setShowPassword] = React.useState(false);
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-
-  // let dispatch=useDispatch();
-
-  // step
-  const [activeStep, setActiveStep] = React.useState(0);
-
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
   const dispatch = useDispatch();
-  React.useEffect(() => {
-    console.log(currentUser, "currentU");
-    console.log(currentStation, "currentS");
-    console.log(countBikes, "count");
 
-
+  useEffect(() => {
     dispatch({
       type: type.CHANGE_FLAG_TRUE
     })
-
-
   }, [])
-
-  // let currentUser = useSelector(state => state.tr.user);
-  // let arr = useSelector(state => state.tr.tasks);
 
   const flag = useSelector(state => state.r.Flag);
 
   const currentUser = useSelector(state => state.r.user);
-  const currentStation = useSelector(state => state.r.station);
-  const countBikes = useSelector(state => state.r.count);
-
 
   const submit = (details) => {
-
     console.log(flag)
-    // alert("פרטיך נקלטו")
-    // console.log(details);
-    // addbike(details);
     onSubmit(details)
   }
 
   return <>
-
-    {/* <Stepper/> */}
-    <h1></h1>
     <form id="formLoginR" style={{ width: "85vw", mr: "15vw", direction: "rtl" }} onSubmit={handleSubmit(submit)}>
       <Card sx={{ minWidth: 80 }}>
         <CardContent>
@@ -156,25 +51,19 @@ const Payment2 = ({ onSubmit }) => {
             כרטיס אשראי
           </Typography>
           <br></br>
-
-
           {/* name */}
-
-
           <TextField fullWidth label="שם של בעל הכרטיס" id="fullWidth" {...register("name", { required: "name is required", })}
             style={errors.name ? { border: "red solid 1px", borderRadius: "5px" } : null}
             defaultValue={currentUser == null ? '' : currentUser.name} />
           <br></br><br></br>
-
           {/* id */}
-
           <TextField fullWidth id="fullWidth" label="ת.ז של בעל הכרטיס" variant="outlined"
             defaultValue={currentUser == null ? '' : currentUser.tz}
             style={errors.id ? { border: "red solid 1px", borderRadius: "5px" } : null}
             {...register("id", {
               required: "id is required",
               pattern: {
-                value: /[1-9]{9}/,
+                value: /^\d{9}$/,
                 message: "Invalid id "
               },
 
@@ -182,7 +71,6 @@ const Payment2 = ({ onSubmit }) => {
           <br></br><br></br>
 
           {/* card */}
-
           <TextField fullWidth id="fullWidth" variant="outlined"
             style={errors.card ? { border: "red solid 1px", borderRadius: "5px" } : null}
             // style={{direction:"rtl"}}
@@ -215,23 +103,19 @@ const Payment2 = ({ onSubmit }) => {
 
           <TextField id="outlined-basic" label=" תוקף MM/YY" variant="outlined"
             style={errors.date ? { border: "red solid 1px", borderRadius: "5px" } : null}
-            style={{ width: "20vw" }}
+            // style={{ width: "20vw" }}
             defaultValue={currentUser == null ? '' : currentUser.date}
             {...register("date", {
               required: "date is required",
               pattern: {
-                // ???? יכול לקבל הכל בתנאי שיש את התנאי
-                value:  /^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/,
+                value: /^(0[1-9]|1[0-2])\/(2[4-9]|3[0-9]|4[0-9]|5[0-9]|6[0-9]|7[0-9]|8[0-9]|9[0-9])$/,
                 message: "Invalid date "
               },
-
             })}
           />
 
-
           <TextField id="outlined-basic" label="CVV" variant="outlined"
-            style={errors.cvv ? { border: "red solid 1px", borderRadius: "5px" } : null}
-            style={{ marginRight: "5px", width: "20vw" }}
+            style={errors.cvv ? { border: "red solid 1px", borderRadius: "5px",marginRight:"20px",width:"100px" } : {marginRight:"20px",width:"100px" }}
             defaultValue={currentUser == null ? '' : currentUser.cvv}
             {...register("cvv", {
               required: "cvv is required",
@@ -239,7 +123,6 @@ const Payment2 = ({ onSubmit }) => {
                 value: /[1-9]{3}/,
                 message: "Invalid cvv "
               },
-
             })}
           />
 
@@ -258,7 +141,6 @@ const Payment2 = ({ onSubmit }) => {
       </Card>
 
     </form >
-    {/* {document.getElementById("formLogin").style.display = "none"} */}
   </>
 }
 

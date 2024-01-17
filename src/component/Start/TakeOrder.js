@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { Box, Button } from "@mui/material";
 
 const TakeOrder = () => {
-
-
     const nav = useNavigate();
     return (<>
 
@@ -34,11 +32,9 @@ const TakeOrder = () => {
                         marginLeft: "10%",
                         height: 300,
                         display: 'block',
-                        // maxWidth: 50,
                         overflow: 'hidden',
                         width: '400px',
                     }}
-                    // src={logo}
                     src='/logo2.png'
                 />
                 <div className="helpper"  style={{ marginTop: "14%" }} oonClick={() => nav('/introduc')} >

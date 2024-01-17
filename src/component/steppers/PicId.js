@@ -26,6 +26,8 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
+import { Bolt } from '@mui/icons-material';
+import { useEffect } from 'react';
 
 // import cv2 from 'opencv';
 
@@ -42,20 +44,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 
-
-let namePic;
-let r = "1.png";
-
-
-const Change = () => {
-    alert("ll")
-
-    namePic = document.querySelector('input').value;
-    console.log(namePic);
-    r = namePic.substring(12);
-    console.log(r)
-
-}
 
 const PicId = ({ onSubmit }) => {
 
@@ -78,6 +66,16 @@ const PicId = ({ onSubmit }) => {
     const [open, setOpen] = React.useState(false);
 
     const dispatch = useDispatch();
+
+
+    useEffect(() => {
+        axios.get(`https://localhost:7207/api/StationViewControllers/${currentStation?.id}`)
+            .then(res => {
+                console.log(res.data)
+
+                dispatch({ type: type.CURRENT_STATION, payload: res.data });
+            }).catch(err => console.log(err))
+    }, [])
 
     const submit = (details) => {
 
@@ -161,7 +159,7 @@ const PicId = ({ onSubmit }) => {
             open={open}
             style={{ direction: "rtl" }}
         >
-            <DialogTitle sx={{ m: 0, p: 2, color: "rgb(26, 87, 53)" }} id="customized-dialog-title">
+            <DialogTitle sx={{ m: 0, p: 2, color: "rgb(135 5 5)" }} id="customized-dialog-title">
                 שגיאת שירות
             </DialogTitle>
             <IconButton
@@ -178,13 +176,14 @@ const PicId = ({ onSubmit }) => {
                 <CloseIcon />
             </IconButton>
             <DialogContent dividers>
-                <Typography gutterBottom>
-                    שלום,
+
+                <Typography gutterBottom sx={{ fontWeight: "bold" }}>
+                   מצטערים ! בתחנה זו יש עד {currentStation?.cun} אופניים פנויים
                 </Typography>
                 <Typography gutterBottom>
-                    מצטערים בתחנה זו אין אופניים פנויים, אנא נסו בתחנות קרובות.
+                    אנא נסו בתחנות קרובות נוספות.
                 </Typography>
-                <Typography gutterBottom>
+                <Typography gutterBottom sx={{ fontSize: "14px" }}>
                     סליחה ותודה שבחרת להשתמש ברשת פדאל.
                 </Typography>
             </DialogContent>

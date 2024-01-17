@@ -1,28 +1,19 @@
 import { Box, Button, IconButton, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import PicId from "../steppers/PicId";
-
 import * as type from "../../store/actions/actionType";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 
-import AddUser from "../../component/AddUser/AddUser";
 
 import './page.css';
 
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-// import Picture from './Picture'
 const Start = () => {
     const nav = useNavigate();
-
     const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch({ type: type.CHANGE_FLAG_FALSE })
-
-
     }, [])
-
-    const currentStation = useSelector(state => state.r.station);
 
     return (<>
         <div class="flex-container">
